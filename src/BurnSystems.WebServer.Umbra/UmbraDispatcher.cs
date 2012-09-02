@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using BurnSystems.WebServer.Dispatcher;
 using BurnSystems.WebServer.Responses;
+using BurnSystems.ObjectActivation;
 
 namespace BurnSystems.WebServer.Umbra
 {
@@ -26,8 +27,9 @@ namespace BurnSystems.WebServer.Umbra
 
         public override void Dispatch(ObjectActivation.IActivates container, ContextDispatchInformation context)
         {
-            var staticResponse = new StaticContentResponse(DispatchFilter.All, "text/plain", "result");
-            staticResponse.Dispatch(container, context);
+            var response = container.Create<ErrorResponse>();
+            response.Set(HttpStatusCode.NotFound);
+            response.Dispatch(container, context);
         }
     }
 }
