@@ -46,8 +46,6 @@ namespace BurnSystems.WebServer.Umbra
                 new RelocationDispatcher(
                     DispatchFilter.ByExactUrl(configuration.WebPath), "index.html"));
 
-
-
             server.Add(
                 new UmbraDispatcher(
                     DispatchFilter.ByUrl(configuration.WebPath), configuration.WebPath));
