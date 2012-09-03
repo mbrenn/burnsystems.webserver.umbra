@@ -8,6 +8,7 @@ requirejs.config(
 requirejs(['umbra'], 
 	function(umbra)
 	{
+		/*
 		alert(umbra.getVersion());
 
 		var view = new umbra.View();
@@ -15,4 +16,5 @@ requirejs(['umbra'],
 		
 		alert(view.name);
 		alert(view2.name);
+		*/
 	});

@@ -15,8 +15,25 @@ define(function()
 		{
 			getVersion: function() { return "1.0.0.0"; },
 
+			updateWorkSpaceLayout: function()
+			{			
+				var height = $("body").height();		
+				$("#workspace_center").css("height", (height - 338) + "px");
+			},
+
 			View: ViewClass
 		};
 
-	return result;		
+
+	$(window).resize(function()
+	{
+		result.updateWorkSpaceLayout();
+	});
+
+	$(function()
+	{
+		result.updateWorkSpaceLayout();
+	});
+
+	return result;
 });

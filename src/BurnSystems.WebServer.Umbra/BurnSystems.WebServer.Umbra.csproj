@@ -63,7 +63,9 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="htdocs\css\umbra.css" />
-    <Content Include="htdocs\index.html" />
+    <Content Include="htdocs\index.html">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="htdocs\js\init.js" />
     <Content Include="htdocs\js\umbra.js" />
   </ItemGroup>
