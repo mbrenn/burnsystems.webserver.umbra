@@ -8,6 +8,8 @@ requirejs.config(
 requirejs(['umbra'], 
 	function(umbra)
 	{
+		var workSpace = new umbra.WorkSpace();
+		workSpace.create($("body"));
 		/*
 		alert(umbra.getVersion());
 
