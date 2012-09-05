@@ -144,11 +144,13 @@ define(function()
 		{
 			var restHeight = this.areaTop.height + this.areaBottom.height + this.ribbonBar.height + 10;
 			var height = $("body").height();
+			var width = $("body").width();
 			$("#" + this.domPrefix + "center").css("height", (height - restHeight) + "px");
 			$("#" + this.domPrefix + "buttons").css("height", this.ribbonBar.height + "px");
 			$("#" + this.domPrefix + "top").css("height", this.areaTop.height + "px");
 			$("#" + this.domPrefix + "left").css("width", this.areaLeft.width + "px");
 			$("#" + this.domPrefix + "right").css("width", this.areaRight.width + "px");
+			$("#" + this.domPrefix + "right").css("margin-left", (width - this.areaRight.width) + "px");
 			$("#" + this.domPrefix + "bottom").css("height", this.areaBottom.height + "px");
 
 			$("#" + this.domPrefix + "centered").css("margin-left", (this.areaLeft.width + 2) + "px");
