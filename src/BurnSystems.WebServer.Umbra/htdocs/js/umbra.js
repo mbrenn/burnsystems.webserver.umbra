@@ -5,6 +5,8 @@ define(function()
 	// Definition of View-Class 
 	var ViewClass = function()
 	{	
+		this.title = "Unnamed";
+		this.content = "Unset content";
 	};
 
 	ViewClass.prototype = 
@@ -76,10 +78,17 @@ define(function()
 	{
 		this.width = 0;
 		this.height = 0;
+
+		// Stores the list of views
+		this.views = [];
 	};
 
 	AreaClass.prototype = 
 	{
+		addView: function(view)
+		{
+			this.views[this.views.length] = view;
+		}
 	};
 
 	///////////////////////////////////////////
@@ -96,8 +105,11 @@ define(function()
 		this.areaBottom = new AreaClass();
 		this.areaBottom.height = 200
 		this.areaCentered = new AreaClass();
-		this.domPrefix = "ws1_";
+		this.domPrefix = "ws" + WorkspaceClass.nextDomPrefix + "_";
+		WorkspaceClass.nextDomPrefix++;
 	};
+
+	WorkspaceClass.nextDomPrefix = 1;
 
 	WorkspaceClass.prototype = 
 	{
@@ -138,6 +150,9 @@ define(function()
 			$("#" + this.domPrefix + "left").css("width", this.areaLeft.width + "px");
 			$("#" + this.domPrefix + "right").css("width", this.areaRight.width + "px");
 			$("#" + this.domPrefix + "bottom").css("height", this.areaBottom.height + "px");
+
+			$("#" + this.domPrefix + "centered").css("margin-left", (this.areaLeft.width + 2) + "px");
+			$("#" + this.domPrefix + "centered").css("margin-right", (this.areaRight.width + 2) + "px");
 		}
 	};
 
