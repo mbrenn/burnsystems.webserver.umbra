@@ -3,11 +3,28 @@ define(function()
 {	
 	///////////////////////////////////////////
 	// Definition of View-Class 
-	var ViewClass = function()
+	var ViewClass = function(title, content)
 	{	
-		this.title = "Unnamed";
-		this.content = "Unset content";
+		if (title === undefined)
+		{
+			title = "Unnamed";
+		}
+
+		if (content === undefined)
+		{
+			content = "No content";
+		}
+
+		this.title = title;
+		this.content = content;
+
+		ViewClass.viewCounter++;
+		this.name = "view_" + ViewClass.viewCounter;
+		
+		this.content = this.content;
 	};
+
+	ViewClass.viewCounter = 0;
 
 	ViewClass.prototype = 
 	{
@@ -15,8 +32,10 @@ define(function()
 	
 	///////////////////////////////////////////
 	// Definition of ViewPoint-Class 
-	var ViewPointClass = function()
-	{	
+	var ViewPointClass = function(view, domRegisterTab)
+	{
+		this.view = view;
+		this.domRegisterTab = domRegisterTab;
 	};
 
 	ViewPointClass.prototype = 
@@ -74,20 +93,49 @@ define(function()
 
 	///////////////////////////////////////////
 	// Definition of Area class	
-	var AreaClass = function()
+	var AreaClass = function(name)
 	{
 		this.width = 0;
 		this.height = 0;
+		this.name = name;
 
 		// Stores the list of views
-		this.views = [];
+		this.viewPoints = [];
 	};
 
 	AreaClass.prototype = 
 	{
+		// Adds a view to area and 
 		addView: function(view)
 		{
-			this.views[this.views.length] = view;
+			var domTabContent = this.addTabForView(view);
+			
+			var viewPoint = new ViewPointClass(view, domTabContent);
+			this.viewPoints[this.viewPoints.length] = viewPoint;
+		},
+
+		// Focuses a view, so content is shown in the area window
+		focusView: function(view)
+		{
+			var domContent = $("#" + this.name + " .content");
+			domContent.empty();
+			domContent.html(view.content);
+		},
+
+		// Removes a certain view from area
+		removeView: function(view)
+		{
+		},
+
+		// Adds DOM for tab in view, adds it to area and returns DOM of tab.
+		addTabForView: function(view)
+		{
+			var title = view.title;
+			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">...</div>');
+			$("#" + this.name + " .tabs").append(domTabContent);
+			$("#" + view.name + "_tab").html(view.title);
+
+			return domTabContent;
 		}
 	};
 
@@ -95,35 +143,37 @@ define(function()
 	// Definition of WorkSpace class	
 	var WorkspaceClass = function()
 	{
-		this.ribbonBar = new RibbonBarClass();
-		this.areaTop = new AreaClass();
-		this.areaTop.height = 100;
-		this.areaLeft = new AreaClass();
-		this.areaLeft.width = 200;
-		this.areaRight = new AreaClass();
-		this.areaRight.width = 200;
-		this.areaBottom = new AreaClass();
-		this.areaBottom.height = 200
-		this.areaCentered = new AreaClass();
 		this.domPrefix = "ws" + WorkspaceClass.nextDomPrefix + "_";
+		this.ribbonBar = new RibbonBarClass();
+		this.areaTop = new AreaClass(this.domPrefix + "t");
+		this.areaTop.height = 100;
+		this.areaLeft = new AreaClass(this.domPrefix + "l");
+		this.areaLeft.width = 200;
+		this.areaRight = new AreaClass(this.domPrefix + "r");
+		this.areaRight.width = 200;
+		this.areaBottom = new AreaClass(this.domPrefix + "b");
+		this.areaBottom.height = 200
+		this.areaCentered = new AreaClass(this.domPrefix + "c");
 		WorkspaceClass.nextDomPrefix++;
 	};
 
-	WorkspaceClass.nextDomPrefix = 1;
+	WorkspaceClass.nextDomPrefix = 0;
 
 	WorkspaceClass.prototype = 
 	{
 		/* Creates the DOM elements for the workspace */
 		create: function(domElement)
 		{
+			var innerAreaHtml = '<div class="tabs"></div><div class="content"></div>';
+
 			var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_buttons">Buttons</div></div>');
-			var topDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'top" class="umbra_top">Top</div></div>');
+			var topDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 't" class="umbra_top umbra_area">' + innerAreaHtml + '</div></div>');
 			var centeredDom = $('<div class="fullwidth fullheight" id="' + this.domPrefix + 'center">' + 
-					'<div id="' + this.domPrefix + 'left" class="umbra_left">Left</div>' +
-					'<div id="' + this.domPrefix + 'right" class="umbra_right">Right</div>' +
-					'<div id="' + this.domPrefix + 'centered" class="umbra_centered">Centered</div>' +				
+					'<div id="' + this.domPrefix + 'l" class="umbra_left umbra_area">' + innerAreaHtml + '</div>' +
+					'<div id="' + this.domPrefix + 'r" class="umbra_right umbra_area">' + innerAreaHtml + '</div>' +
+					'<div id="' + this.domPrefix + 'c" class="umbra_centered umbra_area">' + innerAreaHtml + '</div>' +				
 				'</div>');
-			var bottomDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'bottom" class="umbra_bottom">Bottom</div></div>');
+			var bottomDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'b" class="umbra_bottom umbra_area">' + innerAreaHtml + '</div></div>');
 
 			domElement.append(buttonBarDom);
 			domElement.append(topDom);
@@ -145,16 +195,25 @@ define(function()
 			var restHeight = this.areaTop.height + this.areaBottom.height + this.ribbonBar.height + 10;
 			var height = $("body").height();
 			var width = $("body").width();
-			$("#" + this.domPrefix + "center").css("height", (height - restHeight) + "px");
-			$("#" + this.domPrefix + "buttons").css("height", this.ribbonBar.height + "px");
-			$("#" + this.domPrefix + "top").css("height", this.areaTop.height + "px");
-			$("#" + this.domPrefix + "left").css("width", this.areaLeft.width + "px");
-			$("#" + this.domPrefix + "right").css("width", this.areaRight.width + "px");
-			$("#" + this.domPrefix + "right").css("margin-left", (width - this.areaRight.width) + "px");
-			$("#" + this.domPrefix + "bottom").css("height", this.areaBottom.height + "px");
 
-			$("#" + this.domPrefix + "centered").css("margin-left", (this.areaLeft.width + 2) + "px");
-			$("#" + this.domPrefix + "centered").css("margin-right", (this.areaRight.width + 2) + "px");
+			// Set height of center area
+			$("#" + this.domPrefix + "c").css("height", (height - restHeight) + "px");
+			$("#" + this.domPrefix + "l").css("height", (height - restHeight) + "px");			
+			$("#" + this.domPrefix + "r").css("height", (height - restHeight) + "px");
+			
+			// Set height of bottom, top and buttons
+			$("#" + this.domPrefix + "buttons").css("height", this.ribbonBar.height + "px");
+			$("#" + this.domPrefix + "t").css("height", this.areaTop.height + "px");
+			$("#" + this.domPrefix + "b").css("height", this.areaBottom.height + "px");
+
+			// Set width and align right to right border
+			$("#" + this.domPrefix + "l").css("width", this.areaLeft.width + "px");
+			$("#" + this.domPrefix + "r").css("width", this.areaRight.width + "px");
+			$("#" + this.domPrefix + "r").css("margin-left", (width - this.areaRight.width) + "px");
+
+			// Position center center
+			$("#" + this.domPrefix + "c").css("margin-left", (this.areaLeft.width + 2) + "px");
+			$("#" + this.domPrefix + "c").css("margin-right", (this.areaRight.width + 2) + "px");
 		}
 	};
 
@@ -167,8 +226,6 @@ define(function()
 	EventBusClass.prototype = 
 	{
 	};
-	
-	var myWorkspace = new WorkspaceClass();
 	
 	///////////////////////////////////////////
 	// Combination of everything
@@ -184,8 +241,7 @@ define(function()
 			RibbonGroup: RibbonGroupClass,
 			RibbonTab: RibbonTabClass,
 			Area: AreaClass,
-			EventBus: EventBusClass,
-			myWorkspace: myWorkspace
+			EventBus: EventBusClass
 		};
 
 	return result;
