@@ -73,20 +73,27 @@ body
 
 .umbra_area .tabs .tab
 {
-}
-
-.umbra_area .tabs .tab
-{
 	border: 1px solid red;
 	padding: 2px 5px 2px 5px;
 	float: left;
+}
+
+.umbra_area .tabs .tab a
+{
+	text-decoration:underline;
+	cursor: pointer;
+}
+
+.umbra_area .tabs .tab a .selected
+{
+	font-weight: bold;
 }
 
 .umbra_area .content
 {
 	border: 1px solid red;
 	padding: 2px 5px 2px 5px;
-	overflow: scroll;
+	overflow: auto;
 	clear: left;
 	margin-top: auto;
 	margin-bottom: auto;

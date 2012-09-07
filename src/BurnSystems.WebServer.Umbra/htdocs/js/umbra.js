@@ -1,9 +1,10 @@
-﻿
+﻿"use strict";
+
 define(function()
 {	
 	///////////////////////////////////////////
 	// Definition of View-Class 
-	var ViewClass = function(title, content)
+	var ViewClass = function(title, token, content)
 	{	
 		if (title === undefined)
 		{
@@ -16,6 +17,7 @@ define(function()
 		}
 
 		this.title = title;
+		this.token = token;
 		this.content = content;
 
 		ViewClass.viewCounter++;
@@ -40,6 +42,10 @@ define(function()
 
 	ViewPointClass.prototype = 
 	{
+		getView: function()
+		{
+			return this.view;
+		}
 	};
 
 	///////////////////////////////////////////
@@ -131,11 +137,33 @@ define(function()
 		addTabForView: function(view)
 		{
 			var title = view.title;
-			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">...</div>');
+			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '"><a id="' + view.name + "_tab_a" + '">...</a></div>');
 			$("#" + this.name + " .tabs").append(domTabContent);
-			$("#" + view.name + "_tab").html(view.title);
+			$("#" + view.name + "_tab_a").text(view.title);
+
+			var _this = this;
+			domTabContent.click(function()
+			{
+				_this.focusView(view);
+			});
 
 			return domTabContent;
+		},
+
+		getViewPoints: function()
+		{
+			return this.viewPoints;
+		},
+
+		getViews: function()
+		{
+			var result = [];
+			for(var i in this.viewPoints)
+			{
+				result[i] = this.viewPoints[i].getView();
+			}
+
+			return result;
 		}
 	};
 
@@ -214,6 +242,55 @@ define(function()
 			// Position center center
 			$("#" + this.domPrefix + "c").css("margin-left", (this.areaLeft.width + 2) + "px");
 			$("#" + this.domPrefix + "c").css("margin-right", (this.areaRight.width + 2) + "px");
+		},
+
+		// Gets an area with all areas
+		getAreas: function()
+		{
+			var result = [
+				this.areaTop,
+				this.areaLeft,
+				this.areaRight, 
+				this.areaCentered ];
+			return result;
+		},
+
+		// Finds the view and the area and returns it
+		findAreaAndView: function(token)
+		{
+			var areas = this.getAreas();
+			for(var i in areas)
+			{
+				var area = areas[i];
+				var views = area.getViews();
+				for(var j in views)
+				{
+					var view = views[j];
+					if(view.token === token)
+					{
+						var result = 
+						{
+							view: view,
+							area: area
+						};
+
+						return result;
+					}
+				}
+			}
+
+			return undefined;
+		},
+
+		findView: function(token)
+		{
+			var areaAndView = this.findAreaAndView(token);
+			if(areaAndView === undefined)
+			{
+				return undefined;
+			}
+
+			return areaAndView.view;
 		}
 	};
 
