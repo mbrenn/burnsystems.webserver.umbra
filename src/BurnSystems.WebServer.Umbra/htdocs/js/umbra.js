@@ -161,6 +161,8 @@ define(function()
 			this.activeViewPoint = viewPoint;
 			view.isVisible = true;
 			this.activeViewPoint.domContent.show();
+
+			this.updateLayout();
 		},
 
 		// Removes a certain view from area
@@ -210,6 +212,19 @@ define(function()
 					return this.viewPoints[i];
 				}
 			}
+		},
+
+		updateLayout: function()
+		{
+			var domArea = $("#" + this.name);
+			var domContent = $("#" + this.name + " .content");
+			var domTab = $("#" + this.name + " .tabs");
+
+			var totalHeight = domArea.height();
+			totalHeight -= domTab.height();
+			totalHeight -= 4;
+
+			domContent.height(totalHeight);
 		}
 	};
 
@@ -288,6 +303,14 @@ define(function()
 			// Position center center
 			$("#" + this.domPrefix + "c").css("margin-left", (this.areaLeft.width + 2) + "px");
 			$("#" + this.domPrefix + "c").css("margin-right", (this.areaRight.width + 2) + "px");
+
+			// We have finished the layout for the areas, 
+			// now we have to update the height of the content region
+			var areas = this.getAreas();
+			for(var i in areas)
+			{
+				areas[i].updateLayout();
+			}
 		},
 
 		// Gets an area with all areas
