@@ -222,7 +222,7 @@ define(function()
 
 			var totalHeight = domArea.height();
 			totalHeight -= domTab.height();
-			totalHeight -= 4;
+			totalHeight -= 6;
 
 			domContent.height(totalHeight);
 		}

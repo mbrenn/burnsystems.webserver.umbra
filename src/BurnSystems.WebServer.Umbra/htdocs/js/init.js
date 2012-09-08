@@ -17,7 +17,13 @@ requirejs(['umbra'],
 		workSpace.areaRight.addView(topView);
 		workSpace.areaRight.addView(topView2);
 				
-		var centerView = new umbra.View("Center 1", "center1", "Ths is the maincontent of the content, a longer text than required but a nice content");
+		var content = "";
+		for(var i = 1; i < 100; i++)
+		{
+			content += "<p>This is the maincontent of the content, a longer text than required but a nice content. This is true!</p>";
+		}
+
+		var centerView = new umbra.View("Center 1", "center1", content);
 		var centerView2 = new umbra.View("Center 2", "center2", "This is <b>MORE</b> conteeeent!");
 		workSpace.areaCentered.addView(centerView);
 		workSpace.areaCentered.addView(centerView2);
