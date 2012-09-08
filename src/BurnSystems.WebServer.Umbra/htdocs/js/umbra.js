@@ -24,6 +24,9 @@ define(function()
 		this.name = "view_" + ViewClass.viewCounter;
 		
 		this.content = this.content;
+
+		this.isVisible = false;
+		this.areaAttached = undefined;
 	};
 
 	ViewClass.viewCounter = 0;
@@ -47,6 +50,8 @@ define(function()
 			return this.view;
 		}
 	};
+
+	ViewPointClass.lastDomId = 1;
 
 	///////////////////////////////////////////
 	// Definition of Ribbonbar class	
@@ -107,6 +112,7 @@ define(function()
 
 		// Stores the list of views
 		this.viewPoints = [];
+		this.activeViewPoint = undefined;
 	};
 
 	AreaClass.prototype = 
@@ -118,14 +124,43 @@ define(function()
 			
 			var viewPoint = new ViewPointClass(view, domTabContent);
 			this.viewPoints[this.viewPoints.length] = viewPoint;
+			viewPoint.area = this;
+
+			view.isVisible = false;
+			view.areaAttached = this;
+			
+			var targetDomContent = $("#" + this.name + " .content");
+			ViewPointClass.lastDomId++;
+			viewPoint.domContent = $('<div id="viewpoint_' + ViewPointClass.lastDomId + '"></div>');
+			viewPoint.domContent.html(view.content)
+			viewPoint.domContent.hide();
+
+			targetDomContent.append(viewPoint.domContent);
 		},
 
 		// Focuses a view, so content is shown in the area window
 		focusView: function(view)
 		{
-			var domContent = $("#" + this.name + " .content");
-			domContent.empty();
-			domContent.html(view.content);
+			var targetDomContent = $("#" + this.name + " .content");
+
+			// Deactivate old view
+			if(this.activeViewPoint !== undefined)
+			{
+				this.activeViewPoint.getView().isVisible = false;
+				this.activeViewPoint.domContent.hide();
+			}
+
+			// Activate new view
+			var viewPoint = this.findViewPoint(view);
+			if(viewPoint === undefined)
+			{
+				alert('View is not within this area');
+				return;
+			}
+
+			this.activeViewPoint = viewPoint;
+			view.isVisible = true;
+			this.activeViewPoint.domContent.show();
 		},
 
 		// Removes a certain view from area
@@ -164,6 +199,17 @@ define(function()
 			}
 
 			return result;
+		},
+
+		findViewPoint: function(view)
+		{
+			for(var i in this.viewPoints)
+			{
+				if(this.viewPoints[i].getView() === view)
+				{
+					return this.viewPoints[i];
+				}
+			}
 		}
 	};
 
@@ -262,15 +308,16 @@ define(function()
 			for(var i in areas)
 			{
 				var area = areas[i];
-				var views = area.getViews();
-				for(var j in views)
+				var viewPoints = area.getViewPoints();
+				for(var j in viewPoints)
 				{
-					var view = views[j];
-					if(view.token === token)
+					var viewPoint = viewPoints[j];
+					if(viewPoint.getView().token === token)
 					{
 						var result = 
 						{
-							view: view,
+							viewPoint: viewPoint,
+							view: viewPoint.getView(),
 							area: area
 						};
 
