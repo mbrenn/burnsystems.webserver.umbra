@@ -222,10 +222,76 @@ define(function()
 
 			var totalHeight = domArea.height();
 			totalHeight -= domTab.height();
-			totalHeight -= 6;
 
 			domContent.height(totalHeight);
 		}
+	};
+	
+	///////////////////////////////////////////
+	// Definition of Dragbar class	
+	var DragBarClass = function(direction, domElement, dragEvent)
+	{
+		this.isHorizontal = direction === "h";
+		this.isVertical = direction === "v";
+		this.domElement = domElement;
+		this.dragEvent = dragEvent;
+
+		this.lastX = 0;
+		this.lastY = 0;
+		this.isMouseDown = false;
+
+		var _this = this;
+		domElement.mousedown(
+			function(data)
+			{
+				if(data.which == 1)
+				{
+					_this.lastX = data.pageX;
+					_this.lastY = data.pageY;
+					_this.isMouseDown = true;
+				}
+			});
+			
+		$(document).mousemove(
+			function(data)
+			{
+				if(_this.isMouseDown)
+				{
+					// Change
+					var changeX = _this.lastX - data.pageX;
+					var changeY = _this.lastY - data.pageY;
+
+					var realChange = 0;
+					if (_this.isVertical)
+					{
+						realChange = changeX;
+					}
+
+					if (_this.isHorizontal)
+					{
+						realChange = changeY;
+					}
+					
+					dragEvent(this, realChange);
+
+					_this.lastX = data.pageX;
+					_this.lastY = data.pageY;
+				}
+			});
+
+		$(document).mouseup(
+			function(data)
+			{
+				if(data.which == 1)
+				{
+					_this.isMouseDown = false;
+				}
+			});
+
+	};
+
+	DragBarClass.prototype = 
+	{
 	};
 
 	///////////////////////////////////////////
@@ -247,6 +313,8 @@ define(function()
 	};
 
 	WorkspaceClass.nextDomPrefix = 0;
+	WorkspaceClass.dragWidth = 5;
+	WorkspaceClass.dragHeight = 5;
 
 	WorkspaceClass.prototype = 
 	{
@@ -257,26 +325,74 @@ define(function()
 
 			var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_buttons">Buttons</div></div>');
 			var topDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 't" class="umbra_top umbra_area">' + innerAreaHtml + '</div></div>');
+			var scrollTopDom = '<div id="' + this.domPrefix + 'dt" class="umbra_dragarea horizontal"></div>';
 			var centeredDom = $('<div class="fullwidth fullheight" id="' + this.domPrefix + 'center">' + 
 					'<div id="' + this.domPrefix + 'l" class="umbra_left umbra_area">' + innerAreaHtml + '</div>' +
-					'<div id="' + this.domPrefix + 'r" class="umbra_right umbra_area">' + innerAreaHtml + '</div>' +
+					'<div id="' + this.domPrefix + 'dl" class="umbra_dragarea vertical"></div>' +
 					'<div id="' + this.domPrefix + 'c" class="umbra_centered umbra_area">' + innerAreaHtml + '</div>' +				
+					'<div id="' + this.domPrefix + 'dr" class="umbra_dragarea vertical"></div>' +
+					'<div id="' + this.domPrefix + 'r" class="umbra_right umbra_area">' + innerAreaHtml + '</div>' + 			
 				'</div>');
+			var scrollBottomDom = '<div id="' + this.domPrefix + 'db" class="umbra_dragarea horizontal"></div>';
 			var bottomDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'b" class="umbra_bottom umbra_area">' + innerAreaHtml + '</div></div>');
 
 			domElement.append(buttonBarDom);
 			domElement.append(topDom);
+			domElement.append(scrollTopDom);
 			domElement.append(centeredDom);
+			domElement.append(scrollBottomDom);
 			domElement.append(bottomDom);
 
 			this.updateLayout();
-
+			
 			var _this = this;
+			// Sets the dragbar information
+			var topDragBar = new DragBarClass(
+				"h", 
+				$("#" + this.domPrefix + "dt"), 
+				function(dragBar, change)
+				{
+					_this.areaTop.height -= change;
+					_this.updateLayout();
+				});
+
+			// Sets the dragbar information
+			var bottomDragBar = new DragBarClass(
+				"h", 
+				$("#" + this.domPrefix + "db"), 
+				function(dragBar, change)
+				{
+					_this.areaBottom.height += change;
+					_this.updateLayout();
+				});
+
+			// Sets the dragbar information
+			var leftDragBar = new DragBarClass(
+				"v", 
+				$("#" + this.domPrefix + "dl"), 
+				function(dragBar, change)
+				{
+					_this.areaLeft.width -= change;
+					_this.updateLayout();
+				});
+
+			// Sets the dragbar information
+			var rightDragBar = new DragBarClass(
+				"v", 
+				$("#" + this.domPrefix + "dr"), 
+				function(dragBar, change)
+				{
+					_this.areaRight.width += change;
+					_this.updateLayout();
+				});
+
 			// Event for resizing
 			$(window).resize(function()
 			{
 				_this.updateLayout();
 			});
+
+			$("#");
 		},
 
 		updateLayout: function()
@@ -286,9 +402,13 @@ define(function()
 			var width = $("body").width();
 
 			// Set height of center area
-			$("#" + this.domPrefix + "c").css("height", (height - restHeight) + "px");
-			$("#" + this.domPrefix + "l").css("height", (height - restHeight) + "px");			
-			$("#" + this.domPrefix + "r").css("height", (height - restHeight) + "px");
+			var centerHeight = height - restHeight - 2 * WorkspaceClass.dragHeight;
+			$("#" + this.domPrefix + "c").css("height", (centerHeight) + "px");
+			$("#" + this.domPrefix + "center").css("height", (centerHeight) + "px");
+			$("#" + this.domPrefix + "l").css("height", (centerHeight) + "px");			
+			$("#" + this.domPrefix + "r").css("height", (centerHeight) + "px");	
+			$("#" + this.domPrefix + "dl").css("height", (centerHeight) + "px");	
+			$("#" + this.domPrefix + "dr").css("height", (centerHeight) + "px");
 			
 			// Set height of bottom, top and buttons
 			$("#" + this.domPrefix + "buttons").css("height", this.ribbonBar.height + "px");
@@ -300,9 +420,11 @@ define(function()
 			$("#" + this.domPrefix + "r").css("width", this.areaRight.width + "px");
 			$("#" + this.domPrefix + "r").css("margin-left", (width - this.areaRight.width) + "px");
 
-			// Position center center
-			$("#" + this.domPrefix + "c").css("margin-left", (this.areaLeft.width + 2) + "px");
-			$("#" + this.domPrefix + "c").css("margin-right", (this.areaRight.width + 2) + "px");
+			// Position center center and dragging lines
+			$("#" + this.domPrefix + "dl").css("left", (this.areaLeft.width) + "px");			
+			$("#" + this.domPrefix + "c").css("left", (this.areaLeft.width + WorkspaceClass.dragWidth) + "px");
+			$("#" + this.domPrefix + "c").css("width", (width - this.areaRight.width - this.areaLeft.width - WorkspaceClass.dragWidth * 2) + "px");		
+			$("#" + this.domPrefix + "dr").css("left", (width - this.areaRight.width - WorkspaceClass.dragWidth) + "px");	
 
 			// We have finished the layout for the areas, 
 			// now we have to update the height of the content region

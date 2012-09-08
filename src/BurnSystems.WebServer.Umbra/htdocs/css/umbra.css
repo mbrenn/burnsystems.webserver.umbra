@@ -26,21 +26,20 @@ body
 
 .umbra_buttons
 {
+
 	top: 0px;
-	border: 1px solid red;
-	height: 130px;
+	height: 128px;
+	border: 1px solid black;
 }
 
 .umbra_top
 {
-	border: 1px solid navy;
 	top: 130px;
 	height: 100px;
 }
 
 .umbra_left
 {
-	border: 1px solid orange;
 	width: 200px;
 	position: absolute;
 	height: 100%;
@@ -48,7 +47,6 @@ body
 
 .umbra_right
 {
-	border: 1px solid yellow;
 	width: 200px;
 	margin-right: 0px;
 	position: absolute;
@@ -57,23 +55,18 @@ body
 
 .umbra_centered
 {
-	border: 1px solid green;
-	margin-left: 202px;
-	margin-right: 202px;
+	position: absolute;
 	height: 100%;
 }
 
 .umbra_bottom
 {
-	border: 1px solid blue;
 	margin-bottom: 0px;
 	height: 100px;
-	margin-top: 2px;
 }
 
 .umbra_area .tabs .tab
 {
-	border: 1px solid red;
 	padding: 2px 5px 2px 5px;
 	display: inline-block;
 }
@@ -91,10 +84,24 @@ body
 
 .umbra_area .content
 {
-	border: 1px solid red;
-	padding: 2px 5px 2px 5px;
 	overflow: auto;
 	clear: left;
-	margin-top: auto;
-	margin-bottom: auto;
+}
+
+.umbra_dragarea
+{
+	background-color: black;
+}
+
+.umbra_dragarea.vertical
+{
+	width: 5px;
+	cursor: col-resize;
+	position: absolute;
+}
+
+.umbra_dragarea.horizontal
+{
+	height: 5px;
+	cursor: row-resize;
 }
