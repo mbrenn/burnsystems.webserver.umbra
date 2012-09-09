@@ -30,8 +30,8 @@ namespace BurnSystems.WebServer.Umbra.Requests
 
             var model = new
             {
-                Version =  Assembly.GetExecutingAssembly().GetName().Version.ToString(),
-                Assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                Assemblies = AppDomain.CurrentDomain.GetAssemblies().OrderBy(x => x.FullName)
             };
             
             this.Title = "Umbra - Version";
