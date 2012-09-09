@@ -104,11 +104,14 @@ define(function()
 
 	///////////////////////////////////////////
 	// Definition of Area class	
-	var AreaClass = function(name)
+	// @name Name of the DOM element where area has been created
+	// @token Name of the Area within the workspace
+	var AreaClass = function(domName, token)
 	{
 		this.width = 0;
 		this.height = 0;
-		this.name = name;
+		this.name = domName;
+		this.token = token;
 
 		// Stores the list of views
 		this.viewPoints = [];
@@ -249,6 +252,9 @@ define(function()
 					_this.lastX = data.pageX;
 					_this.lastY = data.pageY;
 					_this.isMouseDown = true;
+
+					data.preventDefault();
+					data.stopPropagation();
 				}
 			});
 			
@@ -276,15 +282,21 @@ define(function()
 
 					_this.lastX = data.pageX;
 					_this.lastY = data.pageY;
+					
+					data.preventDefault();
+					data.stopPropagation();
 				}
 			});
 
 		$(document).mouseup(
 			function(data)
-			{
-				if(data.which == 1)
+			{ 
+				if(data.which == 1 && _this.isMouseDown)
 				{
 					_this.isMouseDown = false;
+					
+					data.preventDefault();
+					data.stopPropagation();
 				}
 			});
 
@@ -300,15 +312,15 @@ define(function()
 	{
 		this.domPrefix = "ws" + WorkspaceClass.nextDomPrefix + "_";
 		this.ribbonBar = new RibbonBarClass();
-		this.areaTop = new AreaClass(this.domPrefix + "t");
+		this.areaTop = new AreaClass(this.domPrefix + "t", "top");
 		this.areaTop.height = 100;
-		this.areaLeft = new AreaClass(this.domPrefix + "l");
+		this.areaLeft = new AreaClass(this.domPrefix + "l", "left");
 		this.areaLeft.width = 200;
-		this.areaRight = new AreaClass(this.domPrefix + "r");
+		this.areaRight = new AreaClass(this.domPrefix + "r", "right");
 		this.areaRight.width = 200;
-		this.areaBottom = new AreaClass(this.domPrefix + "b");
+		this.areaBottom = new AreaClass(this.domPrefix + "b", "bottom");
 		this.areaBottom.height = 200
-		this.areaCentered = new AreaClass(this.domPrefix + "c");
+		this.areaCentered = new AreaClass(this.domPrefix + "c", "centered");
 		WorkspaceClass.nextDomPrefix++;
 	};
 
@@ -446,7 +458,22 @@ define(function()
 			return result;
 		},
 
+		// Finds the area
+		// @token Token of the area
+		findArea: function(token)
+		{
+			var areas = this.getAreas();
+			for(var i in areas)
+			{
+				if(areas[i].token == token)
+				{
+					return areas[i];
+				}
+			}
+		},
+
 		// Finds the view and the area and returns it
+		// @token Token of the view
 		findAreaAndView: function(token)
 		{
 			var areas = this.getAreas();
@@ -483,6 +510,39 @@ define(function()
 			}
 
 			return areaAndView.view;
+		},
+
+		/// Loads the umbra content from the url and shows it in the given area.
+		/// The url shall return a json data structure with commands
+		/// @url Url, where content shall be retrieved
+		/// @areaToken Token of area, where content shall be shown
+		loadContent: function(url, areaToken, viewToken)
+		{
+			var _this = this;
+			$.ajax(
+				url)
+				.success(function(data)
+				{
+					_this.evaluateRequest(data, areaToken, viewToken);
+				});
+		},
+
+		evaluateRequest: function(data, areaToken, viewToken)
+		{
+			var area = this.findArea(areaToken);
+			if (area === undefined)
+			{
+				alert('Unknown Area: ' + areaToken);
+				return;
+			}
+
+			var content = data["Content"];
+			var title = data["Title"];
+			if (content !== undefined)
+			{
+				var view = new ViewClass(title, viewToken, content);
+				area.addView(view);
+			}
 		}
 	};
 

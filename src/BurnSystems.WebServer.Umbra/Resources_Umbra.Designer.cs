@@ -61,7 +61,59 @@ namespace BurnSystems.WebServer.Umbra {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die html
+        ///{
+        ///	width: 100%;
+        ///	height: 100%;
+        ///	padding: 0px;
+        ///	margin: 0px;
+        ///}
+        ///
+        ///body
+        ///{
+        ///	width: 100%;
+        ///	height: 100%;
+        ///	overflow: hidden;
+        ///	padding: 0px;
+        ///	margin: 0px;
+        ///}
+        ///
+        ///.fullwidth
+        ///{
+        ///	width: 100%;
+        ///}
+        ///
+        ///.fullheight
+        ///{
+        ///}
+        ///
+        ///.umbra_buttons
+        ///{
+        ///
+        ///	top: 0px;
+        ///	height: 128px;
+        ///	border: 1px solid black;
+        ///}
+        ///
+        ///.umbra_top
+        ///{
+        ///	top: 130px;
+        ///	height: 100px;
+        ///}
+        ///
+        ///.umbra_left
+        ///{
+        ///	width: 200px;
+        ///	position: absolute;
+        ///	height: 100%;
+        ///}
+        ///
+        ///.umbra_right
+        ///{
+        ///	width: 200px;
+        ///	margin-right: 0px;
+        ///	position: absolute;
+        /// [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string css_umbra {
             get {
@@ -75,12 +127,17 @@ namespace BurnSystems.WebServer.Umbra {
         ///  &lt;head&gt;
         ///    &lt;title&gt;BurnSystems - Umbra&lt;/title&gt;
         ///    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/umbra.css&quot;&gt;&lt;/link&gt;
-        ///    &lt;script type=&quot;text/javascript&quot; src=&quot;js/init.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;scripts/jquery.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script data-main=&quot;scripts/init.js&quot; src=&quot;scripts/require.js&quot;&gt;&lt;/script&gt;    
         ///  &lt;/head&gt;
         ///  &lt;body&gt;
-        ///    &lt;p&gt;Hallo Welt&lt;/p&gt;
-        ///  &lt;/body&gt;
-        ///&lt;/html&gt; ähnelt.
+        ///    &lt;!--&lt;div class=&quot;fullwidth&quot;&gt;
+        ///      &lt;div id=&quot;buttons&quot; class=&quot;umbra_buttons&quot;&gt;Button Bar&lt;/div&gt;
+        ///    &lt;/div&gt;
+        ///    &lt;div class=&quot;fullwidth&quot;&gt;
+        ///      &lt;div id=&quot;top&quot; class=&quot;umbra_top umbra_area&quot;&gt;Top&lt;/div&gt;
+        ///    &lt;/div&gt;
+        ///    &lt;d [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string index {
             get {
@@ -89,7 +146,26 @@ namespace BurnSystems.WebServer.Umbra {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 
+        ///requirejs.config(
+        ///{
+        ///    //By default load any module IDs from js/lib
+        ///    baseUrl: &apos;scripts&apos;,
+        ///});
+        ///
+        ///requirejs([&apos;umbra&apos;], 
+        ///	function(umbra)
+        ///	{
+        ///		var workSpace = new umbra.WorkSpace();
+        ///		workSpace.updateLayout();
+        ///		workSpace.create($(&quot;body&quot;));
+        ///
+        ///		var topView = new umbra.View(&quot;Top 1&quot;, &quot;top1&quot;, &quot;This is conteeeent&quot;);
+        ///		var topView2 = new umbra.View(&quot;Top 2&quot;, &quot;top2&quot;, &quot;This is &lt;b&gt;MORE&lt;/b&gt; conteeeent&quot;);
+        ///		workSpace.areaRight.addView(topView);
+        ///		workSpace.areaRight.addView(topView2);
+        ///				
+        ///		var cont [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_init {
             get {
@@ -98,11 +174,63 @@ namespace BurnSystems.WebServer.Umbra {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
+        ///
+        ///define(function()
+        ///{	
+        ///	///////////////////////////////////////////
+        ///	// Definition of View-Class 
+        ///	var ViewClass = function(title, token, content)
+        ///	{	
+        ///		if (title === undefined)
+        ///		{
+        ///			title = &quot;Unnamed&quot;;
+        ///		}
+        ///
+        ///		if (content === undefined)
+        ///		{
+        ///			content = &quot;No content&quot;;
+        ///		}
+        ///
+        ///		this.title = title;
+        ///		this.token = token;
+        ///		this.content = content;
+        ///
+        ///		ViewClass.viewCounter++;
+        ///		this.name = &quot;view_&quot; + ViewClass.viewCounter;
+        ///		
+        ///		this.content = this.content;
+        ///
+        ///		this.isVisible = [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra {
             get {
                 return ResourceManager.GetString("js_umbra", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h1&gt;Umbra Version&lt;/h1&gt;
+        ///&lt;p&gt;Created and maintained by Martin Brenn&lt;/p&gt;
+        ///&lt;p&gt;Current Version of Umbra: @Model.Version&lt;/p&gt;
+        ///&lt;h2&gt;Loaded Assemblies&lt;/h2&gt;
+        ///&lt;table&gt;
+        ///	&lt;tr&gt;
+        ///		&lt;td&gt;Assembly&lt;/td&gt;
+        ///		&lt;td&gt;Version&lt;/td&gt;
+        ///	&lt;/tr&gt;
+        ///	@foreach(var assembly in Model.Assemblies){
+        ///	&lt;tr&gt;
+        ///		&lt;td&gt;@assembly.Title&lt;/td&gt;
+        ///		&lt;td&gt;@assembly.Version&lt;/td&gt;
+        ///	&lt;/tr&gt;
+        ///	}
+        ///&lt;/table&gt;
+        ///	 ähnelt.
+        /// </summary>
+        internal static string umbra_version {
+            get {
+                return ResourceManager.GetString("umbra_version", resourceCulture);
             }
         }
     }

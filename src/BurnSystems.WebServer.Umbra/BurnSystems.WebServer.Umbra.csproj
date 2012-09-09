@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Requests\BaseUmbraRequest.cs" />
+    <Compile Include="Requests\VersionUmbraRequest.cs" />
     <Compile Include="Resources_Umbra.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -63,6 +66,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="htdocs\css\umbra.css" />
+    <Content Include="htdocs\data\umbraversion.txt" />
     <Content Include="htdocs\index.html">
       <SubType>Designer</SubType>
     </Content>

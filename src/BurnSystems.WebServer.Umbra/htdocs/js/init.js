@@ -30,4 +30,7 @@ requirejs(['umbra'],
 
 		workSpace.areaCentered.focusView(centerView);
 		workSpace.areaRight.focusView(topView);
+
+		// Loads content
+		workSpace.loadContent("data/Version", "centered");
 	});

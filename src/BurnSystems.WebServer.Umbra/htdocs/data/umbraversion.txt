@@ -1,0 +1,17 @@
+﻿<h1>Umbra Version</h1>
+<p>Created and maintained by Martin Brenn</p>
+<p>Current Version of Umbra: @Model.Version</p>
+<h2>Loaded Assemblies</h2>
+<table>
+	<tr>
+		<td>Assembly</td>
+		<td>Version</td>
+	</tr>
+	@foreach(var assembly in Model.Assemblies){
+	<tr>
+		<td>@assembly.FullName</td>
+		<td>@assembly.GetName().Version</td>
+	</tr>
+	}
+</table>
+	
