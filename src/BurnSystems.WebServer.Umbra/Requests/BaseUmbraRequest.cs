@@ -15,6 +15,11 @@ namespace BurnSystems.WebServer.Umbra.Requests
     public abstract class BaseUmbraRequest : BaseDispatcher
     {
         /// <summary>
+        /// Stores a list of script files
+        /// </summary>
+        private List<string> scriptFiles = new List<string>();
+
+        /// <summary>
         /// Gets or sets the content
         /// </summary>
         public string Content
@@ -33,6 +38,24 @@ namespace BurnSystems.WebServer.Umbra.Requests
         }
 
         /// <summary>
+        /// Gets or sets the view type
+        /// </summary>
+        public string ViewTypeToken
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the BaseRequest class.
+        /// </summary>
+        /// <param name="filter">Filter being used</param>
+        public BaseUmbraRequest()
+            : base(DispatchFilter.All)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the BaseRequest class.
         /// </summary>
         /// <param name="filter">Filter being used</param>
@@ -40,13 +63,23 @@ namespace BurnSystems.WebServer.Umbra.Requests
             : base(filter)
         {
         }
+        
+        /// <summary>
+        /// Adds a script being required for this object
+        /// </summary>
+        public void AddScript(string scriptFile)
+        {
+            this.scriptFiles.Add(scriptFile);
+        }
 
         public override void FinishDispatch(IActivates container, ContextDispatchInformation context)
         {
             var result = new
             {
                 Content = this.Content,
-                Title = this.Title
+                Title = this.Title,
+                ViewTypeToken = this.ViewTypeToken, 
+                ScriptFiles = this.scriptFiles
             };
 
             var serializer = new JavaScriptSerializer();

@@ -44,6 +44,12 @@ namespace BurnSystems.WebServer.Umbra
             server.Add(
                 new StaticContentResponse(
                     DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/require.js"), "text/javascript", Files.Require));
+            server.Add(
+                new StaticContentResponse(
+                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/test.js"), "text/javascript", Resources_Umbra.js_test)); 
+            server.Add(
+                 new StaticContentResponse(
+                     DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/test2.js"), "text/javascript", Resources_Umbra.js_test));
 
             server.Add(
                 new RelocationDispatcher(

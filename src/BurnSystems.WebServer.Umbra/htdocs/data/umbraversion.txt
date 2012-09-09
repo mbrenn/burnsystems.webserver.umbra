@@ -1,6 +1,30 @@
 ﻿<h1>Umbra Version</h1>
-<p>Created and maintained by Martin Brenn</p>
+<a href="#" class="closing">Clone View</a>
+<p>Date: @DateTime.Now</p>
 <p>Current Version of Umbra: @Model.Version</p>
+<h2>Environment</h2>
+<table>
+	<tr>
+		<td>OS-Version:</td>
+		<td>@Model.OsVersion</td>
+	</tr>
+	<tr>
+		<td>.Net-Version:</td>
+		<td>@Model.DotNetVersion</td>
+	</tr>
+	<tr>
+		<td>CPU Count:</td>
+		<td>@Model.CpuCount</td>
+	</tr>
+	<tr>
+		<td>CPU Bits:</td>
+		<td>@Model.CpuBit</td>
+	</tr>
+	<tr>
+		<td>Total Memory:</td>
+		<td>@Model.MemoryTotal</td>
+	</tr>
+</table>
 <h2>Loaded Assemblies</h2>
 <table>
 	<tr>
@@ -13,5 +37,5 @@
 		<td>@assembly.GetName().Version</td>
 	</tr>
 	}
-</table>
-	
+</table>	
+<p>Created and maintained by Martin Brenn</p>

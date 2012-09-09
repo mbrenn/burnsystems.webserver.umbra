@@ -127,6 +127,9 @@
   <data name="js_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>htdocs\js\init.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="js_test" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>htdocs\js\test.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="js_umbra" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>htdocs\js\umbra.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

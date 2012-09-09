@@ -128,16 +128,13 @@ namespace BurnSystems.WebServer.Umbra {
         ///    &lt;title&gt;BurnSystems - Umbra&lt;/title&gt;
         ///    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/umbra.css&quot;&gt;&lt;/link&gt;
         ///    &lt;script src=&quot;scripts/jquery.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script data-main=&quot;scripts/init.js&quot; src=&quot;scripts/require.js&quot;&gt;&lt;/script&gt;    
+        ///    &lt;script data-main=&quot;scripts/init.js&quot; src=&quot;scripts/require.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;script src=&quot;scripts/test.js&quot;&gt;&lt;/script&gt;
         ///  &lt;/head&gt;
         ///  &lt;body&gt;
-        ///    &lt;!--&lt;div class=&quot;fullwidth&quot;&gt;
-        ///      &lt;div id=&quot;buttons&quot; class=&quot;umbra_buttons&quot;&gt;Button Bar&lt;/div&gt;
-        ///    &lt;/div&gt;
-        ///    &lt;div class=&quot;fullwidth&quot;&gt;
-        ///      &lt;div id=&quot;top&quot; class=&quot;umbra_top umbra_area&quot;&gt;Top&lt;/div&gt;
-        ///    &lt;/div&gt;
-        ///    &lt;d [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///
+        ///  &lt;/body&gt;
+        ///&lt;/html&gt; ähnelt.
         /// </summary>
         internal static string index {
             get {
@@ -174,10 +171,30 @@ namespace BurnSystems.WebServer.Umbra {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string js_test {
+            get {
+                return ResourceManager.GetString("js_test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
         ///
         ///define(function()
         ///{	
+        ///	///////////////////////////////////////////
+        ///	// Definition of ViewType-Class 
+        ///	var ViewTypeClass = function(token)
+        ///	{
+        ///		this.token = token;
+        ///	};
+        ///
+        ///	ViewTypeClass.prototype = 
+        ///	{
+        ///	};
+        ///
         ///	///////////////////////////////////////////
         ///	// Definition of View-Class 
         ///	var ViewClass = function(title, token, content)
@@ -192,16 +209,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///			content = &quot;No content&quot;;
         ///		}
         ///
-        ///		this.title = title;
-        ///		this.token = token;
-        ///		this.content = content;
-        ///
-        ///		ViewClass.viewCounter++;
-        ///		this.name = &quot;view_&quot; + ViewClass.viewCounter;
-        ///		
-        ///		this.content = this.content;
-        ///
-        ///		this.isVisible = [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///		this.title = [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra {
             get {
@@ -221,8 +229,8 @@ namespace BurnSystems.WebServer.Umbra {
         ///	&lt;/tr&gt;
         ///	@foreach(var assembly in Model.Assemblies){
         ///	&lt;tr&gt;
-        ///		&lt;td&gt;@assembly.Title&lt;/td&gt;
-        ///		&lt;td&gt;@assembly.Version&lt;/td&gt;
+        ///		&lt;td&gt;@assembly.FullName&lt;/td&gt;
+        ///		&lt;td&gt;@assembly.GetName().Version&lt;/td&gt;
         ///	&lt;/tr&gt;
         ///	}
         ///&lt;/table&gt;

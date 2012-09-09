@@ -3,6 +3,18 @@
 define(function()
 {	
 	///////////////////////////////////////////
+	// Definition of ViewType-Class 
+	var ViewTypeClass = function(token, initFunction)
+	{
+		this.token = token;
+		this.init = initFunction;
+	};
+
+	ViewTypeClass.prototype = 
+	{
+	};
+
+	///////////////////////////////////////////
 	// Definition of View-Class 
 	var ViewClass = function(title, token, content)
 	{	
@@ -41,6 +53,7 @@ define(function()
 	{
 		this.view = view;
 		this.domRegisterTab = domRegisterTab;
+		this.domContent = {};
 	};
 
 	ViewPointClass.prototype = 
@@ -139,6 +152,8 @@ define(function()
 			viewPoint.domContent.hide();
 
 			targetDomContent.append(viewPoint.domContent);
+
+			return viewPoint;
 		},
 
 		// Focuses a view, so content is shown in the area window
@@ -542,8 +557,9 @@ define(function()
 
 		evaluateRequest: function(data, areaToken, settings)
 		{
+			var _this = this;
 			var area = this.findArea(areaToken);
-			var view;
+			var view, viewPoint;
 			if (area === undefined)
 			{
 				alert('Unknown Area: ' + areaToken);
@@ -555,12 +571,34 @@ define(function()
 			if (content !== undefined)
 			{
 				view = new ViewClass(title, settings.viewToken, content);
-				area.addView(view);
+				viewPoint = area.addView(view);
 			}
 
 			if(settings.success !== undefined)
 			{
 				settings.success(area, view);
+			}
+
+			if(data.ScriptFiles.length > 0 && data.ViewTypeToken !== undefined && data.viewTypeToken !== "")
+			{
+				requirejs(
+					data.ScriptFiles, 
+					function()
+					{
+						var viewTypeToken = umbraInstance.findViewType(data.ViewTypeToken);
+						if(viewTypeToken === undefined)
+						{
+							alert("Unknown viewtype: " + data.ViewTypeToken);
+						}
+
+						viewTypeToken.init(
+							{
+								view: view,
+								area: area,
+								viewPoint: viewPoint,
+								workSpace: _this
+							});
+					});
 			}
 		}
 	};
@@ -574,6 +612,34 @@ define(function()
 	EventBusClass.prototype = 
 	{
 	};
+
+	///////////////////////////////////////////
+	// Umbra Class
+	var UmbraType = function()
+	{
+		this.viewTypes = [];
+	};
+
+	UmbraType.prototype =
+	{
+		addViewType: function(viewType)
+		{
+			this.viewTypes.push(viewType);
+		},
+
+		findViewType: function(token)
+		{
+			for(var i in this.viewTypes)
+			{
+				if(this.viewTypes[i].token == token)
+				{
+					return this.viewTypes[i];
+				}
+			}
+		}
+	};
+
+	var umbraInstance = new UmbraType();
 	
 	///////////////////////////////////////////
 	// Combination of everything
@@ -589,7 +655,9 @@ define(function()
 			RibbonGroup: RibbonGroupClass,
 			RibbonTab: RibbonTabClass,
 			Area: AreaClass,
-			EventBus: EventBusClass
+			EventBus: EventBusClass,
+			ViewType: ViewTypeClass,
+			umbra: umbraInstance
 		};
 
 	return result;

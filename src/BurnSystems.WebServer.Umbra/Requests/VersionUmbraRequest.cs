@@ -14,8 +14,7 @@ namespace BurnSystems.WebServer.Umbra.Requests
     /// </summary>
     public class VersionUmbraRequest : BaseUmbraRequest
     {
-        public VersionUmbraRequest(Func<ContextDispatchInformation, bool> filter)
-            : base(filter)
+        public VersionUmbraRequest()
         {
         }
 
@@ -31,11 +30,18 @@ namespace BurnSystems.WebServer.Umbra.Requests
             var model = new
             {
                 Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(),
-                Assemblies = AppDomain.CurrentDomain.GetAssemblies().OrderBy(x => x.FullName)
+                Assemblies = AppDomain.CurrentDomain.GetAssemblies().OrderBy(x => x.FullName),
+                OsVersion = Environment.OSVersion.ToString(),
+                DotNetVersion = Environment.Version.ToString(),
+                CpuCount = Environment.ProcessorCount.ToString(),
+                CpuBit = IntPtr.Size * 8,
+                MemoryTotal = GC.GetTotalMemory(false).ToString("n0")
             };
             
             this.Title = "Umbra - Version";
             this.Content = parser.Parse(Resources_Umbra.umbra_version, model, null, typeof(VersionUmbraRequest).FullName);
+            this.ViewTypeToken = typeof(VersionUmbraRequest).FullName;
+            this.AddScript("test");
         }
     }
 }

@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="htdocs\js\init.js" />
+    <Content Include="htdocs\js\test.js" />
     <Content Include="htdocs\js\umbra.js" />
   </ItemGroup>
   <ItemGroup>
