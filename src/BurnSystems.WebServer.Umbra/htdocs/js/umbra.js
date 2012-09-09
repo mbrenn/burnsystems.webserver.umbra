@@ -151,6 +151,7 @@ define(function()
 			{
 				this.activeViewPoint.getView().isVisible = false;
 				this.activeViewPoint.domContent.hide();
+				this.activeViewPoint.domRegisterTab.removeClass("selected");
 			}
 
 			// Activate new view
@@ -164,6 +165,7 @@ define(function()
 			this.activeViewPoint = viewPoint;
 			view.isVisible = true;
 			this.activeViewPoint.domContent.show();
+			viewPoint.domRegisterTab.addClass("selected");
 
 			this.updateLayout();
 		},
@@ -357,6 +359,20 @@ define(function()
 
 			this.updateLayout();
 			
+			this.makeAreasDraggable();
+			var _this = this;
+
+			// Event for resizing
+			$(window).resize(function()
+			{
+				_this.updateLayout();
+			});
+
+			$("#");
+		},
+		
+		makeAreasDraggable: function()
+		{
 			var _this = this;
 			// Sets the dragbar information
 			var topDragBar = new DragBarClass(
@@ -397,14 +413,6 @@ define(function()
 					_this.areaRight.width += change;
 					_this.updateLayout();
 				});
-
-			// Event for resizing
-			$(window).resize(function()
-			{
-				_this.updateLayout();
-			});
-
-			$("#");
 		},
 
 		updateLayout: function()
@@ -516,20 +524,26 @@ define(function()
 		/// The url shall return a json data structure with commands
 		/// @url Url, where content shall be retrieved
 		/// @areaToken Token of area, where content shall be shown
-		loadContent: function(url, areaToken, viewToken)
+		loadContent: function(url, areaToken, settings)
 		{
+			if(settings === undefined)
+			{
+				settings = {};
+			}
+
 			var _this = this;
 			$.ajax(
 				url)
 				.success(function(data)
 				{
-					_this.evaluateRequest(data, areaToken, viewToken);
+					_this.evaluateRequest(data, areaToken, settings);
 				});
 		},
 
-		evaluateRequest: function(data, areaToken, viewToken)
+		evaluateRequest: function(data, areaToken, settings)
 		{
 			var area = this.findArea(areaToken);
+			var view;
 			if (area === undefined)
 			{
 				alert('Unknown Area: ' + areaToken);
@@ -540,8 +554,13 @@ define(function()
 			var title = data["Title"];
 			if (content !== undefined)
 			{
-				var view = new ViewClass(title, viewToken, content);
+				view = new ViewClass(title, settings.viewToken, content);
 				area.addView(view);
+			}
+
+			if(settings.success !== undefined)
+			{
+				settings.success(area, view);
 			}
 		}
 	};
