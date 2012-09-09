@@ -139,7 +139,7 @@ define(function()
 			var domTabContent = this.addTabForView(view);
 			
 			var viewPoint = new ViewPointClass(view, domTabContent);
-			this.viewPoints[this.viewPoints.length] = viewPoint;
+			this.viewPoints.push(viewPoint);
 			viewPoint.area = this;
 
 			view.isVisible = false;
@@ -188,20 +188,33 @@ define(function()
 		// Removes a certain view from area
 		removeView: function(view)
 		{
+			var viewPoint = this.findViewPoint(view);
+			if (viewPoint === undefined)
+			{
+				alert('View not found in viewPoint');
+			}
+
+			var domTabs = $("#" + this.name + " .tabs");
+			var domTab = $("#" + view.name + "_tab");
 		},
 
 		// Adds DOM for tab in view, adds it to area and returns DOM of tab.
 		addTabForView: function(view)
 		{
 			var title = view.title;
-			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '"><a id="' + view.name + "_tab_a" + '">...</a></div>');
+			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '"><a id="' + view.name + "_tab_a" + '">...</a><span id="' + view.name + "_tab_c" + '" class="closed">X</span></div>');
 			$("#" + this.name + " .tabs").append(domTabContent);
 			$("#" + view.name + "_tab_a").text(view.title);
 
 			var _this = this;
-			domTabContent.click(function()
+			$("#" + view.name + "_tab_a").click(function()
 			{
 				_this.focusView(view);
+			});
+
+			$("#" + view.name + "_tab_c").click(function()
+			{
+				_this.removeView(view);
 			});
 
 			return domTabContent;
