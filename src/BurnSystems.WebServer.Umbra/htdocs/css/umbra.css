@@ -82,6 +82,13 @@ body
 	font-weight: bold;
 }
 
+.umbra_area .tabs .tab .closed
+{
+	margin: 0px 5px 0px 5px;
+	cursor: pointer
+}
+
+
 .umbra_area .content
 {
 	overflow: auto;

@@ -159,15 +159,8 @@ define(function()
 		// Focuses a view, so content is shown in the area window
 		focusView: function(view)
 		{
-			var targetDomContent = $("#" + this.name + " .content");
-
 			// Deactivate old view
-			if(this.activeViewPoint !== undefined)
-			{
-				this.activeViewPoint.getView().isVisible = false;
-				this.activeViewPoint.domContent.hide();
-				this.activeViewPoint.domRegisterTab.removeClass("selected");
-			}
+			this.clearView();
 
 			// Activate new view
 			var viewPoint = this.findViewPoint(view);
@@ -185,16 +178,48 @@ define(function()
 			this.updateLayout();
 		},
 
+		clearView: function()
+		{
+			var targetDomContent = $("#" + this.name + " .content");
+
+			// Deactivate old view
+			if(this.activeViewPoint !== undefined)
+			{
+				this.activeViewPoint.getView().isVisible = false;
+				this.activeViewPoint.domContent.hide();
+				this.activeViewPoint.domRegisterTab.removeClass("selected");
+			}
+		},
+
 		// Removes a certain view from area
 		removeView: function(view)
-		{
+		{			
 			var foundViewIndex = -1;
-			
-			for(var i in this.viewPoints)
+
+			for(var i = 0; i < this.viewPoints.length; i++)
 			{
 				if(this.viewPoints[i].getView() === view)
 				{
 					foundViewIndex = i;
+				}
+			}
+			
+			if(view.isVisible)
+			{
+				// Ok, first focus another view
+				var toFocusView = this.viewPoints[foundViewIndex + 1];
+				if(toFocusView === undefined)
+				{
+					toFocusView = this.viewPoints[foundViewIndex - 1];
+				}
+
+				if(toFocusView === undefined)
+				{
+					this.clearView();
+				}
+				else
+				{
+					this.focusView(toFocusView.getView());
 				}
 			}
 
@@ -209,20 +234,23 @@ define(function()
 			var domTab = $("#" + view.name + "_tab");
 
 			// Remove from viewpoints
-			this.viewPoints.splice(i, 1);
+			this.viewPoints.splice(foundViewIndex, 1);
 
 			// Removes domtab
-			domTabs.remove(domTab);
+			domTab.remove();
 
 			 // Remove from content
-			 domAreaContent.remove(viewPoint.domContent);
+			 viewPoint.domContent.remove();
 		},
 
 		// Adds DOM for tab in view, adds it to area and returns DOM of tab.
 		addTabForView: function(view)
 		{
 			var title = view.title;
-			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '"><a id="' + view.name + "_tab_a" + '">...</a><span id="' + view.name + "_tab_c" + '" class="closed">X</span></div>');
+			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">'
+				+ '<a id="' + view.name + "_tab_a" + '">...</a>'
+				+ '<span id="' + view.name + "_tab_c" + '" class="closed">X</span>'
+				+ '</div>');
 			$("#" + this.name + " .tabs").append(domTabContent);
 			$("#" + view.name + "_tab_a").text(view.title);
 
@@ -248,7 +276,7 @@ define(function()
 		getViews: function()
 		{
 			var result = [];
-			for(var i in this.viewPoints)
+			for(var i = 0; i < this.viewPoints.length; i++)
 			{
 				result[i] = this.viewPoints[i].getView();
 			}
@@ -258,7 +286,7 @@ define(function()
 
 		findViewPoint: function(view)
 		{
-			for(var i in this.viewPoints)
+			for(var i = 0; i < this.viewPoints.length; i++)
 			{
 				if(this.viewPoints[i].getView() === view)
 				{
@@ -497,8 +525,8 @@ define(function()
 			// We have finished the layout for the areas, 
 			// now we have to update the height of the content region
 			var areas = this.getAreas();
-			for(var i in areas)
-			{
+			for(var i = 0; i < areas.length; i++)
+			{ 
 				areas[i].updateLayout();
 			}
 		},
@@ -519,7 +547,7 @@ define(function()
 		findArea: function(token)
 		{
 			var areas = this.getAreas();
-			for(var i in areas)
+			for(var i = 0; i < areas.length; i++)
 			{
 				if(areas[i].token == token)
 				{
@@ -533,11 +561,11 @@ define(function()
 		findAreaAndView: function(token)
 		{
 			var areas = this.getAreas();
-			for(var i in areas)
+			for(var i = 0; i < areas.length; i++)
 			{
 				var area = areas[i];
 				var viewPoints = area.getViewPoints();
-				for(var j in viewPoints)
+				for(var j = 0; j < viewPoints.length; j++)
 				{
 					var viewPoint = viewPoints[j];
 					if(viewPoint.getView().token === token)
@@ -662,7 +690,7 @@ define(function()
 
 		findViewType: function(token)
 		{
-			for(var i in this.viewTypes)
+			for(var i = 0; i < this.viewTypes.length; i++)
 			{
 				if(this.viewTypes[i].token == token)
 				{
