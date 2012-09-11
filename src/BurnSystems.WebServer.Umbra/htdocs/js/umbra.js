@@ -188,14 +188,34 @@ define(function()
 		// Removes a certain view from area
 		removeView: function(view)
 		{
-			var viewPoint = this.findViewPoint(view);
-			if (viewPoint === undefined)
+			var foundViewIndex = -1;
+			
+			for(var i in this.viewPoints)
+			{
+				if(this.viewPoints[i].getView() === view)
+				{
+					foundViewIndex = i;
+				}
+			}
+
+			if (foundViewIndex === -1)
 			{
 				alert('View not found in viewPoint');
 			}
 
+			var viewPoint = this.viewPoints[foundViewIndex];
+			var domAreaContent = $("#" + this.name + " .content");
 			var domTabs = $("#" + this.name + " .tabs");
 			var domTab = $("#" + view.name + "_tab");
+
+			// Remove from viewpoints
+			this.viewPoints.splice(i, 1);
+
+			// Removes domtab
+			domTabs.remove(domTab);
+
+			 // Remove from content
+			 domAreaContent.remove(viewPoint.domContent);
 		},
 
 		// Adds DOM for tab in view, adds it to area and returns DOM of tab.
