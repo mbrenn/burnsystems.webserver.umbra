@@ -647,13 +647,13 @@ define(function()
 					data.ScriptFiles, 
 					function()
 					{
-						var viewTypeToken = umbraInstance.findViewType(data.ViewTypeToken);
-						if(viewTypeToken === undefined)
+						var viewType = umbraInstance.findViewType(data.ViewTypeToken);
+						if(viewType === undefined)
 						{
 							alert("Unknown viewtype: " + data.ViewTypeToken);
 						}
 
-						viewTypeToken.init(
+						viewType.init(
 							{
 								view: view,
 								area: area,
@@ -662,6 +662,41 @@ define(function()
 							});
 					});
 			}
+		},
+
+		openView: function(areaToken, title, viewToken, content, scriptFiles, viewTypeToken)
+		{
+			var _this = this;
+			var area = this.findArea(areaToken);
+			var view, viewPoint;
+			if (area === undefined)
+			{
+				alert('Unknown Area: ' + areaToken);
+				return;
+			}
+
+			view = new ViewClass(title, viewToken, content);
+			viewPoint = area.addView(view);
+ 			requirejs(
+				scriptFiles, 
+				function()
+				{
+					var viewType = umbraInstance.findViewType(viewTypeToken);
+					if(viewType === undefined)
+					{
+						alert("Unknown viewtype: " + data.ViewTypeToken);
+					}
+
+					viewType.init(
+						{
+							view: view,
+							area: area,
+							viewPoint: viewPoint,
+							workSpace: _this
+						});
+				});
+
+			return viewPoint;
 		}
 	};
 
