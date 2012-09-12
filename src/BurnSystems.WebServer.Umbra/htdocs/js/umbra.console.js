@@ -15,6 +15,8 @@ define(["umbra"], function(u)
 			"BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest",
 			function(data)
 			{
+				data.viewPoint.domContent.html(
+					"<table><tr><td>TEST</td></tr></table>");
 			}));
 
 	// Returns the console
