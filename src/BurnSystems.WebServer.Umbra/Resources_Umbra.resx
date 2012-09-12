@@ -133,6 +133,9 @@
   <data name="js_umbra" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>htdocs\js\umbra.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="js_umbra_console" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>htdocs\js\umbra.console.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="umbra_version" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>htdocs\data\umbraversion.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

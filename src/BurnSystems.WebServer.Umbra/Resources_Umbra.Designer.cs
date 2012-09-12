@@ -129,7 +129,6 @@ namespace BurnSystems.WebServer.Umbra {
         ///    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/umbra.css&quot;&gt;&lt;/link&gt;
         ///    &lt;script src=&quot;scripts/jquery.js&quot;&gt;&lt;/script&gt;
         ///    &lt;script data-main=&quot;scripts/init.js&quot; src=&quot;scripts/require.js&quot;&gt;&lt;/script&gt;
-        ///    &lt;script src=&quot;scripts/test.js&quot;&gt;&lt;/script&gt;
         ///  &lt;/head&gt;
         ///  &lt;body&gt;
         ///
@@ -171,7 +170,29 @@ namespace BurnSystems.WebServer.Umbra {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
+        ///
+        ///define([&quot;umbra&quot;], function(u)
+        ///{
+        ///	u.umbra.addViewType(
+        ///		new u.ViewType(
+        ///			&quot;BurnSystems.WebServer.Umbra.Requests.VersionUmbraRequest&quot;,
+        ///			function(data)
+        ///			{
+        ///				data.viewPoint.domContent.find(&quot;.closing&quot;).click(function() 
+        ///				{
+        ///					data.workSpace.loadContent(&quot;data/Version&quot;, &quot;centered&quot;, 
+        ///						{
+        ///							success: function(newArea, newView)
+        ///							{
+        ///								newArea.focusView(newView);
+        ///							}
+        ///						});
+        ///				});
+        ///			}));
+        ///
+        ///	return true;
+        ///}); ähnelt.
         /// </summary>
         internal static string js_test {
             get {
@@ -186,9 +207,10 @@ namespace BurnSystems.WebServer.Umbra {
         ///{	
         ///	///////////////////////////////////////////
         ///	// Definition of ViewType-Class 
-        ///	var ViewTypeClass = function(token)
+        ///	var ViewTypeClass = function(token, initFunction)
         ///	{
         ///		this.token = token;
+        ///		this.init = initFunction;
         ///	};
         ///
         ///	ViewTypeClass.prototype = 
@@ -206,10 +228,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///
         ///		if (content === undefined)
         ///		{
-        ///			content = &quot;No content&quot;;
-        ///		}
-        ///
-        ///		this.title = [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///			con [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra {
             get {
@@ -218,23 +237,72 @@ namespace BurnSystems.WebServer.Umbra {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
+        ///
+        ///define([&quot;umbra&quot;], function(u)
+        ///{
+        ///	var consoleClass = function()
+        ///	{
+        ///	};
+        ///
+        ///	consoleClass.prototype = 
+        ///	{
+        ///	};
+        ///
+        ///	u.umbra.addViewType(
+        ///		new u.ViewType(
+        ///			&quot;BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest&quot;, 
+        ///			function(data)
+        ///			{
+        ///				alert(console);
+        ///			}));
+        ///
+        ///	// Returns the console
+        ///	var consoleInstance = new consoleClass();
+        ///	u.addPlugin(&quot;Umbra.Console&quot;, consoleInstance);
+        ///
+        ///	var result = 
+        ///	{
+        ///		console = consoleInstance
+        ///	};
+        ///
+        ///	return result;
+        ///};
+        /// ähnelt.
+        /// </summary>
+        internal static string js_umbra_console {
+            get {
+                return ResourceManager.GetString("js_umbra_console", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;h1&gt;Umbra Version&lt;/h1&gt;
-        ///&lt;p&gt;Created and maintained by Martin Brenn&lt;/p&gt;
+        ///&lt;a href=&quot;#&quot; class=&quot;closing&quot;&gt;Clone View&lt;/a&gt;
+        ///&lt;p&gt;Date: @DateTime.Now&lt;/p&gt;
         ///&lt;p&gt;Current Version of Umbra: @Model.Version&lt;/p&gt;
-        ///&lt;h2&gt;Loaded Assemblies&lt;/h2&gt;
+        ///&lt;h2&gt;Environment&lt;/h2&gt;
         ///&lt;table&gt;
         ///	&lt;tr&gt;
-        ///		&lt;td&gt;Assembly&lt;/td&gt;
-        ///		&lt;td&gt;Version&lt;/td&gt;
+        ///		&lt;td&gt;OS-Version:&lt;/td&gt;
+        ///		&lt;td&gt;@Model.OsVersion&lt;/td&gt;
         ///	&lt;/tr&gt;
-        ///	@foreach(var assembly in Model.Assemblies){
         ///	&lt;tr&gt;
-        ///		&lt;td&gt;@assembly.FullName&lt;/td&gt;
-        ///		&lt;td&gt;@assembly.GetName().Version&lt;/td&gt;
+        ///		&lt;td&gt;.Net-Version:&lt;/td&gt;
+        ///		&lt;td&gt;@Model.DotNetVersion&lt;/td&gt;
         ///	&lt;/tr&gt;
-        ///	}
-        ///&lt;/table&gt;
-        ///	 ähnelt.
+        ///	&lt;tr&gt;
+        ///		&lt;td&gt;CPU Count:&lt;/td&gt;
+        ///		&lt;td&gt;@Model.CpuCount&lt;/td&gt;
+        ///	&lt;/tr&gt;
+        ///	&lt;tr&gt;
+        ///		&lt;td&gt;CPU Bits:&lt;/td&gt;
+        ///		&lt;td&gt;@Model.CpuBit&lt;/td&gt;
+        ///	&lt;/tr&gt;
+        ///	&lt;tr&gt;
+        ///		&lt;td&gt;Total Memory:&lt;/td&gt;
+        ///		&lt;td&gt;@Model.MemoryTotal&lt;/td&gt;
+        ///	 [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string umbra_version {
             get {

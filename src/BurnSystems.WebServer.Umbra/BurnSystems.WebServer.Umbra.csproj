@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Requests\BaseUmbraRequest.cs" />
+    <Compile Include="Requests\ConsoleUmbraRequest.cs" />
     <Compile Include="Requests\VersionUmbraRequest.cs" />
     <Compile Include="Resources_Umbra.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -72,6 +73,7 @@
     </Content>
     <Content Include="htdocs\js\init.js" />
     <Content Include="htdocs\js\test.js" />
+    <Content Include="htdocs\js\umbra.console.js" />
     <Content Include="htdocs\js\umbra.js" />
   </ItemGroup>
   <ItemGroup>

@@ -32,7 +32,15 @@ requirejs(['umbra'],
 		workSpace.areaRight.focusView(topView);
 
 		// Loads content
-		workSpace.loadContent("data/Version", "centered", 
+		workSpace.loadContent("framework/Console", "bottom", 
+			{
+				success: function(area, view)
+				{
+					area.focusView(view);
+				}
+			});
+
+		workSpace.loadContent("framework/Version", "centered", 
 			{
 				success: function(area, view)
 				{

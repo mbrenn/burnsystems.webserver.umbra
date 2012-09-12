@@ -37,6 +37,9 @@ namespace BurnSystems.WebServer.Umbra
                     DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/umbra.js"), "text/javascript", Resources_Umbra.js_umbra));
             server.Add(
                 new StaticContentResponse(
+                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/umbra.console.js"), "text/javascript", Resources_Umbra.js_umbra_console));
+            server.Add(
+                new StaticContentResponse(
                     DispatchFilter.ByExactUrl(configuration.WebPath + "css/umbra.css"), "text/css", Resources_Umbra.css_umbra));
             server.Add(
                 new StaticContentResponse(

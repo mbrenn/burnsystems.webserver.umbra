@@ -535,10 +535,11 @@ define(function()
 		getAreas: function()
 		{
 			var result = [
+				this.areaCentered,
 				this.areaTop,
 				this.areaLeft,
 				this.areaRight, 
-				this.areaCentered ];
+				this.areaBottom ];
 			return result;
 		},
 
@@ -679,6 +680,7 @@ define(function()
 	var UmbraType = function()
 	{
 		this.viewTypes = [];
+		this.plugins = {};
 	};
 
 	UmbraType.prototype =
@@ -697,6 +699,17 @@ define(function()
 					return this.viewTypes[i];
 				}
 			}
+		},
+
+		// Very simple plugin interface
+		addPlugin: function(key, plugin)
+		{
+			this.plugins[key] = plugin;
+		},
+
+		getPlugin: function(key)
+		{
+			return this.plugins[key];
 		}
 	};
 
