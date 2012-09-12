@@ -9,7 +9,7 @@ define(["umbra"], function(u)
 			{
 				data.viewPoint.domContent.find(".closing").click(function() 
 				{
-					data.workSpace.loadContent("data/Version", "centered", 
+					data.workSpace.loadContent("framework/Version", "centered", 
 						{
 							success: function(newArea, newView)
 							{

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BurnSystems.WebServer.Helper;
 using BurnSystems.WebServer.Dispatcher;
 using BurnSystems.ObjectActivation;
 using System.Web.Script.Serialization;
@@ -74,6 +75,7 @@ namespace BurnSystems.WebServer.Umbra.Requests
 
         public override void FinishDispatch(IActivates container, ContextDispatchInformation context)
         {
+            context.Context.DisableBrowserCache();
             var result = new
             {
                 Content = this.Content,
