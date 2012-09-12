@@ -26,33 +26,14 @@ namespace BurnSystems.WebServer.Umbra
             var server = container.Get<Server>();
             Ensure.IsNotNull(server, "No Server in Actioncontainer");
 
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "index.html"), "text/html", Resources_Umbra.index));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/init.js"), "text/javascript", Resources_Umbra.js_init));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/umbra.js"), "text/javascript", Resources_Umbra.js_umbra));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/umbra.console.js"), "text/javascript", Resources_Umbra.js_umbra_console));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "css/umbra.css"), "text/css", Resources_Umbra.css_umbra));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/jquery.js"), "text/javascript", Files.JQuery));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/require.js"), "text/javascript", Files.Require));
-            server.Add(
-                new StaticContentResponse(
-                    DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/test.js"), "text/javascript", Resources_Umbra.js_test)); 
-            server.Add(
-                 new StaticContentResponse(
-                     DispatchFilter.ByExactUrl(configuration.WebPath + "scripts/test2.js"), "text/javascript", Resources_Umbra.js_test));
+            AddWebFile(configuration, server, "index.html", "text/html", Resources_Umbra.index);
+            AddWebFile(configuration, server, "scripts/umbra.js", "text/javascript", Resources_Umbra.js_umbra);
+            AddWebFile(configuration, server, "scripts/umbra.console.js", "text/javascript", Resources_Umbra.js_umbra_console);
+            AddWebFile(configuration, server, "css/umbra.css", "text/css", Resources_Umbra.css_umbra);
+            AddWebFile(configuration, server, "scripts/jquery.js", "text/javascript", Files.JQuery);
+            AddWebFile(configuration, server, "scripts/require.js", "text/javascript", Files.Require);
+            AddWebFile(configuration, server, "scripts/test.js", "text/javascript", Resources_Umbra.js_test);
+            AddWebFile(configuration, server, "scripts/init.js", "text/javascript", Resources_Umbra.js_init);
 
             server.Add(
                 new RelocationDispatcher(
@@ -61,6 +42,13 @@ namespace BurnSystems.WebServer.Umbra
             server.Add(
                 new UmbraDispatcher(
                     DispatchFilter.ByUrl(configuration.WebPath), configuration.WebPath));
+        }
+
+        private static void AddWebFile(UmbraConfiguration configuration, Server server, string url, string mimeType, string content)
+        {
+            server.Add(
+                new StaticContentResponse(
+                    DispatchFilter.ByExactUrl(configuration.WebPath + url), mimeType, content));
         }
     }
 }
