@@ -13,6 +13,9 @@ define(["umbra"], function(u)
 						{
 							success: function(newArea, newView)
 							{
+								var myConsole = u.umbra.getPlugin("Umbra.Console");
+								myConsole.log("Version", "New version retrieved", "message");
+
 								newArea.focusView(newView);
 							}
 						});

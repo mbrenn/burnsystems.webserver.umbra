@@ -684,7 +684,7 @@ define(function()
 					var viewType = umbraInstance.findViewType(viewTypeToken);
 					if(viewType === undefined)
 					{
-						alert("Unknown viewtype: " + data.ViewTypeToken);
+						alert("Unknown viewtype: " + viewTypeToken);
 					}
 
 					viewType.init(
