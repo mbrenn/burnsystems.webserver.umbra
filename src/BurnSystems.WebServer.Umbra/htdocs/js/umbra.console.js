@@ -38,7 +38,7 @@ define(["umbra"], function(u)
 		__addToDom: function(entry)
 		{
 			var row = $('<tr class="consoleentry"><td class="date"></td><td class="category"></td><td class="content"></td><td class="importance"></td></tr>');
-			row.find(".date").text(entry.date);
+			row.find(".date").text(entry.date.format("dd.mm.yyyy HH:MM"));
 			row.find(".category").text(entry.category);
 			row.find(".content").text(entry.message);
 			row.find(".importance").text(entry.importance);

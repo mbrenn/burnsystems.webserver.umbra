@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-define(function()
+define(["dateformat"], function()
 {	
 	///////////////////////////////////////////
 	// Definition of ViewType-Class 
