@@ -30,6 +30,7 @@ namespace BurnSystems.WebServer.Umbra
             AddWebFile(configuration, server, "scripts/umbra.js", "text/javascript", Resources_Umbra.js_umbra);
             AddWebFile(configuration, server, "scripts/umbra.console.js", "text/javascript", Resources_Umbra.js_umbra_console);
             AddWebFile(configuration, server, "css/umbra.css", "text/css", Resources_Umbra.css_umbra);
+            AddWebFile(configuration, server, "scripts/dateformat.js", "text/javascript", Files.DateFormat);
             AddWebFile(configuration, server, "scripts/jquery.js", "text/javascript", Files.JQuery);
             AddWebFile(configuration, server, "scripts/require.js", "text/javascript", Files.Require);
             AddWebFile(configuration, server, "scripts/test.js", "text/javascript", Resources_Umbra.js_test);
