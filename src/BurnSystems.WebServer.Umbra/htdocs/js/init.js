@@ -5,34 +5,32 @@ requirejs.config(
     baseUrl: 'scripts',
 });
 
-requirejs(['umbra'], 
-	function(umbra)
-	{
-		var workSpace = new umbra.WorkSpace();
-		workSpace.updateLayout();
-		workSpace.create($("body"));
+requirejs(['umbra'],
+	function (umbra) {
+	    var workSpace = new umbra.WorkSpace();
+	    workSpace.updateLayout();
+	    workSpace.create($("body"));
 
-		var topView = new umbra.View("Top 1", "top1", "This is conteeeent");
-		var topView2 = new umbra.View("Top 2", "top2", "This is <b>MORE</b> conteeeent");
-		workSpace.areaRight.addView(topView);
-		workSpace.areaRight.addView(topView2);
-				
-		var content = "";
-		for(var i = 1; i < 100; i++)
-		{
-			content += "<p>This is the maincontent of the content, a longer text than required but a nice content. This is true!</p>";
-		}
+	    var topView = new umbra.View("Top 1", "top1", "This is conteeeent");
+	    var topView2 = new umbra.View("Top 2", "top2", "This is <b>MORE</b> conteeeent");
+	    workSpace.areaRight.addView(topView);
+	    workSpace.areaRight.addView(topView2);
 
-		var centerView = new umbra.View("Center 1", "center1", content);
-		var centerView2 = new umbra.View("Center 2", "center2", "This is <b>MORE</b> conteeeent!");
-		workSpace.areaCentered.addView(centerView);
-		workSpace.areaCentered.addView(centerView2);
+	    var content = "";
+	    for (var i = 1; i < 100; i++) {
+	        content += "<p>This is the maincontent of the content, a longer text than required but a nice content. This is true!</p>";
+	    }
 
-		workSpace.areaCentered.focusView(centerView);
-		workSpace.areaRight.focusView(topView);
+	    var centerView = new umbra.View("Center 1", "center1", content);
+	    var centerView2 = new umbra.View("Center 2", "center2", "This is <b>MORE</b> conteeeent!");
+	    workSpace.areaCentered.addView(centerView);
+	    workSpace.areaCentered.addView(centerView2);
 
-		// Loads content
-		/*workSpace.loadContent("framework/Console", "bottom", 
+	    workSpace.areaCentered.focusView(centerView);
+	    workSpace.areaRight.focusView(topView);
+
+	    // Loads content
+	    /*workSpace.loadContent("framework/Console", "bottom", 
 			{
 				success: function(area, view)
 				{
@@ -40,13 +38,19 @@ requirejs(['umbra'],
 				}
 			});*/
 
-		var viewPoint = workSpace.openView("bottom", "Console", "<div class=\"umbra_console\">C</div>", "umbra.console", ["umbra.console"], "BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest");
-		workSpace.findArea("bottom").focusView(viewPoint.getView());
-		workSpace.loadContent("framework/Version", "centered", 
+	    var viewPoint = workSpace.openView("bottom", "Console", "<div class=\"umbra_console\">C</div>", "umbra.console", ["umbra.console"], "BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest");
+	    workSpace.findArea("bottom").focusView(viewPoint.getView());
+	    workSpace.loadContent("framework/Version", "centered",
 			{
-				success: function(area, view)
-				{
-					area.focusView(view);
-				}
+			    success: function (area, view) {
+			        area.focusView(view);
+			    }
 			});
+
+	    var ribbonBar = workSpace.getRibbonBar();
+	    var startTab = ribbonBar.addTab("START");
+	    var helpTab = ribbonBar.addTab("HELP");
+	    startTab.addGroup("File");
+	    startTab.addGroup("Content");
+	    helpTab.addGroup("?");
 	});

@@ -1,773 +1,759 @@
 ﻿"use strict";
 
-define(["dateformat"], function()
-{	
-	///////////////////////////////////////////
-	// Definition of ViewType-Class 
-	var ViewTypeClass = function(token, initFunction)
-	{
-		this.token = token;
-		this.init = initFunction;
-	};
+define(["dateformat"], function () {
+    ///////////////////////////////////////////
+    // Definition of ViewType-Class 
+    var ViewTypeClass = function (token, initFunction) {
+        this.token = token;
+        this.init = initFunction;
+    };
 
-	ViewTypeClass.prototype = 
+    ViewTypeClass.prototype =
 	{
 	};
 
-	///////////////////////////////////////////
-	// Definition of View-Class 
-	var ViewClass = function(title, token, content)
-	{	
-		if (title === undefined)
-		{
-			title = "Unnamed";
-		}
+    ///////////////////////////////////////////
+    // Definition of View-Class 
+    var ViewClass = function (title, token, content) {
+        if (title === undefined) {
+            title = "Unnamed";
+        }
 
-		if (content === undefined)
-		{
-			content = "No content";
-		}
+        if (content === undefined) {
+            content = "No content";
+        }
 
-		this.title = title;
-		this.token = token;
-		this.content = content;
+        this.title = title;
+        this.token = token;
+        this.content = content;
 
-		ViewClass.viewCounter++;
-		this.name = "view_" + ViewClass.viewCounter;
-		
-		this.content = this.content;
+        ViewClass.viewCounter++;
+        this.name = "view_" + ViewClass.viewCounter;
 
-		this.isVisible = false;
-		this.areaAttached = undefined;
-	};
+        this.content = this.content;
 
-	ViewClass.viewCounter = 0;
+        this.isVisible = false;
+        this.areaAttached = undefined;
+    };
 
-	ViewClass.prototype = 
-	{
-	};
-	
-	///////////////////////////////////////////
-	// Definition of ViewPoint-Class 
-	var ViewPointClass = function(view, domRegisterTab)
-	{
-		this.view = view;
-		this.domRegisterTab = domRegisterTab;
-		this.domContent = {};
-	};
+    ViewClass.viewCounter = 0;
 
-	ViewPointClass.prototype = 
-	{
-		getView: function()
-		{
-			return this.view;
-		}
-	};
-
-	ViewPointClass.lastDomId = 1;
-
-	///////////////////////////////////////////
-	// Definition of Ribbonbar class	
-	var RibbonBarClass = function()
-	{
-		this.height = 128;
-	};
-
-	RibbonBarClass.prototype = 
+    ViewClass.prototype =
 	{
 	};
 
-	///////////////////////////////////////////
-	// Definition of RibbonElement class	
-	var RibbonElementClass = function()
+    ///////////////////////////////////////////
+    // Definition of ViewPoint-Class 
+    var ViewPointClass = function (view, domRegisterTab) {
+        this.view = view;
+        this.domRegisterTab = domRegisterTab;
+        this.domContent = {};
+    };
+
+    ViewPointClass.prototype =
+	{
+	    getView: function () {
+	        return this.view;
+	    }
+	};
+
+    ///////////////////////////////////////////
+    // Definition of RibbonElement class	
+    var RibbonElementClass = function () {
+    };
+
+    RibbonElementClass.prototype =
 	{
 	};
 
-	RibbonElementClass.prototype = 
+    ///////////////////////////////////////////
+    // Definition of RibbonButton class	
+    var RibbonButtonClass = function () {
+    };
+
+    RibbonButtonClass.prototype.prototype = RibbonElementClass.prototype;
+
+    ///////////////////////////////////////////
+    // Definition of RibbonGroup class	
+    var RibbonGroupClass = function (title) {
+        this.title = title;
+        this.elements = [];
+        this.domContent = {};
+    };
+
+    RibbonGroupClass.prototype =
 	{
+	    addElement: function (title, element) {
+	        this.elements.push(element);
+	    }
 	};
 
-	///////////////////////////////////////////
-	// Definition of RibbonButton class	
-	var RibbonButtonClass = function()
+    ///////////////////////////////////////////
+    // Definition of RibbonGroup class	
+    var RibbonTabClass = function (title) {
+        this.title = title;
+        this.groups = [];
+
+        // Stores the dom element
+        this.domTab = {};
+        this.domContent = {};
+    };
+
+    RibbonTabClass.prototype =
 	{
+	    addGroup: function (title) {
+	        var group = new RibbonGroupClass(title);
+	        var domGroup = $('<div class="group">' + title + '</div>');
+	        this.domContent.append(domGroup);
+	        group.domContent = domGroup;
+	    }
 	};
 
-	RibbonButtonClass.prototype = new RibbonElementClass();
+    ViewPointClass.lastDomId = 1;
 
-	///////////////////////////////////////////
-	// Definition of RibbonGroup class	
-	var RibbonGroupClass = function()
+    ///////////////////////////////////////////
+    // Definition of Ribbonbar class	
+    var RibbonBarClass = function () {
+        this.height = 128;
+        this.tabs = [];
+        this.domElement = {};
+    };
+
+    RibbonBarClass.prototype =
 	{
+	    /// Inits the RibbonBar Class
+	    init: function (domElement) {
+	        this.domElement = domElement;
+	        this.domElement.html('<div class="tabs"></div><div class="content"></div>');
+	        this.currentTab = undefined;
+	    },
+
+	    /// Adds a tab with the given title
+	    /// @title Name of the title
+	    addTab: function (title) {
+	        var _this = this;
+	        var tab = new RibbonTabClass(title);
+	        this.tabs.push(tab);
+
+	        // Add to DOM
+	        var tabDom = $('<div class="tab">' + title + '</div>');
+	        var tabOwnerElement = this.domElement.find(".tabs");
+	        tabOwnerElement.append(tabDom);
+	        tab.domTab = tabDom;
+
+	        var contentDom = $('<div class="tabcontent"></div>');
+	        var contentOwnerElement = this.domElement.find(".content");
+	        contentOwnerElement.append(contentDom);
+	        tab.domContent = contentDom;
+	        tab.domContent.hide();
+            
+	        // Add events
+	        tabDom.click(function () {
+	            _this.selectTab(tab);
+	        });
+
+	        if (this.currentTab === undefined) {
+	            this.selectTab(tab);
+	        }
+
+	        return tab;
+	    },
+
+	    selectTab: function (tab) {
+	        if (this.currentTab !== undefined) {
+	            this.currentTab.domContent.hide();
+	        }
+
+	        tab.domContent.show();
+	        this.currentTab = tab;
+	    }
 	};
 
-	RibbonGroupClass.prototype = 
+    ///////////////////////////////////////////
+    // Definition of Area class	
+    // @name Name of the DOM element where area has been created
+    // @token Name of the Area within the workspace
+    var AreaClass = function (domName, token) {
+        this.width = 0;
+        this.height = 0;
+        this.name = domName;
+        this.token = token;
+
+        // Stores the list of views
+        this.viewPoints = [];
+        this.activeViewPoint = undefined;
+    };
+
+    AreaClass.prototype =
 	{
-	};
+	    // Adds a view to area and 
+	    addView: function (view) {
+	        var domTabContent = this.addTabForView(view);
 
-	///////////////////////////////////////////
-	// Definition of RibbonGroup class	
-	var RibbonTabClass = function()
-	{
-	};
+	        var viewPoint = new ViewPointClass(view, domTabContent);
+	        this.viewPoints.push(viewPoint);
+	        viewPoint.area = this;
 
-	RibbonTabClass.prototype = 
-	{
-	};
+	        view.isVisible = false;
+	        view.areaAttached = this;
 
-	///////////////////////////////////////////
-	// Definition of Area class	
-	// @name Name of the DOM element where area has been created
-	// @token Name of the Area within the workspace
-	var AreaClass = function(domName, token)
-	{
-		this.width = 0;
-		this.height = 0;
-		this.name = domName;
-		this.token = token;
+	        var targetDomContent = $("#" + this.name + " .content");
+	        ViewPointClass.lastDomId++;
+	        viewPoint.domContent = $('<div id="viewpoint_' + ViewPointClass.lastDomId + '"></div>');
+	        viewPoint.domContent.html(view.content)
+	        viewPoint.domContent.hide();
 
-		// Stores the list of views
-		this.viewPoints = [];
-		this.activeViewPoint = undefined;
-	};
+	        targetDomContent.append(viewPoint.domContent);
 
-	AreaClass.prototype = 
-	{
-		// Adds a view to area and 
-		addView: function(view)
-		{
-			var domTabContent = this.addTabForView(view);
-			
-			var viewPoint = new ViewPointClass(view, domTabContent);
-			this.viewPoints.push(viewPoint);
-			viewPoint.area = this;
+	        return viewPoint;
+	    },
 
-			view.isVisible = false;
-			view.areaAttached = this;
-			
-			var targetDomContent = $("#" + this.name + " .content");
-			ViewPointClass.lastDomId++;
-			viewPoint.domContent = $('<div id="viewpoint_' + ViewPointClass.lastDomId + '"></div>');
-			viewPoint.domContent.html(view.content)
-			viewPoint.domContent.hide();
+	    // Focuses a view, so content is shown in the area window
+	    focusView: function (view) {
+	        // Deactivate old view
+	        this.clearView();
 
-			targetDomContent.append(viewPoint.domContent);
+	        // Activate new view
+	        var viewPoint = this.findViewPoint(view);
+	        if (viewPoint === undefined) {
+	            alert('View is not within this area');
+	            return;
+	        }
 
-			return viewPoint;
-		},
+	        this.activeViewPoint = viewPoint;
+	        view.isVisible = true;
+	        this.activeViewPoint.domContent.show();
+	        viewPoint.domRegisterTab.addClass("selected");
 
-		// Focuses a view, so content is shown in the area window
-		focusView: function(view)
-		{
-			// Deactivate old view
-			this.clearView();
+	        this.updateLayout();
+	    },
 
-			// Activate new view
-			var viewPoint = this.findViewPoint(view);
-			if(viewPoint === undefined)
-			{
-				alert('View is not within this area');
-				return;
-			}
+	    clearView: function () {
+	        var targetDomContent = $("#" + this.name + " .content");
 
-			this.activeViewPoint = viewPoint;
-			view.isVisible = true;
-			this.activeViewPoint.domContent.show();
-			viewPoint.domRegisterTab.addClass("selected");
+	        // Deactivate old view
+	        if (this.activeViewPoint !== undefined) {
+	            this.activeViewPoint.getView().isVisible = false;
+	            this.activeViewPoint.domContent.hide();
+	            this.activeViewPoint.domRegisterTab.removeClass("selected");
+	        }
+	    },
 
-			this.updateLayout();
-		},
+	    // Removes a certain view from area
+	    removeView: function (view) {
+	        var foundViewIndex = -1;
 
-		clearView: function()
-		{
-			var targetDomContent = $("#" + this.name + " .content");
+	        for (var i = 0; i < this.viewPoints.length; i++) {
+	            if (this.viewPoints[i].getView() === view) {
+	                foundViewIndex = i;
+	            }
+	        }
 
-			// Deactivate old view
-			if(this.activeViewPoint !== undefined)
-			{
-				this.activeViewPoint.getView().isVisible = false;
-				this.activeViewPoint.domContent.hide();
-				this.activeViewPoint.domRegisterTab.removeClass("selected");
-			}
-		},
+	        if (view.isVisible) {
+	            // Ok, first focus another view
+	            var toFocusView = this.viewPoints[foundViewIndex + 1];
+	            if (toFocusView === undefined) {
+	                toFocusView = this.viewPoints[foundViewIndex - 1];
+	            }
 
-		// Removes a certain view from area
-		removeView: function(view)
-		{			
-			var foundViewIndex = -1;
+	            if (toFocusView === undefined) {
+	                this.clearView();
+	            }
+	            else {
+	                this.focusView(toFocusView.getView());
+	            }
+	        }
 
-			for(var i = 0; i < this.viewPoints.length; i++)
-			{
-				if(this.viewPoints[i].getView() === view)
-				{
-					foundViewIndex = i;
-				}
-			}
-			
-			if(view.isVisible)
-			{
-				// Ok, first focus another view
-				var toFocusView = this.viewPoints[foundViewIndex + 1];
-				if(toFocusView === undefined)
-				{
-					toFocusView = this.viewPoints[foundViewIndex - 1];
-				}
+	        if (foundViewIndex === -1) {
+	            alert('View not found in viewPoint');
+	        }
 
-				if(toFocusView === undefined)
-				{
-					this.clearView();
-				}
-				else
-				{
-					this.focusView(toFocusView.getView());
-				}
-			}
+	        var viewPoint = this.viewPoints[foundViewIndex];
+	        var domAreaContent = $("#" + this.name + " .content");
+	        var domTabs = $("#" + this.name + " .tabs");
+	        var domTab = $("#" + view.name + "_tab");
 
-			if (foundViewIndex === -1)
-			{
-				alert('View not found in viewPoint');
-			}
+	        // Remove from viewpoints
+	        this.viewPoints.splice(foundViewIndex, 1);
 
-			var viewPoint = this.viewPoints[foundViewIndex];
-			var domAreaContent = $("#" + this.name + " .content");
-			var domTabs = $("#" + this.name + " .tabs");
-			var domTab = $("#" + view.name + "_tab");
+	        // Removes domtab
+	        domTab.remove();
 
-			// Remove from viewpoints
-			this.viewPoints.splice(foundViewIndex, 1);
+	        // Remove from content
+	        viewPoint.domContent.remove();
+	    },
 
-			// Removes domtab
-			domTab.remove();
-
-			 // Remove from content
-			 viewPoint.domContent.remove();
-		},
-
-		// Adds DOM for tab in view, adds it to area and returns DOM of tab.
-		addTabForView: function(view)
-		{
-			var title = view.title;
-			var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">'
+	    // Adds DOM for tab in view, adds it to area and returns DOM of tab.
+	    addTabForView: function (view) {
+	        var title = view.title;
+	        var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">'
 				+ '<a id="' + view.name + "_tab_a" + '">...</a>'
 				+ '<span id="' + view.name + "_tab_c" + '" class="closed">X</span>'
 				+ '</div>');
-			$("#" + this.name + " .tabs").append(domTabContent);
-			$("#" + view.name + "_tab_a").text(view.title);
+	        $("#" + this.name + " .tabs").append(domTabContent);
+	        $("#" + view.name + "_tab_a").text(view.title);
 
-			var _this = this;
-			$("#" + view.name + "_tab_a").click(function()
-			{
-				_this.focusView(view);
-			});
+	        var _this = this;
+	        $("#" + view.name + "_tab_a").click(function () {
+	            _this.focusView(view);
+	        });
 
-			$("#" + view.name + "_tab_c").click(function()
-			{
-				_this.removeView(view);
-			});
+	        $("#" + view.name + "_tab_c").click(function () {
+	            _this.removeView(view);
+	        });
 
-			return domTabContent;
-		},
+	        return domTabContent;
+	    },
 
-		getViewPoints: function()
-		{
-			return this.viewPoints;
-		},
+	    getViewPoints: function () {
+	        return this.viewPoints;
+	    },
 
-		getViews: function()
-		{
-			var result = [];
-			for(var i = 0; i < this.viewPoints.length; i++)
-			{
-				result[i] = this.viewPoints[i].getView();
-			}
+	    getViews: function () {
+	        var result = [];
+	        for (var i = 0; i < this.viewPoints.length; i++) {
+	            result[i] = this.viewPoints[i].getView();
+	        }
 
-			return result;
-		},
+	        return result;
+	    },
 
-		findViewPoint: function(view)
-		{
-			for(var i = 0; i < this.viewPoints.length; i++)
-			{
-				if(this.viewPoints[i].getView() === view)
-				{
-					return this.viewPoints[i];
-				}
-			}
-		},
+	    findViewPoint: function (view) {
+	        for (var i = 0; i < this.viewPoints.length; i++) {
+	            if (this.viewPoints[i].getView() === view) {
+	                return this.viewPoints[i];
+	            }
+	        }
+	    },
 
-		updateLayout: function()
-		{
-			var domArea = $("#" + this.name);
-			var domContent = $("#" + this.name + " .content");
-			var domTab = $("#" + this.name + " .tabs");
+	    updateLayout: function () {
+	        var domArea = $("#" + this.name);
+	        var domContent = $("#" + this.name + " .content");
+	        var domTab = $("#" + this.name + " .tabs");
 
-			var totalHeight = domArea.height();
-			totalHeight -= domTab.height();
+	        var totalHeight = domArea.height();
+	        totalHeight -= domTab.height();
 
-			domContent.height(totalHeight);
-		}
-	};
-	
-	///////////////////////////////////////////
-	// Definition of Dragbar class	
-	var DragBarClass = function(direction, domElement, dragEvent)
-	{
-		this.isHorizontal = direction === "h";
-		this.isVertical = direction === "v";
-		this.domElement = domElement;
-		this.dragEvent = dragEvent;
-
-		this.lastX = 0;
-		this.lastY = 0;
-		this.isMouseDown = false;
-
-		var _this = this;
-		domElement.mousedown(
-			function(data)
-			{
-				if(data.which == 1)
-				{
-					_this.lastX = data.pageX;
-					_this.lastY = data.pageY;
-					_this.isMouseDown = true;
-
-					data.preventDefault();
-					data.stopPropagation();
-				}
-			});
-			
-		$(document).mousemove(
-			function(data)
-			{
-				if(_this.isMouseDown)
-				{
-					// Change
-					var changeX = _this.lastX - data.pageX;
-					var changeY = _this.lastY - data.pageY;
-
-					var realChange = 0;
-					if (_this.isVertical)
-					{
-						realChange = changeX;
-					}
-
-					if (_this.isHorizontal)
-					{
-						realChange = changeY;
-					}
-					
-					dragEvent(this, realChange);
-
-					_this.lastX = data.pageX;
-					_this.lastY = data.pageY;
-					
-					data.preventDefault();
-					data.stopPropagation();
-				}
-			});
-
-		$(document).mouseup(
-			function(data)
-			{ 
-				if(data.which == 1 && _this.isMouseDown)
-				{
-					_this.isMouseDown = false;
-					
-					data.preventDefault();
-					data.stopPropagation();
-				}
-			});
-
+	        domContent.height(totalHeight);
+	    }
 	};
 
-	DragBarClass.prototype = 
+    ///////////////////////////////////////////
+    // Definition of Dragbar class	
+    var DragBarClass = function (direction, domElement, dragEvent) {
+        this.isHorizontal = direction === "h";
+        this.isVertical = direction === "v";
+        this.domElement = domElement;
+        this.dragEvent = dragEvent;
+
+        this.lastX = 0;
+        this.lastY = 0;
+        this.isMouseDown = false;
+
+        var _this = this;
+        domElement.mousedown(
+			function (data) {
+			    if (data.which == 1) {
+			        _this.lastX = data.pageX;
+			        _this.lastY = data.pageY;
+			        _this.isMouseDown = true;
+
+			        data.preventDefault();
+			        data.stopPropagation();
+			    }
+			});
+
+        $(document).mousemove(
+			function (data) {
+			    if (_this.isMouseDown) {
+			        // Change
+			        var changeX = _this.lastX - data.pageX;
+			        var changeY = _this.lastY - data.pageY;
+
+			        var realChange = 0;
+			        if (_this.isVertical) {
+			            realChange = changeX;
+			        }
+
+			        if (_this.isHorizontal) {
+			            realChange = changeY;
+			        }
+
+			        dragEvent(this, realChange);
+
+			        _this.lastX = data.pageX;
+			        _this.lastY = data.pageY;
+
+			        data.preventDefault();
+			        data.stopPropagation();
+			    }
+			});
+
+        $(document).mouseup(
+			function (data) {
+			    if (data.which == 1 && _this.isMouseDown) {
+			        _this.isMouseDown = false;
+
+			        data.preventDefault();
+			        data.stopPropagation();
+			    }
+			});
+
+    };
+
+    DragBarClass.prototype =
 	{
 	};
 
-	///////////////////////////////////////////
-	// Definition of WorkSpace class	
-	var WorkspaceClass = function()
+    ///////////////////////////////////////////
+    // Definition of WorkSpace class	
+    var WorkspaceClass = function () {
+        this.domPrefix = "ws" + WorkspaceClass.nextDomPrefix + "_";
+        this.ribbonBar = new RibbonBarClass();
+        this.areaTop = new AreaClass(this.domPrefix + "t", "top");
+        this.areaTop.height = 100;
+        this.areaLeft = new AreaClass(this.domPrefix + "l", "left");
+        this.areaLeft.width = 200;
+        this.areaRight = new AreaClass(this.domPrefix + "r", "right");
+        this.areaRight.width = 200;
+        this.areaBottom = new AreaClass(this.domPrefix + "b", "bottom");
+        this.areaBottom.height = 200
+        this.areaCentered = new AreaClass(this.domPrefix + "c", "centered");
+        WorkspaceClass.nextDomPrefix++;
+    };
+
+    WorkspaceClass.nextDomPrefix = 0;
+    WorkspaceClass.dragWidth = 5;
+    WorkspaceClass.dragHeight = 5;
+
+    WorkspaceClass.prototype =
 	{
-		this.domPrefix = "ws" + WorkspaceClass.nextDomPrefix + "_";
-		this.ribbonBar = new RibbonBarClass();
-		this.areaTop = new AreaClass(this.domPrefix + "t", "top");
-		this.areaTop.height = 100;
-		this.areaLeft = new AreaClass(this.domPrefix + "l", "left");
-		this.areaLeft.width = 200;
-		this.areaRight = new AreaClass(this.domPrefix + "r", "right");
-		this.areaRight.width = 200;
-		this.areaBottom = new AreaClass(this.domPrefix + "b", "bottom");
-		this.areaBottom.height = 200
-		this.areaCentered = new AreaClass(this.domPrefix + "c", "centered");
-		WorkspaceClass.nextDomPrefix++;
-	};
+	    /* Creates the DOM elements for the workspace */
+	    create: function (domElement) {
+	        var innerAreaHtml = '<div class="tabs"></div><div class="content"></div>';
 
-	WorkspaceClass.nextDomPrefix = 0;
-	WorkspaceClass.dragWidth = 5;
-	WorkspaceClass.dragHeight = 5;
-
-	WorkspaceClass.prototype = 
-	{
-		/* Creates the DOM elements for the workspace */
-		create: function(domElement)
-		{
-			var innerAreaHtml = '<div class="tabs"></div><div class="content"></div>';
-
-			var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_buttons">Buttons</div></div>');
-			var topDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 't" class="umbra_top umbra_area">' + innerAreaHtml + '</div></div>');
-			var scrollTopDom = '<div id="' + this.domPrefix + 'dt" class="umbra_dragarea horizontal"></div>';
-			var centeredDom = $('<div class="fullwidth fullheight" id="' + this.domPrefix + 'center">' + 
+	        var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_buttons">Buttons</div></div>');
+	        var topDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 't" class="umbra_top umbra_area">' + innerAreaHtml + '</div></div>');
+	        var scrollTopDom = '<div id="' + this.domPrefix + 'dt" class="umbra_dragarea horizontal"></div>';
+	        var centeredDom = $('<div class="fullwidth fullheight" id="' + this.domPrefix + 'center">' +
 					'<div id="' + this.domPrefix + 'l" class="umbra_left umbra_area">' + innerAreaHtml + '</div>' +
 					'<div id="' + this.domPrefix + 'dl" class="umbra_dragarea vertical"></div>' +
-					'<div id="' + this.domPrefix + 'c" class="umbra_centered umbra_area">' + innerAreaHtml + '</div>' +				
+					'<div id="' + this.domPrefix + 'c" class="umbra_centered umbra_area">' + innerAreaHtml + '</div>' +
 					'<div id="' + this.domPrefix + 'dr" class="umbra_dragarea vertical"></div>' +
-					'<div id="' + this.domPrefix + 'r" class="umbra_right umbra_area">' + innerAreaHtml + '</div>' + 			
+					'<div id="' + this.domPrefix + 'r" class="umbra_right umbra_area">' + innerAreaHtml + '</div>' +
 				'</div>');
-			var scrollBottomDom = '<div id="' + this.domPrefix + 'db" class="umbra_dragarea horizontal"></div>';
-			var bottomDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'b" class="umbra_bottom umbra_area">' + innerAreaHtml + '</div></div>');
+	        var scrollBottomDom = '<div id="' + this.domPrefix + 'db" class="umbra_dragarea horizontal"></div>';
+	        var bottomDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'b" class="umbra_bottom umbra_area">' + innerAreaHtml + '</div></div>');
 
-			domElement.append(buttonBarDom);
-			domElement.append(topDom);
-			domElement.append(scrollTopDom);
-			domElement.append(centeredDom);
-			domElement.append(scrollBottomDom);
-			domElement.append(bottomDom);
+	        domElement.append(buttonBarDom);
+	        domElement.append(topDom);
+	        domElement.append(scrollTopDom);
+	        domElement.append(centeredDom);
+	        domElement.append(scrollBottomDom);
+	        domElement.append(bottomDom);
 
-			this.updateLayout();
-			
-			this.makeAreasDraggable();
-			var _this = this;
+	        this.ribbonBar.init(domElement.find(".umbra_buttons"));
 
-			// Event for resizing
-			$(window).resize(function()
-			{
-				_this.updateLayout();
-			});
+	        this.updateLayout();
 
-			$("#");
-		},
-		
-		makeAreasDraggable: function()
-		{
-			var _this = this;
-			// Sets the dragbar information
-			var topDragBar = new DragBarClass(
-				"h", 
-				$("#" + this.domPrefix + "dt"), 
-				function(dragBar, change)
-				{
-					_this.areaTop.height -= change;
-					_this.updateLayout();
+	        this.makeAreasDraggable();
+	        var _this = this;
+
+	        // Event for resizing
+	        $(window).resize(function () {
+	            _this.updateLayout();
+	        });
+
+	        $("#");
+	    },
+
+	    makeAreasDraggable: function () {
+	        var _this = this;
+	        // Sets the dragbar information
+	        var topDragBar = new DragBarClass(
+				"h",
+				$("#" + this.domPrefix + "dt"),
+				function (dragBar, change) {
+				    _this.areaTop.height -= change;
+				    _this.updateLayout();
 				});
 
-			// Sets the dragbar information
-			var bottomDragBar = new DragBarClass(
-				"h", 
-				$("#" + this.domPrefix + "db"), 
-				function(dragBar, change)
-				{
-					_this.areaBottom.height += change;
-					_this.updateLayout();
+	        // Sets the dragbar information
+	        var bottomDragBar = new DragBarClass(
+				"h",
+				$("#" + this.domPrefix + "db"),
+				function (dragBar, change) {
+				    _this.areaBottom.height += change;
+				    _this.updateLayout();
 				});
 
-			// Sets the dragbar information
-			var leftDragBar = new DragBarClass(
-				"v", 
-				$("#" + this.domPrefix + "dl"), 
-				function(dragBar, change)
-				{
-					_this.areaLeft.width -= change;
-					_this.updateLayout();
+	        // Sets the dragbar information
+	        var leftDragBar = new DragBarClass(
+				"v",
+				$("#" + this.domPrefix + "dl"),
+				function (dragBar, change) {
+				    _this.areaLeft.width -= change;
+				    _this.updateLayout();
 				});
 
-			// Sets the dragbar information
-			var rightDragBar = new DragBarClass(
-				"v", 
-				$("#" + this.domPrefix + "dr"), 
-				function(dragBar, change)
-				{
-					_this.areaRight.width += change;
-					_this.updateLayout();
+	        // Sets the dragbar information
+	        var rightDragBar = new DragBarClass(
+				"v",
+				$("#" + this.domPrefix + "dr"),
+				function (dragBar, change) {
+				    _this.areaRight.width += change;
+				    _this.updateLayout();
 				});
-		},
+	    },
 
-		updateLayout: function()
-		{
-			var restHeight = this.areaTop.height + this.areaBottom.height + this.ribbonBar.height + 10;
-			var height = $("body").height();
-			var width = $("body").width();
+	    updateLayout: function () {
+	        var restHeight = this.areaTop.height + this.areaBottom.height + this.ribbonBar.height + 10;
+	        var height = $("body").height();
+	        var width = $("body").width();
 
-			// Set height of center area
-			var centerHeight = height - restHeight - 2 * WorkspaceClass.dragHeight;
-			$("#" + this.domPrefix + "c").css("height", (centerHeight) + "px");
-			$("#" + this.domPrefix + "center").css("height", (centerHeight) + "px");
-			$("#" + this.domPrefix + "l").css("height", (centerHeight) + "px");			
-			$("#" + this.domPrefix + "r").css("height", (centerHeight) + "px");	
-			$("#" + this.domPrefix + "dl").css("height", (centerHeight) + "px");	
-			$("#" + this.domPrefix + "dr").css("height", (centerHeight) + "px");
-			
-			// Set height of bottom, top and buttons
-			$("#" + this.domPrefix + "buttons").css("height", this.ribbonBar.height + "px");
-			$("#" + this.domPrefix + "t").css("height", this.areaTop.height + "px");
-			$("#" + this.domPrefix + "b").css("height", this.areaBottom.height + "px");
+	        // Set height of center area
+	        var centerHeight = height - restHeight - 2 * WorkspaceClass.dragHeight;
+	        $("#" + this.domPrefix + "c").css("height", (centerHeight) + "px");
+	        $("#" + this.domPrefix + "center").css("height", (centerHeight) + "px");
+	        $("#" + this.domPrefix + "l").css("height", (centerHeight) + "px");
+	        $("#" + this.domPrefix + "r").css("height", (centerHeight) + "px");
+	        $("#" + this.domPrefix + "dl").css("height", (centerHeight) + "px");
+	        $("#" + this.domPrefix + "dr").css("height", (centerHeight) + "px");
 
-			// Set width and align right to right border
-			$("#" + this.domPrefix + "l").css("width", this.areaLeft.width + "px");
-			$("#" + this.domPrefix + "r").css("width", this.areaRight.width + "px");
-			$("#" + this.domPrefix + "r").css("margin-left", (width - this.areaRight.width) + "px");
+	        // Set height of bottom, top and buttons
+	        $("#" + this.domPrefix + "buttons").css("height", this.ribbonBar.height + "px");
+	        $("#" + this.domPrefix + "t").css("height", this.areaTop.height + "px");
+	        $("#" + this.domPrefix + "b").css("height", this.areaBottom.height + "px");
 
-			// Position center center and dragging lines
-			$("#" + this.domPrefix + "dl").css("left", (this.areaLeft.width) + "px");			
-			$("#" + this.domPrefix + "c").css("left", (this.areaLeft.width + WorkspaceClass.dragWidth) + "px");
-			$("#" + this.domPrefix + "c").css("width", (width - this.areaRight.width - this.areaLeft.width - WorkspaceClass.dragWidth * 2) + "px");		
-			$("#" + this.domPrefix + "dr").css("left", (width - this.areaRight.width - WorkspaceClass.dragWidth) + "px");	
+	        // Set width and align right to right border
+	        $("#" + this.domPrefix + "l").css("width", this.areaLeft.width + "px");
+	        $("#" + this.domPrefix + "r").css("width", this.areaRight.width + "px");
+	        $("#" + this.domPrefix + "r").css("margin-left", (width - this.areaRight.width) + "px");
 
-			// We have finished the layout for the areas, 
-			// now we have to update the height of the content region
-			var areas = this.getAreas();
-			for(var i = 0; i < areas.length; i++)
-			{ 
-				areas[i].updateLayout();
-			}
-		},
+	        // Position center center and dragging lines
+	        $("#" + this.domPrefix + "dl").css("left", (this.areaLeft.width) + "px");
+	        $("#" + this.domPrefix + "c").css("left", (this.areaLeft.width + WorkspaceClass.dragWidth) + "px");
+	        $("#" + this.domPrefix + "c").css("width", (width - this.areaRight.width - this.areaLeft.width - WorkspaceClass.dragWidth * 2) + "px");
+	        $("#" + this.domPrefix + "dr").css("left", (width - this.areaRight.width - WorkspaceClass.dragWidth) + "px");
 
-		// Gets an area with all areas
-		getAreas: function()
-		{
-			var result = [
+	        // We have finished the layout for the areas, 
+	        // now we have to update the height of the content region
+	        var areas = this.getAreas();
+	        for (var i = 0; i < areas.length; i++) {
+	            areas[i].updateLayout();
+	        }
+	    },
+
+	    getRibbonBar: function()
+	    {
+	        return this.ribbonBar;
+	    },
+
+	    // Gets an area with all areas
+	    getAreas: function () {
+	        var result = [
 				this.areaCentered,
 				this.areaTop,
 				this.areaLeft,
-				this.areaRight, 
-				this.areaBottom ];
-			return result;
-		},
+				this.areaRight,
+				this.areaBottom];
+	        return result;
+	    },
 
-		// Finds the area
-		// @token Token of the area
-		findArea: function(token)
-		{
-			var areas = this.getAreas();
-			for(var i = 0; i < areas.length; i++)
-			{
-				if(areas[i].token == token)
-				{
-					return areas[i];
-				}
-			}
-		},
+	    // Finds the area
+	    // @token Token of the area
+	    findArea: function (token) {
+	        var areas = this.getAreas();
+	        for (var i = 0; i < areas.length; i++) {
+	            if (areas[i].token == token) {
+	                return areas[i];
+	            }
+	        }
+	    },
 
-		// Finds the view and the area and returns it
-		// @token Token of the view
-		findAreaAndView: function(token)
-		{
-			var areas = this.getAreas();
-			for(var i = 0; i < areas.length; i++)
-			{
-				var area = areas[i];
-				var viewPoints = area.getViewPoints();
-				for(var j = 0; j < viewPoints.length; j++)
-				{
-					var viewPoint = viewPoints[j];
-					if(viewPoint.getView().token === token)
-					{
-						var result = 
+	    // Finds the view and the area and returns it
+	    // @token Token of the view
+	    findAreaAndView: function (token) {
+	        var areas = this.getAreas();
+	        for (var i = 0; i < areas.length; i++) {
+	            var area = areas[i];
+	            var viewPoints = area.getViewPoints();
+	            for (var j = 0; j < viewPoints.length; j++) {
+	                var viewPoint = viewPoints[j];
+	                if (viewPoint.getView().token === token) {
+	                    var result =
 						{
-							viewPoint: viewPoint,
-							view: viewPoint.getView(),
-							area: area
+						    viewPoint: viewPoint,
+						    view: viewPoint.getView(),
+						    area: area
 						};
 
-						return result;
-					}
-				}
-			}
+	                    return result;
+	                }
+	            }
+	        }
 
-			return undefined;
-		},
+	        return undefined;
+	    },
 
-		findView: function(token)
-		{
-			var areaAndView = this.findAreaAndView(token);
-			if(areaAndView === undefined)
-			{
-				return undefined;
-			}
+	    findView: function (token) {
+	        var areaAndView = this.findAreaAndView(token);
+	        if (areaAndView === undefined) {
+	            return undefined;
+	        }
 
-			return areaAndView.view;
-		},
+	        return areaAndView.view;
+	    },
 
-		/// Loads the umbra content from the url and shows it in the given area.
-		/// The url shall return a json data structure with commands
-		/// @url Url, where content shall be retrieved
-		/// @areaToken Token of area, where content shall be shown
-		loadContent: function(url, areaToken, settings)
-		{
-			if(settings === undefined)
-			{
-				settings = {};
-			}
+	    /// Loads the umbra content from the url and shows it in the given area.
+	    /// The url shall return a json data structure with commands
+	    /// @url Url, where content shall be retrieved
+	    /// @areaToken Token of area, where content shall be shown
+	    loadContent: function (url, areaToken, settings) {
+	        if (settings === undefined) {
+	            settings = {};
+	        }
 
-			var _this = this;
-			$.ajax(
+	        var _this = this;
+	        $.ajax(
 				url)
-				.success(function(data)
-				{
-					_this.evaluateRequest(data, areaToken, settings);
+				.success(function (data) {
+				    _this.evaluateRequest(data, areaToken, settings);
 				});
-		},
+	    },
 
-		evaluateRequest: function(data, areaToken, settings)
-		{
-			var _this = this;
-			var area = this.findArea(areaToken);
-			var view, viewPoint;
-			if (area === undefined)
-			{
-				alert('Unknown Area: ' + areaToken);
-				return;
-			}
+	    evaluateRequest: function (data, areaToken, settings) {
+	        var _this = this;
+	        var area = this.findArea(areaToken);
+	        var view, viewPoint;
+	        if (area === undefined) {
+	            alert('Unknown Area: ' + areaToken);
+	            return;
+	        }
 
-			var content = data["Content"];
-			var title = data["Title"];
-			if (content !== undefined)
-			{
-				view = new ViewClass(title, settings.viewToken, content);
-				viewPoint = area.addView(view);
-			}
+	        var content = data["Content"];
+	        var title = data["Title"];
+	        if (content !== undefined) {
+	            view = new ViewClass(title, settings.viewToken, content);
+	            viewPoint = area.addView(view);
+	        }
 
-			if(settings.success !== undefined)
-			{
-				settings.success(area, view);
-			}
+	        if (settings.success !== undefined) {
+	            settings.success(area, view);
+	        }
 
-			if(data.ScriptFiles.length > 0 && data.ViewTypeToken !== undefined && data.viewTypeToken !== "")
-			{
-				requirejs(
-					data.ScriptFiles, 
-					function()
-					{
-						var viewType = umbraInstance.findViewType(data.ViewTypeToken);
-						if(viewType === undefined)
-						{
-							alert("Unknown viewtype: " + data.ViewTypeToken);
-						}
+	        if (data.ScriptFiles.length > 0 && data.ViewTypeToken !== undefined && data.viewTypeToken !== "") {
+	            requirejs(
+					data.ScriptFiles,
+					function () {
+					    var viewType = umbraInstance.findViewType(data.ViewTypeToken);
+					    if (viewType === undefined) {
+					        alert("Unknown viewtype: " + data.ViewTypeToken);
+					    }
 
-						viewType.init(
+					    viewType.init(
 							{
-								view: view,
-								area: area,
-								viewPoint: viewPoint,
-								workSpace: _this
+							    view: view,
+							    area: area,
+							    viewPoint: viewPoint,
+							    workSpace: _this
 							});
 					});
-			}
-		},
+	        }
+	    },
 
-		openView: function(areaToken, title, viewToken, content, scriptFiles, viewTypeToken)
-		{
-			var _this = this;
-			var area = this.findArea(areaToken);
-			var view, viewPoint;
-			if (area === undefined)
-			{
-				alert('Unknown Area: ' + areaToken);
-				return;
-			}
+	    openView: function (areaToken, title, viewToken, content, scriptFiles, viewTypeToken) {
+	        var _this = this;
+	        var area = this.findArea(areaToken);
+	        var view, viewPoint;
+	        if (area === undefined) {
+	            alert('Unknown Area: ' + areaToken);
+	            return;
+	        }
 
-			view = new ViewClass(title, viewToken, content);
-			viewPoint = area.addView(view);
- 			requirejs(
-				scriptFiles, 
-				function()
-				{
-					var viewType = umbraInstance.findViewType(viewTypeToken);
-					if(viewType === undefined)
-					{
-						alert("Unknown viewtype: " + viewTypeToken);
-					}
+	        view = new ViewClass(title, viewToken, content);
+	        viewPoint = area.addView(view);
+	        requirejs(
+				scriptFiles,
+				function () {
+				    var viewType = umbraInstance.findViewType(viewTypeToken);
+				    if (viewType === undefined) {
+				        alert("Unknown viewtype: " + viewTypeToken);
+				    }
 
-					viewType.init(
+				    viewType.init(
 						{
-							view: view,
-							area: area,
-							viewPoint: viewPoint,
-							workSpace: _this
+						    view: view,
+						    area: area,
+						    viewPoint: viewPoint,
+						    workSpace: _this
 						});
 				});
 
-			return viewPoint;
-		}
+	        return viewPoint;
+	    }
 	};
 
-	///////////////////////////////////////////
-	// Definition of EventBus class	
-	var EventBusClass = function()
+    ///////////////////////////////////////////
+    // Definition of EventBus class	
+    var EventBusClass = function () {
+    };
+
+    EventBusClass.prototype =
 	{
 	};
 
-	EventBusClass.prototype = 
+    ///////////////////////////////////////////
+    // Umbra Class
+    var UmbraType = function () {
+        this.viewTypes = [];
+        this.plugins = {};
+    };
+
+    UmbraType.prototype =
 	{
+	    addViewType: function (viewType) {
+	        this.viewTypes.push(viewType);
+	    },
+
+	    findViewType: function (token) {
+	        for (var i = 0; i < this.viewTypes.length; i++) {
+	            if (this.viewTypes[i].token == token) {
+	                return this.viewTypes[i];
+	            }
+	        }
+	    },
+
+	    // Very simple plugin interface
+	    addPlugin: function (key, plugin) {
+	        this.plugins[key] = plugin;
+	    },
+
+	    getPlugin: function (key) {
+	        return this.plugins[key];
+	    }
 	};
 
-	///////////////////////////////////////////
-	// Umbra Class
-	var UmbraType = function()
-	{
-		this.viewTypes = [];
-		this.plugins = {};
-	};
+    var umbraInstance = new UmbraType();
 
-	UmbraType.prototype =
-	{
-		addViewType: function(viewType)
+    ///////////////////////////////////////////
+    // Combination of everything
+    var result =
 		{
-			this.viewTypes.push(viewType);
-		},
+		    getVersion: function () { return "1.0.0.0"; },
 
-		findViewType: function(token)
-		{
-			for(var i = 0; i < this.viewTypes.length; i++)
-			{
-				if(this.viewTypes[i].token == token)
-				{
-					return this.viewTypes[i];
-				}
-			}
-		},
-
-		// Very simple plugin interface
-		addPlugin: function(key, plugin)
-		{
-			this.plugins[key] = plugin;
-		},
-
-		getPlugin: function(key)
-		{
-			return this.plugins[key];
-		}
-	};
-
-	var umbraInstance = new UmbraType();
-	
-	///////////////////////////////////////////
-	// Combination of everything
-	var result = 
-		{
-			getVersion: function() { return "1.0.0.0"; },
-
-			View: ViewClass,
-			ViewPoint: ViewPointClass,
-			WorkSpace: WorkspaceClass,
-			RibbonBar: RibbonBarClass,
-			RibbonElement: RibbonElementClass,
-			RibbonGroup: RibbonGroupClass,
-			RibbonTab: RibbonTabClass,
-			Area: AreaClass,
-			EventBus: EventBusClass,
-			ViewType: ViewTypeClass,
-			umbra: umbraInstance
+		    View: ViewClass,
+		    ViewPoint: ViewPointClass,
+		    WorkSpace: WorkspaceClass,
+		    RibbonBar: RibbonBarClass,
+		    RibbonElement: RibbonElementClass,
+		    RibbonGroup: RibbonGroupClass,
+		    RibbonTab: RibbonTabClass,
+		    Area: AreaClass,
+		    EventBus: EventBusClass,
+		    ViewType: ViewTypeClass,
+		    umbra: umbraInstance
 		};
 
-	return result;
+    return result;
 });
