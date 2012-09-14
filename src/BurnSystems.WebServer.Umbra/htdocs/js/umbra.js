@@ -60,6 +60,7 @@ define(["dateformat"], function () {
     ///////////////////////////////////////////
     // Definition of RibbonElement class	
     var RibbonElementClass = function () {
+        this.domElement = {};
     };
 
     RibbonElementClass.prototype =
@@ -68,7 +69,16 @@ define(["dateformat"], function () {
 
     ///////////////////////////////////////////
     // Definition of RibbonButton class	
-    var RibbonButtonClass = function () {
+    var RibbonButtonClass = function (title, click) {
+
+        RibbonElementClass.apply(this, arguments);
+
+        this.title = title;
+        this.click = click;
+
+        // Create dom element
+        this.domElement = $('<div class="button element"><a>' + title + '</a></div>');
+        this.domElement.click(this.click);
     };
 
     RibbonButtonClass.prototype.prototype = RibbonElementClass.prototype;
@@ -83,8 +93,10 @@ define(["dateformat"], function () {
 
     RibbonGroupClass.prototype =
 	{
-	    addElement: function (title, element) {
+	    addElement: function (element) {
 	        this.elements.push(element);
+
+	        this.domContent.append(element.domElement);
 	    }
 	};
 
@@ -103,9 +115,11 @@ define(["dateformat"], function () {
 	{
 	    addGroup: function (title) {
 	        var group = new RibbonGroupClass(title);
-	        var domGroup = $('<div class="group">' + title + '</div>');
+	        var domGroup = $('<div class="group"><div class="header">' + title + '</div><div class="elements"></div></div>');
 	        this.domContent.append(domGroup);
-	        group.domContent = domGroup;
+	        group.domContent= domGroup;
+
+	        return group;
 	    }
 	};
 
@@ -432,7 +446,7 @@ define(["dateformat"], function () {
 	    create: function (domElement) {
 	        var innerAreaHtml = '<div class="tabs"></div><div class="content"></div>';
 
-	        var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_buttons">Buttons</div></div>');
+	        var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_ribbon">Buttons</div></div>');
 	        var topDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 't" class="umbra_top umbra_area">' + innerAreaHtml + '</div></div>');
 	        var scrollTopDom = '<div id="' + this.domPrefix + 'dt" class="umbra_dragarea horizontal"></div>';
 	        var centeredDom = $('<div class="fullwidth fullheight" id="' + this.domPrefix + 'center">' +
@@ -452,7 +466,7 @@ define(["dateformat"], function () {
 	        domElement.append(scrollBottomDom);
 	        domElement.append(bottomDom);
 
-	        this.ribbonBar.init(domElement.find(".umbra_buttons"));
+	        this.ribbonBar.init(domElement.find(".umbra_ribbon"));
 
 	        this.updateLayout();
 
@@ -746,6 +760,7 @@ define(["dateformat"], function () {
 		    ViewPoint: ViewPointClass,
 		    WorkSpace: WorkspaceClass,
 		    RibbonBar: RibbonBarClass,
+            RibbonButton: RibbonButtonClass,
 		    RibbonElement: RibbonElementClass,
 		    RibbonGroup: RibbonGroupClass,
 		    RibbonTab: RibbonTabClass,

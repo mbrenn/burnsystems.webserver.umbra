@@ -50,7 +50,24 @@ requirejs(['umbra'],
 	    var ribbonBar = workSpace.getRibbonBar();
 	    var startTab = ribbonBar.addTab("START");
 	    var helpTab = ribbonBar.addTab("HELP");
-	    startTab.addGroup("File");
-	    startTab.addGroup("Content");
-	    helpTab.addGroup("?");
+	    var file = startTab.addGroup("File");
+	    var content = startTab.addGroup("Content");
+
+	    file.addElement(new umbra.RibbonButton("New", function () { alert('NEW'); }));
+	    file.addElement(new umbra.RibbonButton("Open", function () { alert('Open'); }));
+	    file.addElement(new umbra.RibbonButton("Save", function () { alert('Save'); }));
+
+	    content.addElement(new umbra.RibbonButton("Cut", function () { alert('Cut'); }));
+	    content.addElement(new umbra.RibbonButton("Copy", function () { alert('Copy'); }));
+	    content.addElement(new umbra.RibbonButton("Paste", function () { alert('Paste'); }));
+
+	    var helpGroup = helpTab.addGroup("?");
+	    helpGroup.addElement(new umbra.RibbonButton("Version", function () {
+	        workSpace.loadContent("framework/Version", "centered",
+           {
+               success: function (area, view) {
+                   area.focusView(view);
+               }
+           });
+	    }));
 	});

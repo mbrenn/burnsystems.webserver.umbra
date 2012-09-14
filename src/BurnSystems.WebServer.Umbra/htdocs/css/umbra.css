@@ -1,129 +1,129 @@
-﻿html
-{
-	width: 100%;
-	height: 100%;
-	padding: 0px;
-	margin: 0px;
+﻿html {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
 }
 
-body
-{
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	padding: 0px;
-	margin: 0px;
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
 }
 
-.fullwidth
-{
-	width: 100%;
+.fullwidth {
+    width: 100%;
 }
 
-.fullheight
-{
+.fullheight {
 }
 
-.umbra_buttons
-{
-
-	top: 0px;
-	height: 128px;
-	border: 1px solid black;
+.umbra_buttons {
+    top: 0px;
+    height: 128px;
+    border: 1px solid black;
 }
 
-.umbra_top
-{
-	top: 130px;
-	height: 100px;
+.umbra_top {
+    top: 130px;
+    height: 100px;
 }
 
-.umbra_left
-{
-	width: 200px;
-	position: absolute;
-	height: 100%;
+.umbra_left {
+    width: 200px;
+    position: absolute;
+    height: 100%;
 }
 
-.umbra_right
-{
-	width: 200px;
-	margin-right: 0px;
-	position: absolute;
-	height: 100%;
+.umbra_right {
+    width: 200px;
+    margin-right: 0px;
+    position: absolute;
+    height: 100%;
 }
 
-.umbra_centered
-{
-	position: absolute;
-	height: 100%;
+.umbra_centered {
+    position: absolute;
+    height: 100%;
 }
 
-.umbra_bottom
-{
-	margin-bottom: 0px;
-	height: 100px;
+.umbra_bottom {
+    margin-bottom: 0px;
+    height: 100px;
 }
 
-.umbra_area .tabs .tab
-{
-	padding: 2px 5px 2px 5px;
-	display: inline-block;
+.umbra_area .tabs .tab {
+    padding: 2px 5px 2px 5px;
+    display: inline-block;
 }
 
-.umbra_area .tabs .tab a
-{
-	text-decoration:underline;
-	cursor: pointer;
+    .umbra_area .tabs .tab a {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .umbra_area .tabs .tab.selected {
+        font-weight: bold;
+    }
+
+    .umbra_area .tabs .tab .closed {
+        margin: 0px 5px 0px 5px;
+        cursor: pointer;
+    }
+
+.umbra_area .content {
+    overflow: auto;
+    clear: left;
 }
 
-.umbra_area .tabs .tab.selected
-{
-	font-weight: bold;
+.umbra_dragarea {
+    background-color: black;
 }
 
-.umbra_area .tabs .tab .closed
-{
-	margin: 0px 5px 0px 5px;
-	cursor: pointer
-}
+    .umbra_dragarea.vertical {
+        width: 5px;
+        cursor: col-resize;
+        position: absolute;
+    }
 
-.umbra_area .content
-{
-	overflow: auto;
-	clear: left;
-}
+    .umbra_dragarea.horizontal {
+        height: 5px;
+        cursor: row-resize;
+    }
 
-.umbra_dragarea
-{
-	background-color: black;
-}
-
-.umbra_dragarea.vertical
-{
-	width: 5px;
-	cursor: col-resize;
-	position: absolute;
-}
-
-.umbra_dragarea.horizontal
-{
-	height: 5px;
-	cursor: row-resize;
-}
-
-.umbra_buttons .tabs .tab
-{
-	padding: 2px 5px 2px 5px;
+.umbra_ribbon .tabs .tab {
+    padding: 2px 5px 2px 5px;
     margin: 1px;
-	display: inline-block;
+    display: inline-block;
     border: 1px solid black;
     cursor: pointer;
 }
 
-.umbra_buttons .content
-{
-	padding: 2px 5px 2px 5px;
+.umbra_ribbon .content {
+    padding: 2px 5px 2px 5px;
     margin: 1px;
     border: 1px solid black;
 }
+
+
+    .umbra_ribbon .content .tabcontent .group {
+        display: inline-block;
+        background-color: #EEEEEE;
+        margin: 2px;
+    }
+    
+    .umbra_ribbon .content .tabcontent .header {
+        text-align: center;
+    }
+
+        .umbra_ribbon .content .tabcontent .group .element {
+            text-align: center;
+            margin: 2px; 
+            background-color: #DDDDDD;
+            display: inline-block;
+            height: 60px;
+            width: 60px;
+            border: 1px solid black;
+        }
