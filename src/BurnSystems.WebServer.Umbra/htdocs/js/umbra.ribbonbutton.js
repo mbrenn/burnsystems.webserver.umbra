@@ -19,5 +19,5 @@ define(["umbra.ribbonelement"], function (RibbonElementClass) {
 
     RibbonButtonClass.prototype.prototype = RibbonElementClass.prototype;
 
-    return RibbonElementClass;
+    return RibbonButtonClass;
 });

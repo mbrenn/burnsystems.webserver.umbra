@@ -27,7 +27,6 @@ define([
         umbraRibbonTabClass,        // 10
         umbraEventBusClass,         // 11
         umbraInstance               // 12
-
         ) {
        
 
