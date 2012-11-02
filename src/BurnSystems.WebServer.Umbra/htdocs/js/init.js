@@ -2,7 +2,7 @@
 requirejs.config(
 {
     //By default load any module IDs from js/lib
-    baseUrl: 'scripts',
+    baseUrl: 'js/lib',
 });
 
 requirejs(['umbra'],

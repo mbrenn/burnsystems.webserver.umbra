@@ -65,7 +65,9 @@
       <Name>BurnSystems</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="htdocs\js\umbra.ribbonelement.js" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="htdocs\css\umbra.css" />
     <Content Include="htdocs\data\umbraversion.txt" />
@@ -73,6 +75,17 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="htdocs\js\init.js" />
+    <Content Include="htdocs\js\umbra.instance.js" />
+    <Content Include="htdocs\js\umbra.eventbus.js" />
+    <Content Include="htdocs\js\umbra.dragbar.js" />
+    <Content Include="htdocs\js\umbra.ribbonbar.js" />
+    <Content Include="htdocs\js\umbra.ribbonbutton.js" />
+    <Content Include="htdocs\js\umbra.ribbontab.js" />
+    <Content Include="htdocs\js\umbra.viewtype.js" />
+    <Content Include="htdocs\js\umbra.area.js" />
+    <Content Include="htdocs\js\umbra.viewpoint.js" />
+    <Content Include="htdocs\js\umbra.view.js" />
+    <Content Include="htdocs\js\umbra.workspace.js" />
     <Content Include="htdocs\js\test.js" />
     <Content Include="htdocs\js\umbra.console.js" />
     <Content Include="htdocs\js\umbra.js" />
@@ -82,6 +95,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources_Umbra.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="htdocs\js\umbra.ribbongroup.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
