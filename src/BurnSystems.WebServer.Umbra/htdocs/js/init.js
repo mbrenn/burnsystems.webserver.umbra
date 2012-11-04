@@ -2,7 +2,7 @@
 requirejs.config(
 {
     //By default load any module IDs from js/lib
-    baseUrl: 'js/lib',
+    baseUrl: '/js/lib',
 });
 
 requirejs(['umbra'],
@@ -37,7 +37,12 @@ requirejs(['umbra'],
 				}
 			});*/
 
-	    var viewPoint = workSpace.openView("bottom", "Console", "<div class=\"umbra_console\">C</div>", "umbra.console", ["umbra.console"], "BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest");
+	    var viewPoint = workSpace.openView(
+            "bottom",
+            "Console",
+            "<div class=\"umbra_console\">C</div>",
+            "umbra.console", ["plugins/umbra.console"],
+            "BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest");
 	    workSpace.findArea("bottom").focusView(viewPoint.getView());
 	    workSpace.loadContent("framework/Version", "centered",
 			{

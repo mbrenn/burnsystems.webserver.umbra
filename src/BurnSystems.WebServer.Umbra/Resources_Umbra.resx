@@ -118,63 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="css_umbra" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\css\umbra.css;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="index" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\index.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_init" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\init.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_test" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\test.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_area" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.area.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_console" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\plugins\umbra.console.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_dragbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.dragbar.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_eventbus" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.eventbus.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_instance" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.instance.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_ribbonbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.ribbonbar.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_ribbonbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.ribbonbutton.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_ribbonelement" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.ribbonelement.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_ribbongroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.ribbongroup.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_ribbontab" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.ribbontab.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.view.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_viewpoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.viewpoint.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_viewtype" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.viewtype.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="js_umbra_workspace" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>htdocs\js\umbra.workspace.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="umbra_version" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>htdocs\data\umbraversion.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

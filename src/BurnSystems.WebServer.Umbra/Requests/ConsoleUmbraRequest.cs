@@ -14,7 +14,7 @@ namespace BurnSystems.WebServer.Umbra.Requests
         {
             this.Title = "Console";
             this.Content = "<div class=\"umbra_console\">C</div>";
-            this.AddScript("umbra.console");
+            this.AddScript("plugins/umbra.console");
             this.ViewTypeToken = typeof(ConsoleUmbraRequest).FullName;
         }
     }
