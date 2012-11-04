@@ -37,7 +37,7 @@ define(["umbra"], function (u) {
 	        row.find(".content").text(entry.message);
 	        row.find(".importance").text(entry.importance);
 
-	        // Append directlry
+	        // Append directly
 	        var headerDom = this.domContent.find(".header");
 	        headerDom.after(row);
 	    }

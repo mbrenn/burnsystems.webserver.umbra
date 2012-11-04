@@ -2,8 +2,6 @@
 
 define(["umbra.ribbontab"], function (RibbonTabClass) {
 
-
-
     ///////////////////////////////////////////
     // Definition of Dragbar class	
     var DragBarClass = function (direction, domElement, dragEvent) {

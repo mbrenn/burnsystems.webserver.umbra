@@ -4,6 +4,9 @@ define([], function () {
 
     ///////////////////////////////////////////
     // Definition of ViewPoint-Class 
+
+    // The viewPoint contains the information how a specific view is embedded
+    // into the DOM
     var ViewPointClass = function (view, domRegisterTab) {
         this.view = view;
         this.domRegisterTab = domRegisterTab;

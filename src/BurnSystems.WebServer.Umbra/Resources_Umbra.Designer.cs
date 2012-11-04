@@ -205,7 +205,6 @@ namespace BurnSystems.WebServer.Umbra {
         ///
         ///define([&quot;umbra.viewpoint&quot;], function (ViewPointClass) {
         ///
-        ///
         ///    ///////////////////////////////////////////
         ///    // Definition of Area class	
         ///    // @name Name of the DOM element where area has been created
@@ -218,7 +217,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///
         ///        // Stores the list of views
         ///        this.viewPoints = [];
-        ///    [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///      [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra_area {
             get {
@@ -257,8 +256,6 @@ namespace BurnSystems.WebServer.Umbra {
         ///
         ///define([&quot;umbra.ribbontab&quot;], function (RibbonTabClass) {
         ///
-        ///
-        ///
         ///    ///////////////////////////////////////////
         ///    // Definition of Dragbar class	
         ///    var DragBarClass = function (direction, domElement, dragEvent) {
@@ -271,7 +268,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///        this.lastY = 0;
         ///        this.isMouseDown = false;
         ///
-        ///        var _this [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///        var _this = t [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra_dragbar {
             get {
@@ -283,7 +280,6 @@ namespace BurnSystems.WebServer.Umbra {
         ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
         ///
         ///define([], function () {
-        ///
         ///
         ///    ///////////////////////////////////////////
         ///    // Definition of EventBus class	
@@ -362,7 +358,6 @@ namespace BurnSystems.WebServer.Umbra {
         ///
         ///define([&quot;umbra.ribbonelement&quot;], function (RibbonElementClass) {
         ///
-        ///
         ///    ///////////////////////////////////////////
         ///    // Definition of RibbonButton class	
         ///    var RibbonButtonClass = function (title, click) {
@@ -375,7 +370,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///        // Create dom element
         ///        this.domElement = $(&apos;&lt;div class=&quot;button element&quot;&gt;&lt;a&gt;&apos; + title + &apos;&lt;/a&gt;&lt;/div&gt;&apos;);
         ///        this.domElement.click(this.click);
-        ///  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///    [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra_ribbonbutton {
             get {
@@ -412,7 +407,6 @@ namespace BurnSystems.WebServer.Umbra {
         ///
         ///define([], function () {
         ///
-        ///
         ///    ///////////////////////////////////////////
         ///    // Definition of RibbonGroup class	
         ///    var RibbonGroupClass = function (title) {
@@ -431,7 +425,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///    };
         ///
         ///
-        ///    return RibbonGroup [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///    return RibbonGroupCl [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra_ribbongroup {
             get {
@@ -531,6 +525,7 @@ namespace BurnSystems.WebServer.Umbra {
         ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
         ///
         ///define([], function () {
+        ///
         ///    ///////////////////////////////////////////
         ///    // Definition of ViewType-Class 
         ///    var ViewTypeClass = function (token, initFunction) {
@@ -555,14 +550,23 @@ namespace BurnSystems.WebServer.Umbra {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &quot;use strict&quot;;
         ///
-        ///define([&quot;umbra.ribbonbar&quot;, &quot;umbra.area&quot;, &quot;umbra.dragbar&quot;, &quot;umbra.view&quot;, &quot;umbra.instance&quot;, &quot;dateformat&quot;], function (RibbonBarClass, AreaClass, DragBarClass, ViewClass) {
+        ///define([
+        ///    &quot;umbra.ribbonbar&quot;,      // 1
+        ///    &quot;umbra.area&quot;,           // 2
+        ///    &quot;umbra.dragbar&quot;,        // 3
+        ///    &quot;umbra.view&quot;,           // 4
+        ///    &quot;umbra.instance&quot;,       // 5
+        ///    &quot;dateformat&quot;],          // 6
+        ///    function (
+        ///        RibbonBarClass,     // 1
+        ///        AreaClass,          // 2
+        ///        DragBarClass,       // 3
+        ///        ViewClass,          // 4
+        ///        umbraInstance       // 5
+        ///        ) {
+        ///
         ///    ///////////////////////////////////////////
-        ///    // Definition of WorkSpace class	
-        ///    var WorkspaceClass = function () {
-        ///        this.domPrefix = &quot;ws&quot; + WorkspaceClass.nextDomPrefix + &quot;_&quot;;
-        ///        this.ribbonBar = new RibbonBarClass();
-        ///        this.areaTop = new AreaClass(this.domPrefix + &quot;t&quot;, &quot;top&quot;);
-        ///        this [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///    // Definition of WorkSpace  [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string js_umbra_workspace {
             get {

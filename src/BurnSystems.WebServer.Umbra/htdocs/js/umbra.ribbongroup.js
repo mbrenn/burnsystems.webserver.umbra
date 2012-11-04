@@ -2,7 +2,6 @@
 
 define([], function () {
 
-
     ///////////////////////////////////////////
     // Definition of RibbonGroup class	
     var RibbonGroupClass = function (title) {

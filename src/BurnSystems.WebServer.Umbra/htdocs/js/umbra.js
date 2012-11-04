@@ -28,8 +28,6 @@ define([
         umbraEventBusClass,         // 11
         umbraInstance               // 12
         ) {
-       
-
 
         ///////////////////////////////////////////
         // Combination of everything

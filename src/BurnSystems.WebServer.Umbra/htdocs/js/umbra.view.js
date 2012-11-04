@@ -4,6 +4,9 @@ define([], function () {
 
     ///////////////////////////////////////////
     // Definition of View-Class 
+
+    // The view contains the information which is independent from the embedding 
+    // into the DOMTree
     var ViewClass = function (title, token, content) {
         if (title === undefined) {
             title = "Unnamed";

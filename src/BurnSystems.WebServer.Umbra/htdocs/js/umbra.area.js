@@ -2,7 +2,6 @@
 
 define(["umbra.viewpoint"], function (ViewPointClass) {
 
-
     ///////////////////////////////////////////
     // Definition of Area class	
     // @name Name of the DOM element where area has been created

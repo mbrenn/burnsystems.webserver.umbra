@@ -8,7 +8,6 @@ requirejs.config(
 requirejs(['umbra'],
 	function (umbra) {
 	    var workSpace = new umbra.WorkSpace();
-	    workSpace.updateLayout();
 	    workSpace.create($("body"));
 
 	    var topView = new umbra.View("Top 1", "top1", "This is conteeeent");

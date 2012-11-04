@@ -2,7 +2,6 @@
 
 define(["umbra.ribbonelement"], function (RibbonElementClass) {
 
-
     ///////////////////////////////////////////
     // Definition of RibbonButton class	
     var RibbonButtonClass = function (title, click) {

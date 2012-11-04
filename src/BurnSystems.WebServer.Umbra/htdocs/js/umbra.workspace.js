@@ -1,6 +1,20 @@
 ﻿"use strict";
 
-define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.instance", "dateformat"], function (RibbonBarClass, AreaClass, DragBarClass, ViewClass, umbraInstance) {
+define([
+    "umbra.ribbonbar",      // 1
+    "umbra.area",           // 2
+    "umbra.dragbar",        // 3
+    "umbra.view",           // 4
+    "umbra.instance",       // 5
+    "dateformat"],          // 6
+    function (
+        RibbonBarClass,     // 1
+        AreaClass,          // 2
+        DragBarClass,       // 3
+        ViewClass,          // 4
+        umbraInstance       // 5
+        ) {
+
     ///////////////////////////////////////////
     // Definition of WorkSpace class	
     var WorkspaceClass = function () {
@@ -24,7 +38,8 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
 
     WorkspaceClass.prototype =
     {
-        /* Creates the DOM elements for the workspace */
+        // Creates the DOM elements for the workspace 
+        // Initial call
         create: function (domElement) {
             var innerAreaHtml = '<div class="tabs"></div><div class="content"></div>';
 
@@ -50,20 +65,19 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
 
             this.ribbonBar.init(domElement.find(".umbra_ribbon"));
 
-            this.updateLayout();
+            this.__updateLayout();
 
-            this.makeAreasDraggable();
+            this.__makeAreasDraggable();
             var _this = this;
 
             // Event for resizing
             $(window).resize(function () {
-                _this.updateLayout();
+                _this.__updateLayout();
             });
-
-            $("#");
         },
 
-        makeAreasDraggable: function () {
+        // Makes the areas draggable, also an init call
+        __makeAreasDraggable: function () {
             var _this = this;
             // Sets the dragbar information
             var topDragBar = new DragBarClass(
@@ -71,7 +85,11 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
                 $("#" + this.domPrefix + "dt"),
                 function (dragBar, change) {
                     _this.areaTop.height -= change;
-                    _this.updateLayout();
+                    if (_this.areaTop.height < 0) {
+                        _this.areaTop.height = 0;
+                    }
+
+                    _this.__updateLayout();
                 });
 
             // Sets the dragbar information
@@ -80,7 +98,11 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
                 $("#" + this.domPrefix + "db"),
                 function (dragBar, change) {
                     _this.areaBottom.height += change;
-                    _this.updateLayout();
+                    if (_this.areaBottom.height < 0) {
+                        _this.areaBottom.height = 0;
+                    }
+
+                    _this.__updateLayout();
                 });
 
             // Sets the dragbar information
@@ -89,7 +111,11 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
                 $("#" + this.domPrefix + "dl"),
                 function (dragBar, change) {
                     _this.areaLeft.width -= change;
-                    _this.updateLayout();
+                    if (_this.areaLeft.width < 0) {
+                        _this.areaLeft.width = 0;
+                    }
+
+                    _this.__updateLayout();
                 });
 
             // Sets the dragbar information
@@ -98,11 +124,16 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
                 $("#" + this.domPrefix + "dr"),
                 function (dragBar, change) {
                     _this.areaRight.width += change;
-                    _this.updateLayout();
+                    if (_this.areaRight.width < 0) {
+                        _this.areaRight.width = 0;
+                    }
+
+                    _this.__updateLayout();
                 });
         },
 
-        updateLayout: function () {
+        // Updates the sizes of the areas
+        __updateLayout: function () {
             var restHeight = this.areaTop.height + this.areaBottom.height + this.ribbonBar.height + 10;
             var height = $("body").height();
             var width = $("body").width();
@@ -191,6 +222,7 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
             return undefined;
         },
 
+        // Finds a specific view by token
         findView: function (token) {
             var areaAndView = this.findAreaAndView(token);
             if (areaAndView === undefined) {
@@ -213,11 +245,11 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
             $.ajax(
                 url)
                 .success(function (data) {
-                    _this.evaluateRequest(data, areaToken, settings);
+                    _this.__evaluateFinishedRequest(data, areaToken, settings);
                 });
         },
 
-        evaluateRequest: function (data, areaToken, settings) {
+        __evaluateFinishedRequest: function (data, areaToken, settings) {
             var _this = this;
             var area = this.findArea(areaToken);
             var view, viewPoint;
@@ -251,12 +283,21 @@ define(["umbra.ribbonbar", "umbra.area", "umbra.dragbar", "umbra.view", "umbra.i
                                 view: view,
                                 area: area,
                                 viewPoint: viewPoint,
-                                workSpace: _this
+                                workSpace: _this,
+                                settings: settings
                             });
                     });
             }
         },
 
+        //
+        // Opens a view by title, content and viewtype
+        // @areaToken: Token of the area, where new content shall be shown
+        // @title: Title of the tab
+        // @viewToken: Name of the token that shall be created
+        // @content: Content to be shown
+        // @scriptFiles: Array of additional scriptfiles that shall by shown
+        // @viewTypeToken: Token of the viewtype that is associated to the new view and may initialize this viewtype
         openView: function (areaToken, title, viewToken, content, scriptFiles, viewTypeToken) {
             var _this = this;
             var area = this.findArea(areaToken);

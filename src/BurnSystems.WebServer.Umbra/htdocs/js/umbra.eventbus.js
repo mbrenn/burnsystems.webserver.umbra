@@ -2,7 +2,6 @@
 
 define([], function () {
 
-
     ///////////////////////////////////////////
     // Definition of EventBus class	
     var EventBusClass = function () {
