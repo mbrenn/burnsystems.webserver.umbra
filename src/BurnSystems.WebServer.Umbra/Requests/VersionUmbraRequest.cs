@@ -35,7 +35,8 @@ namespace BurnSystems.WebServer.Umbra.Requests
                 DotNetVersion = Environment.Version.ToString(),
                 CpuCount = Environment.ProcessorCount.ToString(),
                 CpuBit = IntPtr.Size * 8,
-                MemoryTotal = GC.GetTotalMemory(false).ToString("n0")
+                MemoryTotal = GC.GetTotalMemory(false).ToString("n0"),
+                CurrentTime = DateTime.Now.ToString()
             };
             
             this.Title = "Umbra - Version";
