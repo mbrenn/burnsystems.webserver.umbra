@@ -1,28 +1,28 @@
 ﻿<h1>Umbra Version</h1>
 <a href="#" class="closing">Clone View</a>
-<p>Date: @DateTime.Now</p>
-<p>Current Version of Umbra: @Model.Version</p>
+<p>Date: @[=Model->CurrentTime]</p>
+<p>Current Version of Umbra: @[=Model->Version]</p>
 <h2>Environment</h2>
 <table>
 	<tr>
 		<td>OS-Version:</td>
-		<td>@Model.OsVersion</td>
+		<td>@[=Model->OsVersion]</td>
 	</tr>
 	<tr>
 		<td>.Net-Version:</td>
-		<td>@Model.DotNetVersion</td>
+		<td>@[=Model->DotNetVersion]</td>
 	</tr>
 	<tr>
 		<td>CPU Count:</td>
-		<td>@Model.CpuCount</td>
+		<td>@[=Model->CpuCount]</td>
 	</tr>
 	<tr>
 		<td>CPU Bits:</td>
-		<td>@Model.CpuBit</td>
+		<td>@[=Model->CpuBit]</td>
 	</tr>
 	<tr>
 		<td>Total Memory:</td>
-		<td>@Model.MemoryTotal</td>
+		<td>@[=Model->MemoryTotal]</td>
 	</tr>
 </table>
 <h2>Loaded Assemblies</h2>
@@ -31,11 +31,11 @@
 		<td>Assembly</td>
 		<td>Version</td>
 	</tr>
-	@foreach(var assembly in Model.Assemblies){
+	@[FOREACH:"assembly" IN Model->Assemblies]
 	<tr>
-		<td>@assembly.FullName</td>
-		<td>@assembly.GetName().Version</td>
+		<td>@[=assembly->FullName]</td>
+		<td>@[=assembly->GetName()->Version]</td>
 	</tr>
-	}
+	@[ENDFOREACH]
 </table>	
 <p>Created and maintained by Martin Brenn</p>

@@ -58,6 +58,10 @@
     <Compile Include="Views\Treeview\TreeviewDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BurnSystems.Parser\src\BurnSystems.Parser.csproj">
+      <Project>{24fc6cc7-afef-456d-8056-96712d1b7909}</Project>
+      <Name>BurnSystems.Parser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\BurnSystems.WebServer\src\BurnSystems.WebServer\BurnSystems.WebServer.csproj">
       <Project>{B31DF31A-F19E-4FF9-B50F-B70F4F5949F4}</Project>
       <Name>BurnSystems.WebServer</Name>
