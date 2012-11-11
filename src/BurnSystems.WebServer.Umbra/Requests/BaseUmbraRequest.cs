@@ -76,6 +76,7 @@ namespace BurnSystems.WebServer.Umbra.Requests
         public override void FinishDispatch(IActivates container, ContextDispatchInformation context)
         {
             context.Context.DisableBrowserCache();
+
             var result = new
             {
                 Content = this.Content,
@@ -87,7 +88,7 @@ namespace BurnSystems.WebServer.Umbra.Requests
             var serializer = new JavaScriptSerializer();
             var resultString = serializer.Serialize(result);
 
-            SendString(context, resultString);        
+            SendString(context, resultString);
         }
 
         /// <summary>

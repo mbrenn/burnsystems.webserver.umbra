@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BurnSystems.WebServer.Umbra.ViewEndpoints
+namespace BurnSystems.WebServer.Umbra.Views.Treeview
 {
-    public class TreeViewEndPoint
+    interface ITreeViewData
     {
     }
 }

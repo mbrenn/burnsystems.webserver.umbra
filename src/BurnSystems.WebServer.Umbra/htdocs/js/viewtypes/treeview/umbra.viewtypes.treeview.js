@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-define(["umbra"], function (u) {
+define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree"], function (u) {
     ///
     /// Defines one entry for console
     var treeViewClass = function () {
