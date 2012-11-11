@@ -39,7 +39,7 @@ namespace BurnSystems.WebServer.Umbra.Requests
             };
             
             this.Title = "Umbra - Version";
-            this.Content = parser.Parse(Resources_Umbra.umbra_version, model, null, typeof(VersionUmbraRequest).FullName);
+            this.Content = parser.Parse(Resources_Umbra.umbra_version, model, null);
             this.ViewTypeToken = typeof(VersionUmbraRequest).FullName;
             this.AddScript("test");
         }
