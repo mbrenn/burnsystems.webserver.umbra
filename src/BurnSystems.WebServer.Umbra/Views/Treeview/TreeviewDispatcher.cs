@@ -12,7 +12,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// <summary>
         /// Gets or sets the treeview data
         /// </summary>
-        public ITreeViewData TreeViewData
+        public ITreeViewItem TreeViewData
         {
             get;
             set;
@@ -27,7 +27,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             set;
         }
 
-        public TreeviewDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewData data)
+        public TreeviewDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewItem data)
             : this(filter, data, string.Empty)
         {
         }
@@ -36,7 +36,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// Initializes a new instance of the TreeviewDispatcher class
         /// </summary>
         /// <param name="prefix">Prefix being used.</param>
-        public TreeviewDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewData data, string prefix)
+        public TreeviewDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewItem data, string prefix)
             : base(filter)
         {
             this.WebPrefix = prefix;

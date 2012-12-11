@@ -54,9 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UmbraConfiguration.cs" />
     <Compile Include="UmbraDispatcher.cs" />
-    <Compile Include="Views\Treeview\GenericTreeViewItem.cs" />
-    <Compile Include="Views\Treeview\ITreeViewItem.cs" />
-    <Compile Include="Views\Treeview\TreeviewDispatcher.cs" />
+    <Compile Include="ViewEndpoints\TreeViewEndPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BurnSystems.Parser\src\BurnSystems.Parser.csproj">
@@ -107,7 +105,9 @@
   <ItemGroup>
     <Content Include="htdocs\js\umbra.ribbongroup.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Entities\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
