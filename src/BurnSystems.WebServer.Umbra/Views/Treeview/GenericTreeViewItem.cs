@@ -9,6 +9,12 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
     {
         private List<ITreeViewItem> children = new List<ITreeViewItem>();
 
+        public long Id
+        {
+            get;
+            set;
+        }
+
         public string Title
         {
             get;
@@ -38,6 +44,16 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         IEnumerable<ITreeViewItem> ITreeViewItem.Children
         {
             get { return this.children; }
+        }
+
+        public GenericTreeViewItem()
+        {
+        }
+
+        public GenericTreeViewItem(long id, string title)
+        {
+            this.Id = id;
+            this.Title = title;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using BurnSystems.WebServer.Dispatcher;
+﻿using BurnSystems.ObjectActivation;
+using BurnSystems.WebServer.Dispatcher;
+using BurnSystems.WebServer.Modules.MVC;
+using BurnSystems.WebServer.Responses;
 using BurnSystems.WebServer.Umbra.Requests;
 using System;
 using System.Collections.Generic;
@@ -7,7 +10,7 @@ using System.Text;
 
 namespace BurnSystems.WebServer.Umbra.Views.Treeview
 {
-    public class TreeviewDispatcher : BaseUmbraRequest
+    public class TreeviewDispatcher : BaseDispatcher
     {
         /// <summary>
         /// Gets or sets the treeview data
@@ -48,9 +51,40 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// </summary>
         /// <param name="container">Container being used for dispatch</param>
         /// <param name="context">Context being used</param>
-        public override void Dispatch(ObjectActivation.IActivates container, Dispatcher.ContextDispatchInformation context)
+        public override void Dispatch(IActivates container, Dispatcher.ContextDispatchInformation context)
         {
-            
+            if (!context.RequestUrl.AbsolutePath.StartsWith(this.WebPrefix))
+            {
+                throw new InvalidOperationException("URL does not start with webprefix: " + this.WebPrefix);
+            }
+
+            // Action to be executed, not required now
+            var action = context.Context.Request.QueryString["a"] ?? "list";
+
+            // Gets the item
+            var restUrl = context.RequestUrl.AbsolutePath.Substring(this.WebPrefix.Length);
+            var item = this.TreeViewData.ResolveByPath(restUrl);
+
+            if (item == null)
+            {
+                var response = container.Create<ErrorResponse>();
+                response.Set(HttpStatusCode.NotFound);
+                response.Dispatch(container, context);
+                return;
+            }
+
+            // Returns jquery for this item
+            var jsonResult = new JsonActionResult(
+                item.Children.Select(
+                    x => new
+                    {
+                        id = x.Id,
+                        title = x.Title,
+                        imageUrl = x.ImageUrl,
+                        hasChildren = x.Children.Count() > 0
+                    }));
+
+            jsonResult.Execute(context.Context, container);
         }
     }
 }

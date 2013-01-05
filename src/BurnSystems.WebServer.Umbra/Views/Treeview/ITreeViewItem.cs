@@ -11,6 +11,15 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
     public interface ITreeViewItem
     {
         /// <summary>
+        /// Gets or sets the id of the item
+        /// </summary>
+        long Id
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets the title
         /// </summary>
         string Title

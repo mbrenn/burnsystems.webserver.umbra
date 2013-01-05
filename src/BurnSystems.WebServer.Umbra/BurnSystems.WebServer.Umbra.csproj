@@ -57,6 +57,7 @@
     <Compile Include="Views\Treeview\GenericTreeViewItem.cs" />
     <Compile Include="Views\Treeview\ITreeViewItem.cs" />
     <Compile Include="Views\Treeview\TreeviewDispatcher.cs" />
+    <Compile Include="Views\Treeview\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BurnSystems.Parser\src\BurnSystems.Parser.csproj">
