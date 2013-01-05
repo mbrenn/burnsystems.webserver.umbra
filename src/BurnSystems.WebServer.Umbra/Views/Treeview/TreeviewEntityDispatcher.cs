@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BurnSystems.WebServer.Umbra.Views.Treeview
 {
-    public class TreeviewDispatcher : BaseDispatcher
+    public class TreeviewEntityDispatcher : BaseDispatcher
     {
         /// <summary>
         /// Gets or sets the treeview data
@@ -30,7 +30,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             set;
         }
 
-        public TreeviewDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewItem data)
+        public TreeviewEntityDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewItem data)
             : this(filter, data, string.Empty)
         {
         }
@@ -39,7 +39,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// Initializes a new instance of the TreeviewDispatcher class
         /// </summary>
         /// <param name="prefix">Prefix being used.</param>
-        public TreeviewDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewItem data, string prefix)
+        public TreeviewEntityDispatcher(Func<ContextDispatchInformation, bool> filter, ITreeViewItem data, string prefix)
             : base(filter)
         {
             this.WebPrefix = prefix;
@@ -75,14 +75,20 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
 
             // Returns jquery for this item
             var jsonResult = new JsonActionResult(
-                item.Children.Select(
-                    x => new
-                    {
-                        id = x.Id,
-                        title = x.Title,
-                        imageUrl = x.ImageUrl,
-                        hasChildren = x.Children.Count() > 0
-                    }));
+                new
+                {
+                    children =
+                        item.Children.Select(
+                            x => new
+                            {
+                                id = x.Id,
+                                title = x.Title,
+                                imageUrl = x.ImageUrl,
+                                hasChildren = x.Children.Count() > 0
+                            }),
+                    title = item.Title,
+                    id = item.Id
+                });
 
             jsonResult.Execute(context.Context, container);
         }

@@ -246,6 +246,12 @@ define([
                 url)
                 .success(function (data) {
                     _this.__evaluateFinishedRequest(data, areaToken, settings);
+                })
+                .error(function (error, status, thrown) {
+                    var myConsole = umbraInstance.getPlugin("Umbra.Console");
+                    if (myConsole !== undefined) {
+                        myConsole.log("Workspace", "LoadContent of '" + url + "' failed: " + status + " [" + thrown + "]", "Error");
+                    }
                 });
         },
 
@@ -276,6 +282,7 @@ define([
                         var viewType = umbraInstance.findViewType(data.ViewTypeToken);
                         if (viewType === undefined) {
                             alert("Unknown viewtype: " + data.ViewTypeToken);
+                            return;
                         }
 
                         viewType.init(
@@ -284,7 +291,9 @@ define([
                                 area: area,
                                 viewPoint: viewPoint,
                                 workSpace: _this,
-                                settings: settings
+                                umbra: umbraInstance,
+                                settings: settings,
+                                userData: data.UserData
                             });
                     });
             }
@@ -322,6 +331,7 @@ define([
                             view: view,
                             area: area,
                             viewPoint: viewPoint,
+                            umbra: umbraInstance,
                             workSpace: _this
                         });
                 });

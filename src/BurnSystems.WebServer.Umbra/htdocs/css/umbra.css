@@ -13,6 +13,12 @@ body {
     margin: 0px;
 }
 
+a {
+    cursor: pointer;
+    color: #000022;
+    text-decoration: underline;
+}
+
 .fullwidth {
     width: 100%;
 }

@@ -28,15 +28,6 @@ requirejs(['umbra'],
 	    workSpace.areaCentered.focusView(centerView);
 	    workSpace.areaRight.focusView(topView);
 
-	    // Loads content
-	    /*workSpace.loadContent("framework/Console", "bottom", 
-			{
-				success: function(area, view)
-				{
-					area.focusView(view);
-				}
-			});*/
-
 	    var viewPoint = workSpace.openView(
             "bottom",
             "Console",
@@ -45,6 +36,13 @@ requirejs(['umbra'],
             "BurnSystems.WebServer.Umbra.Requests.ConsoleUmbraRequest");
 	    workSpace.findArea("bottom").focusView(viewPoint.getView());
 	    workSpace.loadContent("framework/Version", "centered",
+			{
+			    success: function (area, view) {
+			        area.focusView(view);
+			    }
+			});
+
+	    workSpace.loadContent("treeview/window", "left",
 			{
 			    success: function (area, view) {
 			        area.focusView(view);

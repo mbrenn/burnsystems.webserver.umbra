@@ -48,6 +48,15 @@ namespace BurnSystems.WebServer.Umbra.Requests
         }
 
         /// <summary>
+        /// Gets or sets additional user data to be sent
+        /// </summary>
+        public object UserData
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the BaseRequest class.
         /// </summary>
         /// <param name="filter">Filter being used</param>
@@ -82,7 +91,8 @@ namespace BurnSystems.WebServer.Umbra.Requests
                 Content = this.Content,
                 Title = this.Title,
                 ViewTypeToken = this.ViewTypeToken, 
-                ScriptFiles = this.scriptFiles
+                ScriptFiles = this.scriptFiles,
+                UserData = this.UserData
             };
 
             var serializer = new JavaScriptSerializer();
