@@ -1,12 +1,13 @@
 ﻿"use strict";
 
-define([], function (umbraInstance) {
+define(["umbra.eventbus"], function (EventBus) {
 
     ///////////////////////////////////////////
     // Umbra Class
     var UmbraType = function () {
         this.viewTypes = [];
         this.plugins = {};
+        this.eventbus = new EventBus();
     };
 
     UmbraType.prototype =

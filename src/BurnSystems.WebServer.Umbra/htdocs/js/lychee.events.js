@@ -1,8 +1,10 @@
+"use strict";
 
 define([], function () {
 
 	var _id = 0;
 
+    // Taken and adopted to require.js from LycheeJS: https://github.com/martensms/
 	var Class = function(namespace) {
 
 		this.___namespace = namespace;
@@ -127,6 +129,10 @@ define([], function () {
 		trigger: function(type, data, direction) {
 
 			direction = direction !== undefined ? direction : true;
+
+			if (data !== undefined && !Array.isArray(data)) {
+			    throw "Array for 'data' expected";
+			}
 
 			if (data === undefined) {
 				data = [];

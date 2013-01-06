@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree"], function (u, c, hk, jst) {
+define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.instance"], function (u, c, hk, jst, umbraInstance) {
     ///
     /// Defines one entry for console
     var treeViewClass = function () {
@@ -15,8 +15,15 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree"], function (
 
     treeViewClass.prototype =
         {
+
             loadAndShowChildren: function () {
                 var tthis = this;
+
+                umbraInstance.eventbus.onItemSelected(
+                    {
+                        path: this.currentPath,
+                        sourceName: "umbra.viewtypes.treeview"
+                    });
 
                 $.ajax(
                     this.url + this.currentPath,
