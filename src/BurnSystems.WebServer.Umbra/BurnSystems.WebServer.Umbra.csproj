@@ -75,6 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="htdocs\js\lychee.events.js" />
     <Content Include="htdocs\js\umbra.ribbonelement.js" />
     <Content Include="htdocs\js\viewtypes\treeview\umbra.viewtypes.treeview.js" />
   </ItemGroup>

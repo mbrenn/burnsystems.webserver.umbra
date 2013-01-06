@@ -1,11 +1,13 @@
 ﻿"use strict";
 
-define([], function () {
+define(['lychee.events'], function (Events) {
 
     ///////////////////////////////////////////
     // Definition of EventBus class	
     var EventBusClass = function () {
-    };
+
+        this.events = new Events();
+        };
 
     EventBusClass.prototype =
     {
