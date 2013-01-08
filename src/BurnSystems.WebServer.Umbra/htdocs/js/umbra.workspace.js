@@ -270,12 +270,20 @@ define([
                 view = new ViewClass(title, settings.viewToken, content);
                 viewPoint = area.addView(view);
             }
+            else {
+                alert('No content has been returned from server');
+                return;
+            }
 
             if (settings.success !== undefined) {
                 settings.success(area, view);
             }
 
-            if (data.ScriptFiles.length > 0 && data.ViewTypeToken !== undefined && data.viewTypeToken !== "") {
+            if (data.ScriptFiles === undefined) {
+                data.ScriptFiles = [];
+            }
+
+            if (data.ViewTypeToken !== undefined && data.viewTypeToken !== "") {
                 requirejs(
                     data.ScriptFiles,
                     function () {

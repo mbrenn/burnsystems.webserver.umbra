@@ -40,14 +40,13 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             this.Content = "THIS IS CONTENT!";
             this.ViewTypeToken = "BurnSystems.Umbra.TreeView";
             this.AddScript(
-                "js/viewtypes/treeview/umbra.viewtypes.treeview.js");
+                "js/viewtypes/umbra.viewtypes.treeview.js");
             this.Title = "Navigation";
 
             this.UserData = new
             {
                 entityUrl = this.EntityUrl
             };
-            
         }
     }
 }

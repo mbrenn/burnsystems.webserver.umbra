@@ -76,7 +76,6 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
 
                 this.loadAndShowChildren();
             }
-
         };
 
     var treeViewNodeClass = function () {

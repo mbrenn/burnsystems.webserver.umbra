@@ -75,11 +75,11 @@ requirejs(['umbra'],
 
 	    umbra.umbra.eventbus.ItemSelected(
             function (data) {
-                /*workSpace.loadContent("treeview/detail" + data.path, "centered",
+                workSpace.loadContent("detail/entities" + data.path, "centered",
                     {
                         success: function (area, view) {
                             area.focusView(view);
                         }
-                    });*/
+                    });
             });
 	});

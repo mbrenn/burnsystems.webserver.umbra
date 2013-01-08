@@ -55,5 +55,10 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             this.Id = id;
             this.Title = title;
         }
+
+        public override string ToString()
+        {
+            return this.Title;
+        }
     }
 }

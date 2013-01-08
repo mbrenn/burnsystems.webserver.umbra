@@ -1,5 +1,6 @@
 ﻿using BurnSystems.ObjectActivation;
 using BurnSystems.WebServer.Dispatcher;
+using BurnSystems.WebServer.Helper;
 using BurnSystems.WebServer.Modules.MVC;
 using BurnSystems.WebServer.Responses;
 using BurnSystems.WebServer.Umbra.Requests;
@@ -15,7 +16,8 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// <summary>
         /// Gets or sets the treeview data
         /// </summary>
-        public ITreeViewItem TreeViewData
+        [Inject]
+        public ITreeViewItem Root
         {
             get;
             set;
@@ -43,7 +45,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             : base(filter)
         {
             this.WebPrefix = prefix;
-            this.TreeViewData = data;
+            this.Root = data;
         }
 
         /// <summary>
@@ -58,12 +60,14 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
                 throw new InvalidOperationException("URL does not start with webprefix: " + this.WebPrefix);
             }
 
+            context.Context.DisableBrowserCache();
+
             // Action to be executed, not required now
             var action = context.Context.Request.QueryString["a"] ?? "list";
 
             // Gets the item
             var restUrl = context.RequestUrl.AbsolutePath.Substring(this.WebPrefix.Length);
-            var item = this.TreeViewData.ResolveByPath(restUrl);
+            var item = this.Root.ResolveByPath(restUrl);
 
             if (item == null)
             {
