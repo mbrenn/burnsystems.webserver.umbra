@@ -9,7 +9,11 @@ requirejs(['umbra'],
 	function (umbra) {
 	    var workSpace = new umbra.WorkSpace();
 	    workSpace.create($("body"));
+	    workSpace.hide(workSpace.areaTop);
 
+	    /* 
+         * Demo-Stuff
+         */
 	    var topView = new umbra.View("Top 1", "top1", "This is conteeeent");
 	    var topView2 = new umbra.View("Top 2", "top2", "This is <b>MORE</b> conteeeent");
 	    workSpace.areaRight.addView(topView);
@@ -42,13 +46,6 @@ requirejs(['umbra'],
 			    }
 			});
 
-	    workSpace.loadContent("treeview/window", "left",
-			{
-			    success: function (area, view) {
-			        area.focusView(view);
-			    }
-			});
-
 	    var ribbonBar = workSpace.getRibbonBar();
 	    var startTab = ribbonBar.addTab("START");
 	    var helpTab = ribbonBar.addTab("HELP");
@@ -72,6 +69,17 @@ requirejs(['umbra'],
                }
            });
 	    }));
+
+	    /*
+         * End of Demo stuff
+         */
+
+	    workSpace.loadContent("treeview/window", "left",
+			{
+			    success: function (area, view) {
+			        area.focusView(view);
+			    }
+			});
 
 	    umbra.umbra.eventbus.ItemSelected(
             function (data) {

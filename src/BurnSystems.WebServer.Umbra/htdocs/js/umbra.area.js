@@ -15,10 +15,28 @@ define(["umbra.viewpoint"], function (ViewPointClass) {
         // Stores the list of views
         this.viewPoints = [];
         this.activeViewPoint = undefined;
+        this.isVisible = true;
     };
 
     AreaClass.prototype =
 	{
+	    getEffectiveHeight: function () {
+	        if (this.isVisible) {
+	            return this.height;
+	        }
+
+	        return 0;
+	    },
+
+	    getEffectiveWidth: function () {
+	        if (this.isVisible) {
+	            return this.width;
+	        }
+
+	        return 0;
+	    },
+
+
 	    // Adds a view to area and 
 	    addView: function (view) {
 	        var domTabContent = this.addTabForView(view);
