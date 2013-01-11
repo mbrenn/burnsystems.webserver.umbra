@@ -139,7 +139,7 @@ define(["umbra.viewpoint"], function (ViewPointClass) {
 	        var title = view.title;
 	        var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">'
 				+ '<a id="' + view.name + "_tab_a" + '">...</a>'
-				+ '<span id="' + view.name + "_tab_c" + '" class="closed">X</span>'
+				+ '<span id="' + view.name + "_tab_c" + '" class="closed"><img src="i/cross.png" alt="Close" /></span>'
 				+ '</div>');
 	        $("#" + this.name + " .tabs").append(domTabContent);
 	        $("#" + view.name + "_tab_a").text(view.title);

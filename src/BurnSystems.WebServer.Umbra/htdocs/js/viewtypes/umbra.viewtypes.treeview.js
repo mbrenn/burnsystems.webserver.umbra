@@ -19,12 +19,6 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
             loadAndShowChildren: function () {
                 var tthis = this;
 
-                umbraInstance.eventbus.onItemSelected(
-                    {
-                        path: this.currentPath,
-                        sourceName: "umbra.viewtypes.treeview"
-                    });
-
                 $.ajax(
                     this.url + this.currentPath,
                     {
@@ -37,12 +31,24 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
                             var item = data.children[i];
                             var currentId = item.id;
 
-                            var domli = $("<li><a>" + item.title + "(" + item.id + ")</a></li>");
-                            domli.click((function (id) {
+                            var domli = $("<li><a class=\"list\">" + item.title + "(" + item.id + ")</a> <a class=\"open\"><img src=\"i/arrow_right.png\" alt=\"Open\" /></a></li>");
+                            $("a.list", domli).click((function (id) {
                                 return function (e) {
                                     e.preventDefault();
                                     tthis.currentPath += id + "/";
                                     tthis.loadAndShowChildren();
+                                }
+                            })(currentId));
+
+                            $("a.open", domli).click((function (id) {
+                                return function (e) {
+                                    e.preventDefault();
+
+                                    umbraInstance.eventbus.onItemSelected(
+                                        {
+                                            path: tthis.currentPath + id + "/",
+                                            sourceName: "umbra.viewtypes.treeview"
+                                        });
                                 }
                             })(currentId));
 
@@ -57,7 +63,20 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
                             tthis.navigateBack();
                         });
 
-                        tthis.domElement.append($("<h2>" + data.title + "</h2>"));
+                        var domTitle = $("<h2>" + data.title + "</h2>");
+                        $(domTitle).click(
+                            function (e) {
+                                e.preventDefault();
+
+                                umbraInstance.eventbus.onItemSelected(
+                                    {
+                                        path: tthis.currentPath,
+                                        sourceName: "umbra.viewtypes.treeview"
+                                    });
+                            });
+
+                        tthis.domElement.append(domTitle);
+
                         tthis.domElement.append(domBack);
                         tthis.domElement.append(domUl);
                     })

@@ -82,6 +82,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="htdocs\i\page_go.png" />
     <Content Include="htdocs\js\lychee.events.js" />
     <Content Include="htdocs\js\umbra.ribbonelement.js" />
     <Content Include="htdocs\js\viewtypes\umbra.viewtypes.dotnetobjectview.js" />
