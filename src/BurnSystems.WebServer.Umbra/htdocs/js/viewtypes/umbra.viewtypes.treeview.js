@@ -25,14 +25,14 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
                     })
                     .success(function (data) {
 
-                        var domUl = $("<ul></ul>");
+                        var domUl = $("<ul class=\"treeview\"></ul>");
 
                         for (var i = 0; i < data.children.length; i++) {
                             var item = data.children[i];
                             var currentId = item.id;
 
-                            var domli = $("<li><a class=\"list\">" + item.title + "(" + item.id + ")</a> <a class=\"open\"><img src=\"i/arrow_right.png\" alt=\"Open\" /></a></li>");
-                            $("a.list", domli).click((function (id) {
+                            var domli = $("<li><a class=\"list\">" + item.title + "(" + item.id + ")</a><img src=\"i/arrow_right.png\" alt=\"Open\" class=\"open\"/></li>");
+                            $(".list", domli).click((function (id) {
                                 return function (e) {
                                     e.preventDefault();
                                     tthis.currentPath += id + "/";
@@ -40,7 +40,7 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
                                 }
                             })(currentId));
 
-                            $("a.open", domli).click((function (id) {
+                            $(".open", domli).click((function (id) {
                                 return function (e) {
                                     e.preventDefault();
 
@@ -57,13 +57,7 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
 
                         tthis.domElement.html("");
 
-                        var domBack = $("<a>Back</>");
-                        domBack.click(function (e) {
-                            e.preventDefault();
-                            tthis.navigateBack();
-                        });
-
-                        var domTitle = $("<h2>" + data.title + "</h2>");
+                        var domTitle = $("<div class=\"treeview\"><img src=\"i/arrow_right.png\" alt=\"Open\" class=\"open title\"/><h2>" + data.title + "</h2></div>");
                         $(domTitle).click(
                             function (e) {
                                 e.preventDefault();
@@ -77,8 +71,19 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
 
                         tthis.domElement.append(domTitle);
 
+                        if (tthis.currentPath != "/") {
+                            var domBack = $("<a>Back to parent</a>");
+                            domBack.click(function (e) {
+                                e.preventDefault();
+                                tthis.navigateBack();
+                            });
+                        }
+
                         tthis.domElement.append(domBack);
-                        tthis.domElement.append(domUl);
+
+                        if (data.children.length > 0) {
+                            tthis.domElement.append(domUl);
+                        }
                     })
                     .error(function (x, error, data) {
                         alert("ERROR: " + error);

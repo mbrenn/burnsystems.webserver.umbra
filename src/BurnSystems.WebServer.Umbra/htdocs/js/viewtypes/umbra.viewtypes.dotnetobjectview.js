@@ -25,7 +25,7 @@ define(["umbra", "umbra.instance"], function (u, umbraInstance) {
                 var objectView = new objectViewClass();
                 objectView.domElement = info.viewPoint.domContent;
 
-                var table = $("<table><th>Name:</th><th>Value</th></table>");
+                var table = $("<table><th>Name:</th><th>Value:</th></table>");
                 var properties = info.userData.properties;
                 
                 // Creates table

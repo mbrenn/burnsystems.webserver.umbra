@@ -44,6 +44,7 @@ define([
             // Creates the DOM elements for the workspace 
             // Initial call
             create: function (domElement) {
+                var titleDom = '<div class="umbra_title">UMBRA</div>';
                 var innerAreaHtml = '<div class="tabs"></div><div class="content"></div>';
 
                 var buttonBarDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'buttons" class="umbra_ribbon">Buttons</div></div>');
@@ -59,6 +60,7 @@ define([
                 var scrollBottomDom = '<div id="' + this.domPrefix + 'db" class="umbra_dragarea horizontal"></div>';
                 var bottomDom = $('<div class="fullwidth"><div id="' + this.domPrefix + 'b" class="umbra_bottom umbra_area">' + innerAreaHtml + '</div></div>');
 
+                domElement.append(titleDom);
                 domElement.append(buttonBarDom);
                 domElement.append(topDom);
                 domElement.append(scrollTopDom);
@@ -158,27 +160,27 @@ define([
             // Updates the sizes of the areas
             __updateLayout: function () {
                 var restHeight;
-                var ribbonBarHeight = 128;
+                var ribbonBarHeight = $("#" + this.domPrefix + "buttons").height();
 
                 // Checks, if ribbon bar has to be shown
                 if (this.showRibbonBar) {
                     restHeight = this.areaTop.getEffectiveHeight() + this.areaBottom.height + this.ribbonBar.height + 10;
-                    $("#" + this.domPrefix + "buttons").css("visibility", "visible");
+                    $("#" + this.domPrefix + "buttons").css("display", "block");
                 }
                 else {
                     restHeight = this.areaTop.getEffectiveHeight() + this.areaBottom.height + 10;
-                    $("#" + this.domPrefix + "buttons").css("visibility", "collapse");
+                    $("#" + this.domPrefix + "buttons").css("display", "none");
                     ribbonBarHeight = 0;
                 }
 
                 // Checks, if top element has to be shown
                 if (!this.areaTop.isVisible) {
-                    $("#" + this.domPrefix + "dt").css("visibility", "collapse");
-                    $("#" + this.domPrefix + "t").css("visibility", "collapse");
+                    $("#" + this.domPrefix + "dt").css("display", "none");
+                    $("#" + this.domPrefix + "t").css("display", "none");
                 }
                 else {
-                    $("#" + this.domPrefix + "dt").css("visibility", "visible");
-                    $("#" + this.domPrefix + "t").css("visibility", "visible");
+                    $("#" + this.domPrefix + "dt").css("display", "block");
+                    $("#" + this.domPrefix + "t").css("display", "block");
                 }
 
                 var height = $("body").height();
@@ -194,7 +196,7 @@ define([
                 $("#" + this.domPrefix + "dr").css("height", (centerHeight) + "px");
 
                 // Set height of bottom, top and buttons
-                $("#" + this.domPrefix + "buttons").css("height", ribbonBarHeight + "px");
+                //$("#" + this.domPrefix + "buttons").css("height", ribbonBarHeight + "px");
                 $("#" + this.domPrefix + "t").css("top", (ribbonBarHeight + 2) + "px");
                 $("#" + this.domPrefix + "t").css("height", this.areaTop.getEffectiveHeight() + "px");
                 $("#" + this.domPrefix + "b").css("height", this.areaBottom.height + "px");

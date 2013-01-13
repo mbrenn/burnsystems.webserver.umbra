@@ -28,8 +28,8 @@
 <h2>Loaded Assemblies</h2>
 <table>
 	<tr>
-		<td>Assembly</td>
-		<td>Version</td>
+		<th>Assembly</th>
+		<th>Version</th>
 	</tr>
 	@[FOREACH:"assembly" IN Model->Assemblies]
 	<tr>
@@ -37,5 +37,5 @@
 		<td>@[=assembly->GetName()->Version]</td>
 	</tr>
 	@[ENDFOREACH]
-</table>	
+</table>
 <p>Created and maintained by Martin Brenn</p>

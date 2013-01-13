@@ -139,13 +139,13 @@ define(["umbra.viewpoint"], function (ViewPointClass) {
 	        var title = view.title;
 	        var domTabContent = $('<div class="tab" id="' + view.name + "_tab" + '">'
 				+ '<a id="' + view.name + "_tab_a" + '">...</a>'
-				+ '<span id="' + view.name + "_tab_c" + '" class="closed"><img src="i/cross.png" alt="Close" /></span>'
+				+ '<div class="closed"><img src="i/cross.png" alt="Close" id="' + view.name + "_tab_c" + '" /></div>'
 				+ '</div>');
 	        $("#" + this.name + " .tabs").append(domTabContent);
 	        $("#" + view.name + "_tab_a").text(view.title);
 
 	        var _this = this;
-	        $("#" + view.name + "_tab_a").click(function () {
+	        $("#" + view.name + "_tab").click(function () {
 	            _this.focusView(view);
 	        });
 
@@ -183,7 +183,7 @@ define(["umbra.viewpoint"], function (ViewPointClass) {
 	        var domTab = $("#" + this.name + " .tabs");
 
 	        var totalHeight = domArea.height();
-	        totalHeight -= domTab.height();
+	        totalHeight -= domTab.height() + 13;
 
 	        domContent.height(totalHeight);
 	    }
