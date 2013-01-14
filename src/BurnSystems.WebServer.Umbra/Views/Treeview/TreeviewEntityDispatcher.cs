@@ -82,7 +82,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
                 new
                 {
                     children =
-                        item.Children.Select(
+                        (item.Children ?? new ITreeViewItem[] { }).Select(
                             x => new
                             {
                                 id = x.Id,

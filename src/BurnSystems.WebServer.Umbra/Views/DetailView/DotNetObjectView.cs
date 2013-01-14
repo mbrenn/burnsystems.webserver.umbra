@@ -35,7 +35,8 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
             this.UserData = new
             {
                 properties = result, 
-                title = Item.ToString()
+                title = this.Item.ToString(),
+                type = this.Item.GetType().ToString()
             };
                 
         }

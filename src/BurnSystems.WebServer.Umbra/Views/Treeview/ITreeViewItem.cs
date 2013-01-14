@@ -16,7 +16,6 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         long Id
         {
             get;
-            set;
         }
 
         /// <summary>
@@ -25,7 +24,6 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         string Title
         {
             get;
-            set;
         }
 
         /// <summary>
@@ -34,7 +32,6 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         string ImageUrl
         {
             get;
-            set;
         }
 
         /// <summary>
@@ -43,7 +40,6 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         bool IsExpandable
         {
             get;
-            set;
         }
 
         /// <summary>

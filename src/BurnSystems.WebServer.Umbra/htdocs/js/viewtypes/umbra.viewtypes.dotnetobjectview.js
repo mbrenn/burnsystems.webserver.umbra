@@ -25,6 +25,9 @@ define(["umbra", "umbra.instance"], function (u, umbraInstance) {
                 var objectView = new objectViewClass();
                 objectView.domElement = info.viewPoint.domContent;
 
+                var typeDom = $("<h2></h2>");
+                typeDom.text(info.userData.type);
+
                 var table = $("<table><th>Name:</th><th>Value:</th></table>");
                 var properties = info.userData.properties;
                 
@@ -45,7 +48,8 @@ define(["umbra", "umbra.instance"], function (u, umbraInstance) {
                     table.append(tr);
                 }
 
-                objectView.domElement.html(table);
+                objectView.domElement.html(typeDom);
+                objectView.domElement.append(table);
             }));
 
     return result;
