@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BurnSystems.ObjectActivation;
+using BurnSystems.Test;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +39,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public Type ResolveDefaultView(object item)
+        public DetailView ResolveDefaultView(IActivates container, object item)
         {
             var found = this.items.FirstOrDefault(x => x.Filter(item));
             if (found == null)
@@ -45,7 +47,10 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
                 return null;
             }
 
-            return found.DetailViewType;
+            var result = container.Create(found.DetailViewType) as DetailView;
+            Ensure.IsNotNull(result, "Could not create " + found.DetailViewType + " as DetailView");
+
+            return result;
         }
 
         #region Item Helper class

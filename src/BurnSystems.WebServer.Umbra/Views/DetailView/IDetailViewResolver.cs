@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BurnSystems.ObjectActivation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,6 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
         /// </summary>
         /// <param name="item">Item to be shown</param>
         /// <returns>Resolved default view type or null, if not existing</returns>
-        Type ResolveDefaultView(object item);
+        DetailView ResolveDefaultView(IActivates container, object item);
     }
 }

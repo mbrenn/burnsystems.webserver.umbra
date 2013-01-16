@@ -82,9 +82,9 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
             var item = this.Root.ResolveByPath(container, restUrl);
 
             // Get the detail view
-            var detailViewType = this.ViewResolver.ResolveDefaultView(item);
+            var detailView = this.ViewResolver.ResolveDefaultView(container, item);
 
-            if (detailViewType == null)
+            if (detailView == null)
             {
                 var contentDispatcher = new StaticContentView(
                     item.ToString(), "Unknown detailview", "No default view could be resolved for this item.");
@@ -93,7 +93,6 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
             }
             else
             {
-                var detailView = container.Create(detailViewType) as DetailView;
                 detailView.Item = item;
                 detailView.Dispatch(container, context);
                 detailView.FinishDispatch(container, context);
