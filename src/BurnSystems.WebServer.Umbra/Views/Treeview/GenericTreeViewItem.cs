@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BurnSystems.ObjectActivation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,14 +37,14 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// <summary>
         /// Gets the children
         /// </summary>
-        public IList<ITreeViewItem> Children
+        public IList<ITreeViewItem> GetChildren(IActivates activates)
         {
-            get { return this.children; }
+            return this.children;
         }
 
-        IEnumerable<ITreeViewItem> ITreeViewItem.Children
+        IEnumerable<ITreeViewItem> ITreeViewItem.GetChildren(IActivates activates)
         {
-            get { return this.children; }
+            return this.children;
         }
 
         public GenericTreeViewItem()

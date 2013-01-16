@@ -79,7 +79,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
 
             // Gets the item
             var restUrl = context.RequestUrl.AbsolutePath.Substring(this.WebPrefix.Length);
-            var item = this.Root.ResolveByPath(restUrl);
+            var item = this.Root.ResolveByPath(container, restUrl);
 
             // Get the detail view
             var detailViewType = this.ViewResolver.ResolveDefaultView(item);

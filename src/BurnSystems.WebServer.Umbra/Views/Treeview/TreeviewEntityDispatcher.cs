@@ -67,7 +67,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
 
             // Gets the item
             var restUrl = context.RequestUrl.AbsolutePath.Substring(this.WebPrefix.Length);
-            var item = this.Root.ResolveByPath(restUrl);
+            var item = this.Root.ResolveByPath(container, restUrl);
 
             if (item == null)
             {
@@ -82,13 +82,13 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
                 new
                 {
                     children =
-                        (item.Children ?? new ITreeViewItem[] { }).Select(
+                        (item.GetChildren(container) ?? new ITreeViewItem[] { }).Select(
                             x => new
                             {
                                 id = x.Id,
                                 title = x.Title,
                                 imageUrl = x.ImageUrl,
-                                hasChildren = x.Children.Count() > 0
+                                hasChildren = x.GetChildren(container).Count() > 0
                             }),
                     title = item.Title,
                     id = item.Id
