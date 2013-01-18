@@ -1,4 +1,5 @@
 ﻿using BurnSystems.ObjectActivation;
+using BurnSystems.Test;
 using BurnSystems.WebServer.Dispatcher;
 using BurnSystems.WebServer.Helper;
 using BurnSystems.WebServer.Umbra.Views.SimpleContentView;
@@ -80,7 +81,8 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
             // Gets the item
             var restUrl = context.RequestUrl.AbsolutePath.Substring(this.WebPrefix.Length);
             var item = this.Root.ResolveByPath(container, restUrl);
-
+            Ensure.IsNotNull(item, "Item could not be found: " + restUrl);
+            
             // Get the detail view
             var detailView = this.ViewResolver.ResolveDefaultView(container, item);
 

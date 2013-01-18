@@ -57,6 +57,18 @@ namespace BurnSystems.WebServer.Umbra.Requests
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the full Umbra Json shall be sent back to browser
+        /// or just the userdata object. 
+        /// The full json object is required for workspace.loadContent-Requests, but within the given
+        /// view, the AJAX methods might only require the userdata.
+        /// </summary>
+        public bool SendOnlyUserData
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the BaseRequest class.
         /// </summary>
         /// <param name="filter">Filter being used</param>
@@ -82,18 +94,31 @@ namespace BurnSystems.WebServer.Umbra.Requests
             this.scriptFiles.Add(scriptFile);
         }
 
+        /// <summary>
+        /// Finishes the dispatch
+        /// </summary>
+        /// <param name="container">Container to be used</param>
+        /// <param name="context">Context to be used</param>
         public override void FinishDispatch(IActivates container, ContextDispatchInformation context)
         {
             context.Context.DisableBrowserCache();
+            object result;
 
-            var result = new
+            if (!this.SendOnlyUserData)
             {
-                Content = this.Content,
-                Title = this.Title,
-                ViewTypeToken = this.ViewTypeToken, 
-                ScriptFiles = this.scriptFiles,
-                UserData = this.UserData
-            };
+                result = new
+                {
+                    Content = this.Content,
+                    Title = this.Title,
+                    ViewTypeToken = this.ViewTypeToken,
+                    ScriptFiles = this.scriptFiles,
+                    UserData = this.UserData
+                };
+            }
+            else
+            {
+                result = this.UserData;
+            }
 
             var serializer = new JavaScriptSerializer();
             var resultString = serializer.Serialize(result);

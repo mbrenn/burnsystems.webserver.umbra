@@ -297,9 +297,10 @@ define([
                         _this.__evaluateFinishedRequest(data, areaToken, settings);
                     })
                     .error(function (error, status, thrown) {
+                        var response = $.parseJSON(error.responseText);
                         var myConsole = umbraInstance.getPlugin("Umbra.Console");
                         if (myConsole !== undefined) {
-                            myConsole.log("Workspace", "LoadContent of '" + url + "' failed: " + status + " [" + thrown + "]", "Error");
+                            myConsole.log("Workspace", "LoadContent of '" + url + "' failed:" + status + " [" + thrown + "]: \r\n" + response.message, "Error");
                         }
                     });
             },

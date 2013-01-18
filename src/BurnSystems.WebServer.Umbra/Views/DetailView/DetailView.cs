@@ -1,6 +1,7 @@
 ﻿using BurnSystems.ObjectActivation;
 using BurnSystems.WebServer.Dispatcher;
 using BurnSystems.WebServer.Umbra.Requests;
+using BurnSystems.WebServer.Umbra.Views.Treeview;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
         /// <summary>
         /// Gets or sets the item to be shown as detail view
         /// </summary>
-        public object Item
+        public ITreeViewItem Item
         {
             get;
             set;

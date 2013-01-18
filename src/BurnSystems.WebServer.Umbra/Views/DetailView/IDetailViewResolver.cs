@@ -1,4 +1,5 @@
 ﻿using BurnSystems.ObjectActivation;
+using BurnSystems.WebServer.Umbra.Views.Treeview;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,6 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
         /// </summary>
         /// <param name="item">Item to be shown</param>
         /// <returns>Resolved default view type or null, if not existing</returns>
-        DetailView ResolveDefaultView(IActivates container, object item);
+        DetailView ResolveDefaultView(IActivates container, ITreeViewItem item);
     }
 }

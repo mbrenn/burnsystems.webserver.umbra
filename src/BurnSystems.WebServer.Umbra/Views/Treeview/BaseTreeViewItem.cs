@@ -6,29 +6,29 @@ using System.Text;
 
 namespace BurnSystems.WebServer.Umbra.Views.Treeview
 {
-    public class GenericTreeViewItem : ITreeViewItem
+    public class BaseTreeViewItem : ITreeViewItem
     {
         private List<ITreeViewItem> children = new List<ITreeViewItem>();
 
-        public long Id
+        public virtual long Id
         {
             get;
             set;
         }
 
-        public string Title
+        public virtual string Title
         {
             get;
             set;
         }
 
-        public string ImageUrl
+        public virtual string ImageUrl
         {
             get;
             set;
         }
 
-        public bool IsExpandable
+        public virtual bool IsExpandable
         {
             get;
             set;
@@ -37,7 +37,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// <summary>
         /// Gets or sets the entity behind this treeview object
         /// </summary>
-        public object Entity
+        public virtual object Entity
         {
             get;
             set;
@@ -46,29 +46,9 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// <summary>
         /// Gets the children
         /// </summary>
-        public IList<ITreeViewItem> GetChildren(IActivates activates)
+        public virtual IEnumerable<ITreeViewItem> GetChildren(IActivates activates)
         {
-            return this.children;
-        }
-
-        IEnumerable<ITreeViewItem> ITreeViewItem.GetChildren(IActivates activates)
-        {
-            return this.children;
-        }
-
-        public GenericTreeViewItem()
-        {
-        }
-
-        public GenericTreeViewItem(long id, string title)
-        {
-            this.Id = id;
-            this.Title = title;
-        }
-
-        public override string ToString()
-        {
-            return this.Title;
+            return null;
         }
     }
 }

@@ -57,12 +57,17 @@
     <Compile Include="Views\DetailView\BasicDetailViewResolver.cs" />
     <Compile Include="Views\DetailView\DetailViewDispatcher.cs" />
     <Compile Include="Views\DetailView\DotNetObjectView.cs" />
+    <Compile Include="Views\DetailView\Entities\EntityView.cs" />
+    <Compile Include="Views\DetailView\Entities\EntityViewConfig.cs" />
+    <Compile Include="Views\DetailView\Entities\EntityViewElement.cs" />
+    <Compile Include="Views\DetailView\Entities\EntityViewElementProperty.cs" />
     <Compile Include="Views\DetailView\Extensions.cs" />
     <Compile Include="Views\DetailView\DetailView.cs" />
     <Compile Include="Views\DetailView\IDetailViewResolver.cs" />
     <Compile Include="Views\SimpleContentView\StaticContentView.cs" />
     <Compile Include="Views\Treeview\GenericTreeViewItem.cs" />
     <Compile Include="Views\Treeview\ITreeViewItem.cs" />
+    <Compile Include="Views\Treeview\BaseTreeViewItem.cs" />
     <Compile Include="Views\Treeview\TreeviewEntityDispatcher.cs" />
     <Compile Include="Views\Treeview\Extensions.cs" />
     <Compile Include="Views\Treeview\TreeviewWindowDispatcher.cs" />
@@ -85,6 +90,7 @@
     <Content Include="htdocs\i\page_go.png" />
     <Content Include="htdocs\js\lychee.events.js" />
     <Content Include="htdocs\js\umbra.ribbonelement.js" />
+    <Content Include="htdocs\js\viewtypes\umbra.viewtypes.entityview.js" />
     <Content Include="htdocs\js\viewtypes\umbra.viewtypes.dotnetobjectview.js" />
     <Content Include="htdocs\js\viewtypes\umbra.viewtypes.staticcontentview.js" />
     <Content Include="htdocs\js\viewtypes\umbra.viewtypes.treeview.js" />

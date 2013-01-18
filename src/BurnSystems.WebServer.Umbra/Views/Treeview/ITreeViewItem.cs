@@ -44,6 +44,15 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         }
 
         /// <summary>
+        /// Gets or sets the entity behind this treeview object
+        /// </summary>
+        object Entity
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets the children
         /// </summary>
         IEnumerable<ITreeViewItem> GetChildren(IActivates activates);
