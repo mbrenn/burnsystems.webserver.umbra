@@ -14,7 +14,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
         public override void Dispatch(ObjectActivation.IActivates container, Dispatcher.ContextDispatchInformation context)
         {
             this.AddScript(
-                "js/viewtypes/umbra.viewtypes.dotnetobjectview.js");
+                "js/lib/viewtypes/umbra.viewtypes.dotnetobjectview.js");
             this.Title = this.Item.ToString();
             this.ViewTypeToken = "BurnSystems.Umbra.DetailView.DotNetObjectView";
 

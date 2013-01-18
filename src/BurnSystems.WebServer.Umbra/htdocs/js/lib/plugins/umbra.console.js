@@ -30,6 +30,11 @@ define(["umbra"], function (u) {
 	        this.domContent = viewPoint.domContent;
 	    },
 
+	    logAjaxError: function (error, status, thrown) {
+	        var response = $.parseJSON(error.responseText);
+	        this.log("Workspace", "AJAX Error: " + status + " [" + thrown + "]: \r\n" + response.message, "Error");
+	    },
+
 	    __addToDom: function (entry) {
 	        var row = $('<tr class="consoleentry"><td class="date"></td><td class="category"></td><td class="content"></td><td class="importance"></td></tr>');
 	        row.find(".date").text(entry.date.format("dd.mm.yyyy HH:MM"));

@@ -88,12 +88,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="htdocs\i\page_go.png" />
-    <Content Include="htdocs\js\lychee.events.js" />
-    <Content Include="htdocs\js\umbra.ribbonelement.js" />
-    <Content Include="htdocs\js\viewtypes\umbra.viewtypes.entityview.js" />
-    <Content Include="htdocs\js\viewtypes\umbra.viewtypes.dotnetobjectview.js" />
-    <Content Include="htdocs\js\viewtypes\umbra.viewtypes.staticcontentview.js" />
-    <Content Include="htdocs\js\viewtypes\umbra.viewtypes.treeview.js" />
+    <Content Include="htdocs\js\lib\lychee.events.js" />
+    <Content Include="htdocs\js\lib\umbra.ribbonelement.js" />
+    <Content Include="htdocs\js\lib\viewtypes\umbra.viewtypes.entityview.js" />
+    <Content Include="htdocs\js\lib\viewtypes\umbra.viewtypes.dotnetobjectview.js" />
+    <Content Include="htdocs\js\lib\viewtypes\umbra.viewtypes.staticcontentview.js" />
+    <Content Include="htdocs\js\lib\viewtypes\umbra.viewtypes.treeview.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="htdocs\css\umbra.css" />
@@ -102,20 +102,20 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="htdocs\js\init.js" />
-    <Content Include="htdocs\js\umbra.instance.js" />
-    <Content Include="htdocs\js\umbra.eventbus.js" />
-    <Content Include="htdocs\js\umbra.dragbar.js" />
-    <Content Include="htdocs\js\umbra.ribbonbar.js" />
-    <Content Include="htdocs\js\umbra.ribbonbutton.js" />
-    <Content Include="htdocs\js\umbra.ribbontab.js" />
-    <Content Include="htdocs\js\umbra.viewtype.js" />
-    <Content Include="htdocs\js\umbra.area.js" />
-    <Content Include="htdocs\js\umbra.viewpoint.js" />
-    <Content Include="htdocs\js\umbra.view.js" />
-    <Content Include="htdocs\js\umbra.workspace.js" />
+    <Content Include="htdocs\js\lib\umbra.instance.js" />
+    <Content Include="htdocs\js\lib\umbra.eventbus.js" />
+    <Content Include="htdocs\js\lib\umbra.dragbar.js" />
+    <Content Include="htdocs\js\lib\umbra.ribbonbar.js" />
+    <Content Include="htdocs\js\lib\umbra.ribbonbutton.js" />
+    <Content Include="htdocs\js\lib\umbra.ribbontab.js" />
+    <Content Include="htdocs\js\lib\umbra.viewtype.js" />
+    <Content Include="htdocs\js\lib\umbra.area.js" />
+    <Content Include="htdocs\js\lib\umbra.viewpoint.js" />
+    <Content Include="htdocs\js\lib\umbra.view.js" />
+    <Content Include="htdocs\js\lib\umbra.workspace.js" />
     <Content Include="htdocs\js\test.js" />
-    <Content Include="htdocs\js\plugins\umbra.console.js" />
-    <Content Include="htdocs\js\umbra.js" />
+    <Content Include="htdocs\js\lib\plugins\umbra.console.js" />
+    <Content Include="htdocs\js\lib\umbra.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources_Umbra.resx">
@@ -124,7 +124,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="htdocs\js\umbra.ribbongroup.js" />
+    <Content Include="htdocs\js\lib\umbra.ribbongroup.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-define(["umbra", "umbra.instance"], function (u, umbraInstance) {
+define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraInstance, consoleLog) {
 
     var entityViewTable = function (tablename) {
         this.tablename = tablename;
@@ -183,6 +183,7 @@ define(["umbra", "umbra.instance"], function (u, umbraInstance) {
 
                 //
                 // Creates the button
+                var trDom = $("<tr><td></td><td class=\"buttoncontainer\"> <span class=\"success\"></span><span class=\"nosuccess\"></span></td></tr>");
                 var buttonDom = $("<input type=\"button\" value=\"Update\"></input>");
                 buttonDom.click(function () {
                     var data = {};
@@ -203,6 +204,10 @@ define(["umbra", "umbra.instance"], function (u, umbraInstance) {
                         data[element.name] = result;
                     }
 
+                    buttonDom.attr("disabled", "disabled");
+                    $(".success", trDom).text("");
+                    $(".nosuccess", trDom).text("");
+
                     var updateUrl = info.userData.updateUrl;
                     $.ajax(
                         updateUrl,
@@ -210,12 +215,20 @@ define(["umbra", "umbra.instance"], function (u, umbraInstance) {
                             type: 'POST',
                             data: data
                         })
-                    .success(function () { alert('YEAH'); })
-                    .error(function () { alert('O NOES'); });
+                    .success(function () {
+                        buttonDom.removeAttr("disabled");
+                        $(".success", trDom).text("Update succeeded");
+                        
+                    })
+                    .error(function (jqXHR, textStatus, error) {
+                        consoleLog.console.logAjaxError(jqXHR, textStatus, error);
+
+                        buttonDom.removeAttr("disabled");
+                        $(".nosuccess", trDom).text("Update failed");
+                    });
                 });
 
-                var trDom = $("<tr><td></td><td class=\"buttoncontainer\"></td></tr>");
-                $(".buttoncontainer", trDom).append(buttonDom);
+                $(".buttoncontainer", trDom).prepend(buttonDom);
                 tableDom.append(trDom);
 
                 // Finishes view
