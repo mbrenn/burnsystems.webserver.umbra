@@ -22,7 +22,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// <summary>
         /// Gets or sets the rows
         /// </summary>
-        public List<EntityViewElement> Elements
+        public List<EntityViewTable> Tables
         {
             get;
             set;
@@ -31,20 +31,13 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// <summary>
         /// Initializes a new instance of the entity view config
         /// </summary>
-        public EntityViewConfig()
+        public EntityViewConfig(params EntityViewTable[] tables)
         {
-            this.Elements = new List<EntityViewElement>();
-        }
-
-        /// <summary>
-        /// Adds a element
-        /// </summary>
-        /// <param name="element">Element to be added</param>
-        /// <returns>Same instance</returns>
-        public EntityViewConfig<T> AddElement(EntityViewElement element)
-        {
-            this.Elements.Add(element);
-            return this;
+            this.Tables = new List<EntityViewTable>();
+            foreach (var table in tables)
+            {
+                this.Tables.Add(table);
+            }
         }
     }
 }

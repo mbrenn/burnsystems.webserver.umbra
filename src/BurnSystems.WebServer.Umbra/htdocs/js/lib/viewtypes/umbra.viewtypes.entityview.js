@@ -11,6 +11,94 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
         getNextElementId: function () {
             this.nextElementName++;
             return "e_" + this.tablename + "_" + this.nextElementName;
+        },
+
+        createTable: function (entityView, info, table) {
+
+            // Create table
+            var tableDom = $("<table><tr><th>Property:</th><th>Value:</th></tr></table>");
+
+            var elements = table.elements;
+            var data = table.data;
+            var assignResults = [];
+
+            // Creates the table for the elements
+            for (var i = 0; i < elements.length; i++) {
+                var item = elements[i];
+                var dataElement = data[i];
+                var rowDom = $("<tr></tr>");
+
+                ////////////////////////////////
+                // Name of the item
+                var columnDom = $("<td></td>");
+                columnDom.text(item.label + ": ");
+                rowDom.append(columnDom);
+
+                ////////////////////////////////
+                // Value of the item
+                columnDom = $("<td></td>");
+                var view = entityView.getView(item.dataType);
+                var assignResult = view.assignHtml(item, dataElement, columnDom, this);
+                assignResults.push(assignResult);
+
+                rowDom.append(columnDom);
+
+                // Addition to row
+                tableDom.append(rowDom);
+            }
+
+            //
+            // Creates the button
+            var trDom = $("<tr><td></td><td class=\"buttoncontainer\"> <span class=\"success\"></span><span class=\"nosuccess\"></span></td></tr>");
+            var buttonDom = $("<input type=\"button\" value=\"Update\"></input>");
+            buttonDom.click(function () {
+                var data = {};
+
+                for (var i = 0; i < elements.length; i++) {
+                    var element = elements[i];
+                    var assignResult = assignResults[i];
+
+                    if (assignResult === undefined) {
+                        continue;
+                    }
+
+                    var result = assignResult.updateCallback();
+                    if (result === undefined) {
+                        continue;
+                    }
+
+                    data[element.name] = result;
+                }
+
+                buttonDom.attr("disabled", "disabled");
+                $(".success", trDom).text("");
+                $(".nosuccess", trDom).text("");
+
+                var updateUrl = info.userData.updateUrl + table.updateUrlPostfix;
+                $.ajax(
+                    updateUrl,
+                    {
+                        type: 'POST',
+                        data: data
+                    })
+                .success(function () {
+                    buttonDom.removeAttr("disabled");
+                    $(".success", trDom).text("Update succeeded");
+
+                })
+                .error(function (jqXHR, textStatus, error) {
+                    consoleLog.console.logAjaxError(jqXHR, textStatus, error);
+
+                    buttonDom.removeAttr("disabled");
+                    $(".nosuccess", trDom).text("Update failed");
+                });
+            });
+
+            $(".buttoncontainer", trDom).prepend(buttonDom);
+            tableDom.append(trDom);
+
+            // Finishes view
+            info.viewPoint.domContent.append(tableDom);
         }
     };
 
@@ -132,6 +220,8 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
                     // NOT SUPPORTED YET
                     throw "DateTime not supported yet";
                 }
+
+                throw datatype + " type is not supported";
             }
         };
 
@@ -146,95 +236,19 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
                 var entityView = new entityViewClass();
                 var tableNumber = 1;
 
-                // TODO: Not fully multidom capable
-                var viewTable = new entityViewTable("t_" + tableNumber);
-
-                // Create table
-                var tableDom = $("<table><tr><th>Property:</th><th>Value:</th></tr></table>");
-
-                var elements = info.userData.elements;
-                var data = info.userData.data;
-                var assignResults = [];
-
-                // Creates the table for the elements
-                for (var i = 0; i < elements.length; i++) {
-                    var item = elements[i];
-                    var dataElement = data[i];
-                    var rowDom = $("<tr></tr>");
-
-                    ////////////////////////////////
-                    // Name of the item
-                    var columnDom = $("<td></td>");
-                    columnDom.text(item.label + ": ");
-                    rowDom.append(columnDom);
-                    
-                    ////////////////////////////////
-                    // Value of the item
-                    columnDom = $("<td></td>");
-                    var view = entityView.getView(item.dataType);
-                    var assignResult = view.assignHtml(item, dataElement, columnDom, viewTable);
-                    assignResults.push(assignResult);
-
-                    rowDom.append(columnDom);
-
-                    // Addition to row
-                    tableDom.append(rowDom);
-                }
-
-                //
-                // Creates the button
-                var trDom = $("<tr><td></td><td class=\"buttoncontainer\"> <span class=\"success\"></span><span class=\"nosuccess\"></span></td></tr>");
-                var buttonDom = $("<input type=\"button\" value=\"Update\"></input>");
-                buttonDom.click(function () {
-                    var data = {};
-
-                    for (var i = 0; i < elements.length; i++) {
-                        var element = elements[i];
-                        var assignResult = assignResults[i];
-
-                        if (assignResult === undefined) {
-                            continue;
-                        }
-
-                        var result = assignResult.updateCallback();
-                        if (result === undefined) {
-                            continue;
-                        }
-
-                        data[element.name] = result;
-                    }
-
-                    buttonDom.attr("disabled", "disabled");
-                    $(".success", trDom).text("");
-                    $(".nosuccess", trDom).text("");
-
-                    var updateUrl = info.userData.updateUrl;
-                    $.ajax(
-                        updateUrl,
-                        {
-                            type: 'POST',
-                            data: data
-                        })
-                    .success(function () {
-                        buttonDom.removeAttr("disabled");
-                        $(".success", trDom).text("Update succeeded");
-                        
-                    })
-                    .error(function (jqXHR, textStatus, error) {
-                        consoleLog.console.logAjaxError(jqXHR, textStatus, error);
-
-                        buttonDom.removeAttr("disabled");
-                        $(".nosuccess", trDom).text("Update failed");
-                    });
-                });
-
-                $(".buttoncontainer", trDom).prepend(buttonDom);
-                tableDom.append(trDom);
-
-                // Finishes view
                 info.viewPoint.domContent.html(
                     'EntityView');
-                info.viewPoint.domContent.append(tableDom);
+
+                // TODO: Not fully multi-Umbra capable
+
+                for (var t = 0; t < info.userData.tables.length; t++) {
+                    var table = info.userData.tables[t];
+
+                    var viewTable = new entityViewTable("t_" + tableNumber);
+                    tableNumber++;
+                    viewTable.createTable(entityView, info, table);
+                }
+
             }));
 
     return result;
