@@ -79,6 +79,15 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         }
 
         /// <summary>
+        /// Gets or sets the value indicating whether we are write only
+        /// </summary>
+        public bool IsWriteOnly
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets converter
         /// </summary>
         public Func<object, string> ConvertToString
@@ -131,6 +140,11 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// <returns>Converted object</returns>
         public override object ObjectToJson(object value)
         {
+            if (this.IsWriteOnly)
+            {
+                return null;
+            }
+
             // Gets the content
             var property = value.GetType().GetProperty(this.Property);
             Ensure.IsNotNull(property, "Property '" + this.Property + "' has not been found for '" + value.GetType().FullName + "'");
@@ -229,6 +243,12 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         public EntityViewElementProperty AsReadOnly()
         {
             this.IsReadOnly = true;
+            return this;
+        }
+
+        public EntityViewElementProperty AsWriteOnly()
+        {
+            this.IsWriteOnly = true;
             return this;
         }
 

@@ -21,6 +21,16 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         }
 
         /// <summary>
+        /// Gets or sets the url, if the browser shall send the contents
+        /// of the table to another url
+        /// </summary>
+        public string OverrideUrl
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the rows
         /// </summary>
         public List<EntityViewElement> Elements
@@ -68,8 +78,19 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             {
                 elements = this.Elements.Select(x => x.ToJson()),
                 data = this.Elements.Select(x => x.ObjectToJson(item.Entity)),
-                updateUrlPostfix = "?t=update&n=" + this.Name
+                updateUrlPostfix = "?t=update&n=" + this.Name,
+                overrideUrl = this.OverrideUrl
             };
         }
+
+        #region Some helper methods
+
+        public EntityViewTable WithOverrideUrl(string overrideUrl)
+        {
+            this.OverrideUrl = overrideUrl;
+            return this;
+        }
+
+        #endregion
     }
 }

@@ -74,7 +74,11 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
                 $(".success", trDom).text("");
                 $(".nosuccess", trDom).text("");
 
-                var updateUrl = info.userData.updateUrl + table.updateUrlPostfix;
+                var updateUrl = table.overrideUrl;
+                if (table.overrideUrl === undefined) {
+                    updateUrl = info.userData.updateUrl + table.updateUrlPostfix;
+                }
+
                 $.ajax(
                     updateUrl,
                     {
@@ -145,7 +149,7 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
                 var result = new entityAssignResult();
                 result.updateCallback = function () {
                     if (config.readOnly) {
-                        return undefined;
+                        return item;
                     }
 
                     return $("#" + elementId).val();
@@ -156,14 +160,6 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
         };
 
     var entityPropertyCheckbox = function () {
-
-        result.updateCallback = function () {
-            if (config.readOnly) {
-                return undefined;
-            }
-
-            return $("#" + elementId).val();
-        }
     };
 
     entityPropertyCheckbox.prototype =
@@ -186,7 +182,7 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
                 var result = new entityAssignResult();
                 result.updateCallback = function () {
                     if (config.readOnly) {
-                        return undefined;
+                        return item == "True";
                     }
 
                     return $("#" + elementId).attr('checked') == 'checked';
