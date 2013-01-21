@@ -61,6 +61,8 @@
     <Compile Include="Views\DetailView\Entities\EntityViewConfig.cs" />
     <Compile Include="Views\DetailView\Entities\EntityViewElement.cs" />
     <Compile Include="Views\DetailView\Entities\EntityViewElementProperty.cs" />
+    <Compile Include="Views\DetailView\Entities\EntityViewDetailTable.cs" />
+    <Compile Include="Views\DetailView\Entities\EntityViewListTable.cs" />
     <Compile Include="Views\DetailView\Entities\EntityViewTable.cs" />
     <Compile Include="Views\DetailView\Extensions.cs" />
     <Compile Include="Views\DetailView\DetailView.cs" />

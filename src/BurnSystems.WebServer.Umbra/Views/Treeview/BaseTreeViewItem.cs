@@ -18,8 +18,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
 
         public virtual string Title
         {
-            get;
-            set;
+            get { return this.ToString(); }
         }
 
         public virtual string ImageUrl

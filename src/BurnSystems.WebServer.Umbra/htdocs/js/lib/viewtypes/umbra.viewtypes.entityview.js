@@ -13,8 +13,7 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
             return "e_" + this.tablename + "_" + this.nextElementName;
         },
 
-        createTable: function (entityView, info, table) {
-
+        createDetailTable: function (entityView, info, table) {
             // Create table
             var tableDom = $("<table><tr><th>Property:</th><th>Value:</th></tr></table>");
 
@@ -102,6 +101,48 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
             tableDom.append(trDom);
 
             // Finishes view
+            info.viewPoint.domContent.append(tableDom);
+        },
+
+        createListTable: function (entityView, info, table) {
+            // Create table
+            var tableDom = $("<table><tr></tr></table>");
+            var rowDom = $("tr", tableDom);
+
+            var elements = table.elements;
+            var data = table.data;
+            var assignResults = [];
+
+            // Creates the table for the elements
+            for (var i = 0; i < elements.length; i++) {
+                var item = elements[i];
+
+                // For the list, the elements will get a read-only. No support for writing
+                item.readOnly = true; 
+                
+                // Create the header
+                var columnDom = $("<th></th>");
+                columnDom.text(item.label);
+                rowDom.append(columnDom);
+            }
+
+            for (var r = 0; r < data.length; r++) {
+                rowDom = $("<tr></tr>");
+                for (var c = 0; c < elements.length; c++) {
+                    var item = elements[c];
+                    var dataElement = data[r][c];
+                    
+                    columnDom = $("<td></td>");
+                    var view = entityView.getView(item.dataType);
+                    var assignResult = view.assignHtml(item, dataElement, columnDom, this);
+
+                    rowDom.append(columnDom);
+                }
+
+                tableDom.append(rowDom);
+            }
+
+            // Addition to row
             info.viewPoint.domContent.append(tableDom);
         }
     };
@@ -213,8 +254,7 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
                 }
 
                 if (datatype == "DateTime") {
-                    // NOT SUPPORTED YET
-                    throw "DateTime not supported yet";
+                    return new entityPropertyTextbox();
                 }
 
                 throw datatype + " type is not supported";
@@ -242,7 +282,13 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
 
                     var viewTable = new entityViewTable("t_" + tableNumber);
                     tableNumber++;
-                    viewTable.createTable(entityView, info, table);
+
+                    if (table.type == "detail") {
+                        viewTable.createDetailTable(entityView, info, table);
+                    }
+                    else if (table.type == "list") {
+                        viewTable.createListTable(entityView, info, table);
+                    }
                 }
 
             }));

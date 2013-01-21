@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BurnSystems.ObjectActivation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// Converts element to json
         /// </summary>
         /// <returns>Converts element to json</returns>
-        public abstract object ToJson();
+        public abstract object ToJson(IActivates container);
 
         /// <summary>
         /// Converts the object to a json element

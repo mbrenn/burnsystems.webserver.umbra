@@ -1,4 +1,5 @@
-﻿using BurnSystems.Test;
+﻿using BurnSystems.ObjectActivation;
+using BurnSystems.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,7 +121,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// Converts to json
         /// </summary>
         /// <returns>Converted object</returns>
-        public override object ToJson()
+        public override object ToJson(IActivates container)
         {
             return new
             {
@@ -217,6 +218,14 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             this.ConvertToString = (x) => x.ToString();
             this.ConvertFromString = (x) => Convert.ToBoolean(x);
             this.DataType = PropertyDataType.Boolean;
+            return this;
+        }
+
+        public EntityViewElementProperty AsDateTime()
+        {
+            this.ConvertToString = (x) => x.ToString();
+            this.ConvertFromString = (x) => Convert.ToDateTime(x);
+            this.DataType = PropertyDataType.DateTime;
             return this;
         }
 

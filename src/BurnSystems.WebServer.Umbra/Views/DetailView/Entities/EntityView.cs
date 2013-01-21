@@ -10,12 +10,12 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
     /// <summary>
     /// Implements the entity view being used to show the contents of a specific object
     /// </summary>
-    public class EntityView<T> : DetailView where T : class
+    public class EntityView : DetailView
     {
         /// <summary>
         /// Gets or sets  the configurations
         /// </summary>
-        public EntityViewConfig<T> Config
+        public EntityViewConfig Config
         {
             get;
             set;
@@ -25,7 +25,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// Initializes a new instance of the EntityView class
         /// </summary>
         /// <param name="config">Config to be used for this instance</param>
-        public EntityView(EntityViewConfig<T> config)
+        public EntityView(EntityViewConfig config)
         {
             this.Config = config;
         }
@@ -43,7 +43,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
 
                 var viewData = new
                 {
-                    tables = this.Config.Tables.Select(x => x.ToJson(this.Item)),
+                    tables = this.Config.Tables.Select(x => x.ToJson(container, this.Item)),
                     updateUrl = context.Context.Request.Url.ToString()
                 };
 
@@ -55,8 +55,8 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
                 var postVariables = container.Get<PostVariableReader>();
                 foreach (var pair in postVariables)
                 {
-                    var element = this.Config.
-                        Tables.Where(x=> x.Name == n)
+                    var element = this.Config
+                        .DetailTables.Where(x=> x.Name == n)
                         .SelectMany (y => y.Elements)
                         .Where(x => x.Name == pair.Key)
                         .FirstOrDefault();
