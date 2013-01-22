@@ -11,6 +11,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
     /// <summary>
     /// Just a very simple resolver
     /// </summary>
+    [BindAlsoTo(typeof(IDetailViewResolver))]
     public class BasicDetailViewResolver : IDetailViewResolver
     {
         /// <summary>

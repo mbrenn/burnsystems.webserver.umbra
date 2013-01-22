@@ -42,6 +42,16 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             set;
         }
 
+        public override string ToString()
+        {
+            if (this.Entity != null)
+            {
+                return this.Entity.ToString();
+            }
+
+            return typeof(BaseTreeViewItem).FullName;
+        }
+
         /// <summary>
         /// Gets the children
         /// </summary>

@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.instance"], function (u, c, hk, jst, umbraInstance) {
+define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.instance", "plugins/umbra.console"], function (u, c, hk, jst, umbraInstance, consoleLog) {
     ///
     /// Defines one entry for console
     var treeViewClass = function () {
@@ -86,7 +86,7 @@ define(["umbra", "jquery.cookie", "jquery.hotkeys", "jquery.jstree", "umbra.inst
                         }
                     })
                     .error(function (x, error, data) {
-                        alert("ERROR: " + error);
+                        consoleLog.console.logAjaxError(x, error, data);
                     });
             },
 

@@ -141,7 +141,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// <returns>Converted object</returns>
         public override object ObjectToJson(object value)
         {
-            if (this.IsWriteOnly)
+            if (this.IsWriteOnly || value == null)
             {
                 return null;
             }
