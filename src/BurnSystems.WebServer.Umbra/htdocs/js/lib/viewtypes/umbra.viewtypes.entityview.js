@@ -265,17 +265,19 @@ define(["umbra", "umbra.instance", "plugins/umbra.console"], function (u, umbraI
         EntityViewClass: entityViewClass
     };
 
+    var tableNumber = 0;
+
     u.umbra.addViewType(
         new u.ViewType(
             "BurnSystems.Umbra.DetailView.EntityView",
             function (info) {
                 var entityView = new entityViewClass();
-                var tableNumber = 1;
-
+                
                 info.viewPoint.domContent.html(
                     'EntityView');
 
-                // TODO: Not fully multi-Umbra capable
+                // Increase total table number
+                tableNumber++;
 
                 for (var t = 0; t < info.userData.tables.length; t++) {
                     var table = info.userData.tables[t];
