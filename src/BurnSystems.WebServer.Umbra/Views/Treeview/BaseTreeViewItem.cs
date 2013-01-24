@@ -6,27 +6,43 @@ using System.Text;
 
 namespace BurnSystems.WebServer.Umbra.Views.Treeview
 {
+    /// <summary>
+    /// Base class for TreeViewItems. Can be used
+    /// to derive your own tree view items
+    /// </summary>
     public class BaseTreeViewItem : ITreeViewItem
     {
         private List<ITreeViewItem> children = new List<ITreeViewItem>();
 
+        /// <summary>
+        /// Gets or sets the id
+        /// </summary>
         public virtual long Id
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the title to be shown in tree view
+        /// </summary>
         public virtual string Title
         {
             get { return this.ToString(); }
         }
 
+        /// <summary>
+        /// Gets or sets the url for image
+        /// </summary>
         public virtual string ImageUrl
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the value whether the item is expandable
+        /// </summary>
         public virtual bool IsExpandable
         {
             get;
@@ -42,6 +58,10 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             set;
         }
 
+        /// <summary>
+        /// Converts the item to string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (this.Entity != null)

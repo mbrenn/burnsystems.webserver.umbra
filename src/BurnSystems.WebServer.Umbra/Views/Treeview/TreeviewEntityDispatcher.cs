@@ -88,7 +88,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
                                 id = x.Id,
                                 title = x.Title,
                                 imageUrl = x.ImageUrl,
-                                hasChildren = x.GetChildren(container).Count() > 0
+                                hasChildren = (x.GetChildren(container) ?? new ITreeViewItem[] { }).Count() > 0
                             }),
                     title = item.Title,
                     id = item.Id

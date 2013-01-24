@@ -55,6 +55,7 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// <summary>
         /// Gets the children
         /// </summary>
-        IEnumerable<ITreeViewItem> GetChildren(IActivates activates);
+        /// <param name="container">Container to be used</param>
+        IEnumerable<ITreeViewItem> GetChildren(IActivates container);
     }
 }
