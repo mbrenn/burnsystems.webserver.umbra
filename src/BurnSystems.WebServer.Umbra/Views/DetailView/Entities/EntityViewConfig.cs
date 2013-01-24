@@ -1,4 +1,5 @@
-﻿using BurnSystems.WebServer.Umbra.Views.Treeview;
+﻿using BurnSystems.ObjectActivation;
+using BurnSystems.WebServer.Umbra.Views.Treeview;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,15 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             {
                 this.Tables.Add(table);
             }
+        }
+
+        /// <summary>
+        /// Converts the object to json
+        /// </summary>
+        /// <returns></returns>
+        public object ToJson(IActivates container, ITreeViewItem item)
+        {
+            return this.Tables.Select(x => x.ToJson(container, item));
         }
     }
 }

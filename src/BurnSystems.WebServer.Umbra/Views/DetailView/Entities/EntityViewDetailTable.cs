@@ -89,7 +89,17 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             {
                 type = "detail",
                 elements = this.Elements.Select(x => x.ToJson(container)),
-                data = this.Elements.Select(x => x.ObjectToJson(item.Entity)),
+                data = this.Elements.Select(x =>
+                    {
+                        if (item == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return x.ObjectToJson(item.Entity);
+                        }
+                    }),
                 overrideUrl = this.OverrideUrl
             };
         }

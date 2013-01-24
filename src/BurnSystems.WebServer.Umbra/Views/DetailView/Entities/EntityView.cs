@@ -37,7 +37,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             if (type == "show")
             {
                 this.AddScript(
-                    "js/lib/viewtypes/umbra.viewtypes.entityview.js");
+                    "viewtypes/umbra.viewtypes.entityview");
                 this.Title = this.Item.ToString();
                 this.ViewTypeToken = "BurnSystems.Umbra.DetailView.EntityView";
 

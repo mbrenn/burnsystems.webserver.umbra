@@ -23,9 +23,9 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
             return "e_" + this.tablename + "_" + this.nextElementName;
         },
 
-        createDetailTable: function (entityView, domContent, table, options) {
-            if (options === undefined) {
-                options = {};
+        createDetailTable: function (entityView, domContent, table) {
+            if (table.options === undefined) {
+                table.options = {};
             }
 
             // Create table
@@ -101,8 +101,8 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
                     buttonDom.removeAttr("disabled");
                     $(".success", buttonColumnDom).text("Update succeeded");
 
-                    if (options.success !== undefined) {
-                        options.success(returnData);
+                    if (table.options.success !== undefined) {
+                        table.options.success(returnData);
                     }
                 })
                 .error(function (jqXHR, textStatus, error) {
