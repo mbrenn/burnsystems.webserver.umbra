@@ -56,9 +56,9 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
                 foreach (var pair in postVariables)
                 {
                     var element = this.Config
-                        .DetailTables.Where(x=> x.Name == n)
-                        .SelectMany (y => y.Elements)
-                        .Where(x => x.Name == pair.Key)
+                        .DetailTables.Where(x=> x.Name == n) // Find table
+                        .SelectMany (y => y.Elements)        // Go through all elements fo table
+                        .Where(x => x.Name == pair.Key)      // Where we found a match
                         .FirstOrDefault();
 
                     if (element == null)

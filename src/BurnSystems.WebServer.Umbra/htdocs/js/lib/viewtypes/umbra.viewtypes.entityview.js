@@ -8,8 +8,12 @@ requirejs.config(
 
 define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], function (u, umbraInstance, consoleLog, tableClass) {
 
+    var _tableNumber = 0; // Incrementing tablenumber
+
     var entityViewTable = function (tablename) {
-        this.tablename = tablename;
+        _tableNumber++;
+
+        this.tablename = "t_" + _tableNumber;
         this.nextElementName = 0;
     };
 
@@ -19,9 +23,13 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
             return "e_" + this.tablename + "_" + this.nextElementName;
         },
 
-        createDetailTable: function (entityView, info, table) {
+        createDetailTable: function (entityView, domContent, table, options) {
+            if (options === undefined) {
+                options = {};
+            }
+
             // Create table
-            var t = new tableClass(info.viewPoint.domContent);
+            var t = new tableClass(domContent);
             t.addHeaderRow();
             t.addColumn("Property:");
             t.addColumn("Value:");
@@ -82,9 +90,6 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
                 $(".nosuccess", buttonColumnDom).text("");
 
                 var updateUrl = table.overrideUrl;
-                if (table.overrideUrl === undefined || table.overrideUrl === null) {
-                    updateUrl = info.userData.updateUrl + table.updateUrlPostfix;
-                }
 
                 $.ajax(
                     updateUrl,
@@ -92,10 +97,13 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
                         type: 'POST',
                         data: data
                     })
-                .success(function () {
+                .success(function (returnData) {
                     buttonDom.removeAttr("disabled");
                     $(".success", buttonColumnDom).text("Update succeeded");
 
+                    if (options.success !== undefined) {
+                        options.success(returnData);
+                    }
                 })
                 .error(function (jqXHR, textStatus, error) {
                     consoleLog.console.logAjaxError(jqXHR, textStatus, error);
@@ -108,9 +116,13 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
             buttonColumnDom.prepend(buttonDom);
         },
 
-        createListTable: function (entityView, info, table) {
+        createListTable: function (entityView, domContent, table, options) {
+            if (options === undefined) {
+                options = {};
+            }
+
             // Create table
-            var t = new tableClass(info.viewPoint.domContent);
+            var t = new tableClass(domContent);
             t.addHeaderRow();
 
             var elements = table.elements;
@@ -235,6 +247,21 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
 
     entityViewClass.prototype =
         {
+            processTables: function (tables, domContent) {
+                for (var t = 0; t < tables.length; t++) {
+                    var table = tables[t];
+
+                    var viewTable = new entityViewTable();
+
+                    if (table.type == "detail") {
+                        viewTable.createDetailTable(this, domContent, table);
+                    }
+                    else if (table.type == "list") {
+                        viewTable.createListTable(this, domContent, table);
+                    }
+                }
+            },
+
             getView: function (datatype) {
                 if (datatype == "String") {
                     return new entityPropertyTextbox();
@@ -267,26 +294,8 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
             "BurnSystems.Umbra.DetailView.EntityView",
             function (info) {
                 var entityView = new entityViewClass();
-                
-                info.viewPoint.domContent.html(
-                    'EntityView');
 
-                // Increase total table number
-                tableNumber++;
-
-                for (var t = 0; t < info.userData.tables.length; t++) {
-                    var table = info.userData.tables[t];
-
-                    var viewTable = new entityViewTable("t_" + tableNumber);
-                    tableNumber++;
-
-                    if (table.type == "detail") {
-                        viewTable.createDetailTable(entityView, info, table);
-                    }
-                    else if (table.type == "list") {
-                        viewTable.createListTable(entityView, info, table);
-                    }
-                }
+                entityView.processTables(info.userData.tables, info.viewPoint.domContent);
 
             }));
 

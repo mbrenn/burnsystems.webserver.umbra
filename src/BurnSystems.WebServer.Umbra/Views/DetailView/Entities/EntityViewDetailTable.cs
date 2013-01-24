@@ -1,4 +1,6 @@
 ﻿using BurnSystems.ObjectActivation;
+using BurnSystems.Test;
+using BurnSystems.WebServer.Dispatcher;
 using BurnSystems.WebServer.Umbra.Views.Treeview;
 using System;
 using System.Collections.Generic;
@@ -75,12 +77,19 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// <returns>Object that can be converted as a json object</returns>
         public override object ToJson(IActivates container, ITreeViewItem item)
         {
+            var context = container.Get<ContextDispatchInformation>();
+            Ensure.That(context != null);
+
+            if (this.OverrideUrl == null)
+            {
+                this.OverrideUrl = context.Context.Request.Url.ToString() + "?t=update&n=" + this.Name;
+            }
+
             return new
             {
                 type = "detail",
                 elements = this.Elements.Select(x => x.ToJson(container)),
                 data = this.Elements.Select(x => x.ObjectToJson(item.Entity)),
-                updateUrlPostfix = "?t=update&n=" + this.Name,
                 overrideUrl = this.OverrideUrl
             };
         }
