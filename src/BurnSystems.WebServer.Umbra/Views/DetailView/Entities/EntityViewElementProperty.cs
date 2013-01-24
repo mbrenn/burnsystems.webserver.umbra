@@ -162,8 +162,18 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         /// <param name="value">Value of the item</param>
         public override void SetValue(object item, string value)
         {
+            if (this.IsReadOnly)
+            {
+                return;
+            }
+
             var property = item.GetType().GetProperty(this.Property);
             Ensure.IsNotNull(property, "Property '" + this.Property + "' has not been found for '" + value.GetType().FullName + "'");
+
+            if (this.ConvertFromString == null)
+            {
+                throw new InvalidOperationException("No conversion from string has been defined for object: " + this.Name);
+            }
 
             var valueObject = this.ConvertFromString(value);
             property.SetValue(item, valueObject, null);
