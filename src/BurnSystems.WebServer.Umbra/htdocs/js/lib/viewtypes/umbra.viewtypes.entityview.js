@@ -64,8 +64,13 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
             var buttonColumnDom = 
                 t.addColumnHtml(
                 "<span class=\"success\"></span><span class=\"nosuccess\"></span>");
+            
+            var buttonText = "Update";
+            if (table.buttonText !== undefined) {
+                buttonText = table.buttonText;
+            }
 
-            var buttonDom = $("<input type=\"button\" value=\"Update\"></input>");
+            var buttonDom = $("<input type=\"button\" value=\"" + buttonText + "\"></input>");
             buttonDom.click(function () {
                 var data = {};
 

@@ -34,6 +34,15 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         }
 
         /// <summary>
+        /// Gets or sets the button text
+        /// </summary>
+        public string ButtonText
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets the rows
         /// </summary>
         public List<EntityViewElement> Elements
@@ -100,7 +109,8 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
                             return x.ObjectToJson(item.Entity);
                         }
                     }),
-                overrideUrl = this.OverrideUrl
+                overrideUrl = this.OverrideUrl,
+                buttonText = this.ButtonText
             };
         }
 
@@ -109,6 +119,12 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         public EntityViewDetailTable WithOverrideUrl(string overrideUrl)
         {
             this.OverrideUrl = overrideUrl;
+            return this;
+        }
+
+        public EntityViewDetailTable SetButtonText(string buttonText)
+        {
+            this.ButtonText = buttonText;
             return this;
         }
 
