@@ -75,7 +75,7 @@ requirejs(['umbra'],
          * End of Demo stuff
          */
 
-	    workSpace.loadContent("treeview/window", "left",
+	    workSpace.loadContent("treeview/window/", "left",
 			{
 			    success: function (area, view) {
 			        area.focusView(view);

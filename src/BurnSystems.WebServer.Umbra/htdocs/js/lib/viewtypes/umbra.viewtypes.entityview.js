@@ -66,7 +66,7 @@ define(["umbra", "umbra.instance", "plugins/umbra.console", "dejs.table"], funct
                 "<span class=\"success\"></span><span class=\"nosuccess\"></span>");
             
             var buttonText = "Update";
-            if (table.buttonText !== undefined) {
+            if (table.buttonText !== undefined && table.buttonText !== null) {
                 buttonText = table.buttonText;
             }
 
