@@ -223,6 +223,14 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             return this;
         }
 
+        public EntityViewElementProperty AsInteger32()
+        {
+            this.ConvertToString = (x) => x.ToString();
+            this.ConvertFromString = (x) => Convert.ToInt32(x);
+            this.DataType = PropertyDataType.Integer;
+            return this;
+        }
+
         public EntityViewElementProperty AsBoolean()
         {
             this.ConvertToString = (x) => x.ToString();
