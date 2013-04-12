@@ -17,6 +17,11 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
     public class DetailViewDispatcher : BaseDispatcher
     {
         /// <summary>
+        /// Defines the string for the activation context. 
+        /// </summary>
+        public const string CurrentItem = "DetailViewDispatcher.CurrentItem";
+
+        /// <summary>
         /// Gets or sets the View resolver being used
         /// </summary>
         [Inject]
@@ -82,22 +87,28 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView
             var restUrl = context.RequestUrl.AbsolutePath.Substring(this.WebPrefix.Length);
             var item = this.Root.ResolveByPath(container, restUrl);
             Ensure.IsNotNull(item, "Item could not be found: " + restUrl);
-            
-            // Get the detail view
-            var detailView = this.ViewResolver.ResolveDefaultView(container, item);
 
-            if (detailView == null)
+            var innerContainer = new ActivationContainer("DetailView");
+            innerContainer.BindToName(CurrentItem).ToConstant(item);
+
+            using (var innerBlock = new ActivationBlock("DetailView", innerContainer, container as ActivationBlock))
             {
-                var contentDispatcher = new StaticContentView(
-                    item.ToString(), "Unknown detailview", "No default view could be resolved for this item.");
-                contentDispatcher.Dispatch(container, context);
-                contentDispatcher.FinishDispatch(container, context);
-            }
-            else
-            {
-                detailView.Item = item;
-                detailView.Dispatch(container, context);
-                detailView.FinishDispatch(container, context);
+                // Get the detail view
+                var detailView = this.ViewResolver.ResolveDefaultView(innerBlock, item);
+
+                if (detailView == null)
+                {
+                    var contentDispatcher = new StaticContentView(
+                        item.ToString(), "Unknown detailview", "No default view could be resolved for this item.");
+                    contentDispatcher.Dispatch(innerBlock, context);
+                    contentDispatcher.FinishDispatch(innerBlock, context);
+                }
+                else
+                {
+                    detailView.Item = item;
+                    detailView.Dispatch(innerBlock, context);
+                    detailView.FinishDispatch(innerBlock, context);
+                }
             }
         }
     }
