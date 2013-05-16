@@ -57,5 +57,12 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         /// </summary>
         /// <param name="container">Container to be used</param>
         IEnumerable<ITreeViewItem> GetChildren(IActivates container);
+
+        /// <summary>
+        /// Applies changes of the object back to the database
+        /// </summary>
+        /// <param name="container">Container being used to retrieve information</param>
+        /// <param name="entity">Entity to be called</param>
+        void ApplyChanges(IActivates container);
     }
 }

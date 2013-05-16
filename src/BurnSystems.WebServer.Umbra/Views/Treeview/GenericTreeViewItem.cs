@@ -34,6 +34,12 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
             set;
         }
 
+        public Action<IActivates> ApplyChangeFunction
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets or sets the entity behind this treeview object
         /// </summary>
@@ -49,6 +55,18 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         public IList<ITreeViewItem> GetChildren(IActivates activates)
         {
             return this.children;
+        }
+
+        public virtual void ApplyChanges(IActivates container)
+        {
+            if (this.ApplyChangeFunction == null)
+            {
+                throw new NotImplementedException("BaseTreeViewItem.ApplyChanges");
+            }
+            else
+            {
+                this.ApplyChangeFunction(container);
+            }
         }
 
         IEnumerable<ITreeViewItem> ITreeViewItem.GetChildren(IActivates activates)

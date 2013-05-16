@@ -79,5 +79,10 @@ namespace BurnSystems.WebServer.Umbra.Views.Treeview
         {
             return null;
         }
+
+        public virtual void ApplyChanges(IActivates container)
+        {
+            throw new NotImplementedException("BaseTreeViewItem.ApplyChanges");
+        }
     }
 }

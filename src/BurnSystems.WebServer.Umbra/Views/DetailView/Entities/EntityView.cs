@@ -21,6 +21,7 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             set;
         }
 
+
         /// <summary>
         /// Initializes a new instance of the EntityView class
         /// </summary>
@@ -68,6 +69,8 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
 
                     element.SetValue(this.Item.Entity, pair.Value);
                 }
+
+                this.Item.ApplyChanges(container);
             }
         }
     }
