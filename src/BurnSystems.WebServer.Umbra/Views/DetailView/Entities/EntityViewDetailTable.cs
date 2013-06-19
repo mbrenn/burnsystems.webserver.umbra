@@ -50,6 +50,16 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
             get;
             set;
         }
+        
+        /// <summary>
+        /// Gets or sets a selection object that will convert the native element to another object that will be used to retrieve 
+        /// the properties. Setting might be possible but is not useful for simple objects
+        /// </summary>
+        public Func<IActivates, object, object> Selector
+        {
+            get;
+            set;
+        }        
 
         /// <summary>
         /// Initializes a new instance of the table
@@ -94,19 +104,31 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
                 this.OverrideUrl = context.Context.Request.Url.ToString() + "?t=update&n=" + this.Name;
             }
 
+            // Performs the selection
+            object entity = null;
+            if (item != null)
+            {
+                entity = item.Entity;
+                if (this.Selector != null)
+                {
+                    entity = this.Selector(container, entity);
+                }
+            }
+
+            // Creates json stuf
             return new
             {
                 type = "detail",
                 elements = this.Elements.Select(x => x.ToJson(container)),
                 data = this.Elements.Select(x =>
                     {
-                        if (item == null)
+                        if (entity == null)
                         {
                             return null;
                         }
                         else
                         {
-                            return x.ObjectToJson(item.Entity);
+                            return x.ObjectToJson(entity);
                         }
                     }),
                 overrideUrl = this.OverrideUrl,
@@ -125,6 +147,16 @@ namespace BurnSystems.WebServer.Umbra.Views.DetailView.Entities
         public EntityViewDetailTable SetButtonText(string buttonText)
         {
             this.ButtonText = buttonText;
+            return this;
+        }
+
+        public EntityViewDetailTable WithSelector<T>(Func<IActivates, T, object> func)
+        {
+            this.Selector = (x, y) =>
+                {
+                    return func(x, (T)y);
+                };
+
             return this;
         }
 
