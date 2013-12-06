@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,6 +40,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="BurnSystems.dll">
+      <HintPath>packages/bin/BurnSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="BurnSystems.Parser.dll">
+      <HintPath>packages/bin/BurnSystems.Parser.dll</HintPath>
+    </Reference>
+    <Reference Include="BurnSystems.WebServer.dll">
+      <HintPath>packages/bin/BurnSystems.WebServer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Requests\BaseUmbraRequest.cs" />
@@ -74,20 +83,6 @@
     <Compile Include="Views\Treeview\TreeviewEntityDispatcher.cs" />
     <Compile Include="Views\Treeview\Extensions.cs" />
     <Compile Include="Views\Treeview\TreeviewWindowDispatcher.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\BurnSystems.Parser\src\BurnSystems.Parser.csproj">
-      <Project>{24fc6cc7-afef-456d-8056-96712d1b7909}</Project>
-      <Name>BurnSystems.Parser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\BurnSystems.WebServer\src\BurnSystems.WebServer\BurnSystems.WebServer.csproj">
-      <Project>{B31DF31A-F19E-4FF9-B50F-B70F4F5949F4}</Project>
-      <Name>BurnSystems.WebServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\BurnSystems\src\BurnSystems.csproj">
-      <Project>{42023D16-AFD1-4D99-BC39-9EF46982EB54}</Project>
-      <Name>BurnSystems</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="htdocs\i\page_go.png" />
