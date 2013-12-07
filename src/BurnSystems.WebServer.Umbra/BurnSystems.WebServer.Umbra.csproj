@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BurnSystems.WebServer.Umbra</RootNamespace>
     <AssemblyName>BurnSystems.WebServer.Umbra</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,14 +39,14 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="BurnSystems.dll">
-      <HintPath>packages/bin/BurnSystems.dll</HintPath>
+    <Reference Include="BurnSystems">
+      <HintPath>..\..\packages\bin\BurnSystems.dll</HintPath>
     </Reference>
-    <Reference Include="BurnSystems.Parser.dll">
-      <HintPath>packages/bin/BurnSystems.Parser.dll</HintPath>
+    <Reference Include="BurnSystems.Parser">
+      <HintPath>..\..\packages\bin\BurnSystems.Parser.dll</HintPath>
     </Reference>
-    <Reference Include="BurnSystems.WebServer.dll">
-      <HintPath>packages/bin/BurnSystems.WebServer.dll</HintPath>
+    <Reference Include="BurnSystems.WebServer">
+      <HintPath>..\..\packages\bin\BurnSystems.WebServer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
